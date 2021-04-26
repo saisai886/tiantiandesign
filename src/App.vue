@@ -5,40 +5,41 @@
       <!--头部-->
       <el-header>
 
-         <el-menu default-active="1"
+         <el-menu default-active="xszweilcom"
              class="el-menu-demo"
              mode="horizontal"
              background-color="#545c64"
              text-color="#fff"
              active-text-color="#ffd04b"
+                  router="router"
          >
 
-           <el-menu-item index="1">
+           <el-menu-item index="xszweilcom">
              <template slot="title">
                <i class="el-icon-s-home"></i>
                <span>
-                  <router-link to="/xszweilcom">首页</router-link>
+                  首页
                </span>
              </template>
            </el-menu-item>
 
-           <el-menu-item index="2">
+           <el-menu-item index="home">
              <template slot="title">
                <i class="el-icon-menu"></i>
                <span>
-                  <router-link to="/about">商品分类</router-link>
+                 商品分类
                </span>
              </template>
            </el-menu-item>
 
-           <el-menu-item index="3">
+           <el-menu-item index="about">
              <template slot="title">
                <i class="el-icon-shopping-cart-full"></i>
                <span>我的购物车</span>
              </template>
            </el-menu-item>
 
-           <el-menu-item index="4">
+           <el-menu-item index="">
              <template slot="title">
                <i class="el-icon-s-custom"></i>
                <span>个人中心</span>

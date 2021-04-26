@@ -20,7 +20,7 @@ Axios.defaults.baseURL="http://127.0.0.1:8090/tian"
 Vue.prototype.$axios = Axios
 
 
-new Vue({
+var myrouter=new Vue({
   el: '#app',
   render: h => h(App),
   //将路由挂载到vue对象
@@ -28,5 +28,8 @@ new Vue({
   //挂载vuex
   store:Store
 
+})
 
+myrouter.$router.replace({
+  path:'/xszweilcom'
 })
