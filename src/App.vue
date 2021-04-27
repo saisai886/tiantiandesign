@@ -46,7 +46,7 @@
              </template>
            </el-menu-item>
 
-
+      <router-link to="/indexsup">供货商</router-link>
          </el-menu>
 
 
