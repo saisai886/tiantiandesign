@@ -4,7 +4,6 @@
     <el-container>
       <!--头部-->
       <el-header>
-
          <el-menu default-active="xszweilcom"
              class="el-menu-demo"
              mode="horizontal"
@@ -57,9 +56,6 @@
            </el-menu-item>
          </el-menu>
 
-
-
-
       </el-header>
 
       <!--主页面-->
@@ -67,7 +63,7 @@
         <router-view></router-view>
       </el-main>
 
-
+           <router-link to="shanghuShouye">商户首页</router-link>
       <!--脚部用来做网站的信息-->
       <el-footer>这是脚部</el-footer>
 
