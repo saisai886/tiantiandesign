@@ -9,7 +9,6 @@ import shanghuShouye from "../components/hesijie/ShanghuShouye";
 //========供货商
 import indexsup from '../components/jiangweijie/indexsup'  //主页
 //=========
-
 //2）Vue组件使用Vue-router组件
 Vue.use(VueRouter)
 
@@ -20,7 +19,6 @@ Vue.use(VueRouter)
    {path:"/xszweilcom",component:xszweilcom},
    {path:"/shanghuShouye",component:shanghuShouye},
    {path:"/indexsup",component: indexsup}
-
  ]
 
 //4)配置路由管理器
