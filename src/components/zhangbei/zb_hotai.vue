@@ -1,0 +1,167 @@
+<template>
+  <div id="app" class="homeWrap">
+    <el-container style="height: 500px; border: 1px solid #d4c8c8;border-radius: 5px;">
+      <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+        <el-menu>
+          <el-submenu  :index="pmenu.pid+''" v-for="pmenu in permission">
+            <template slot="title">
+              <i :class="pmenu.iconUrl"></i>
+              <span>{{pmenu.permissionName}}</span>
+            </template>
+            <el-submenu :index="cmenu.pid+''" v-for="cmenu in pmenu.permissions">
+              <template   slot="title" v-if="cmenu.permissionss.length==0"  >
+                 <div style="width: 100px;height: 50px" @click="addTab1(cmenu.permissionName,cmenu.purl)">
+                  <i :class="cmenu.iconUrl"></i>
+                  {{cmenu.permissionName}}
+                  </div>
+              </template>
+              <template slot="title" v-if="cmenu.permissionss.length!=0">
+                <i :class="cmenu.iconUrl"></i>
+                {{cmenu.permissionName}}
+              </template>
+              <el-menu-item @click="addTab(cmenus.permissionName,cmenus.purl)" index="2-4-1" v-for="cmenus in cmenu.permissionss">
+                {{cmenus.permissionName}}
+              </el-menu-item>
+            </el-submenu>
+          </el-submenu>
+        </el-menu>
+      </el-aside>
+
+      <el-container>
+        <el-main>
+          <!-- tabs页面显示-->
+          <el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab">
+            <el-tab-pane
+              v-for="(item, index) in editableTabs"
+              :key="item.name"
+              :label="item.title"
+              :name="item.name"
+            >
+              <component :ref="editableTabsValue" :is="item.content"></component>
+
+            </el-tab-pane>
+          </el-tabs>
+        </el-main>
+      </el-container>
+    </el-container>
+
+  </div>
+</template>
+<script>
+import na from "./taozhuang/na";
+    export default {
+     components:{
+        na
+       },
+      data(){
+          return{
+            permission:[],
+            editableTabsValue: '2',
+            editableTabs: [],
+            tabIndex: 2
+          }
+        },
+      methods:{
+          qxquery(){
+            this.$axios.post("qx/qxAll.action").then(val=>{
+                this.permission = val.data
+              console.log(val.data)
+            })
+          },
+        addTab(targetName,linkurl) {
+
+          //判断 打开了没有
+          var res =  this.editableTabs.find((item)=>{return item.title ==targetName;});
+          console.log(res)
+          if(res!=undefined){
+            //已打开的    ---选中
+            this.editableTabsValue = res.name;
+          }else{
+            //未打开的   ----添加
+            let newTabName = ++this.tabIndex + '';
+            this.editableTabs.push({
+              title: targetName,
+              name: newTabName,
+              content: linkurl
+            });
+            console.log(this.editableTabs)
+            this.editableTabsValue = newTabName;
+
+          }
+
+
+
+        },
+        addTab1(targetName,linkurl){
+            this.addTab(targetName,linkurl)
+        },
+        removeTab(targetName) {
+          let tabs = this.editableTabs;
+          let activeName = this.editableTabsValue;
+          if (activeName === targetName) {
+            tabs.forEach((tab, index) => {
+              if (tab.name === targetName) {
+                let nextTab = tabs[index + 1] || tabs[index - 1];
+                if (nextTab) {
+                  activeName = nextTab.name;
+                }
+              }
+            });
+          }
+
+          this.editableTabsValue = activeName;
+          this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+        }
+      }
+      ,
+      created() {
+          this.qxquery()
+      },
+
+    }
+</script>
+
+<style scoped>
+
+  .el-menu-item.is-active {
+    color: #303133;
+  }
+  .el-menu {
+    border-right: solid 1px #e6e6e6;
+    list-style: none;
+    position: relative;
+    margin: 0;
+    padding-left: 0;
+    background-color: #FFF;
+  }
+
+  .el-header {
+    background-color: #B3C0D1;
+    color: #333;
+    line-height: 60px;
+  }
+
+  .el-aside {
+    color: #333;
+
+  }
+  .el-menu[data-v-73687153] {
+    border-right: solid 1px #e6e6e6;
+    list-style: none;
+    position: relative;
+    margin: 0;
+    padding-left: 0;
+    background-color: #FFF;
+  }
+  .el-submenu__icon-arrow {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    margin-top: -7px;
+    -webkit-transition: -webkit-transform .3s;
+    transition: -webkit-transform .3s;
+    transition: transform .3s;
+    transition: transform .3s,-webkit-transform .3s;
+    font-size: 12px;
+  }
+</style>
