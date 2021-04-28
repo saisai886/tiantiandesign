@@ -24,7 +24,7 @@
             </template>
           </el-menu-item>
 
-          <el-menu-item index="2">
+          <el-menu-item index="2" @click="myvuecom='xszshoptype'">
             <template slot="title">
               <i class="el-icon-menu"></i>
               <span>
@@ -113,6 +113,7 @@
 
   import xszzhuye from "./xszzhuye";
   import xszgerenzhongx from "./xszgerenzhongx";
+  import xszshoptype from "./xszshoptype";
 
 
     export default {
@@ -124,7 +125,8 @@
         },
       components:{
         xszzhuye,
-        xszgerenzhongx
+        xszgerenzhongx,
+        xszshoptype
       },
 
 

@@ -20,10 +20,10 @@
             <el-submenu :index="cmenu.pid+''" v-for="cmenu in pmenu.permissions">
 
               <template   slot="title" v-if="cmenu.permissionss.length==0"  >
-                 <div style="width: 100px;height: 50px" @click="addTab1(cmenu.permissionName,cmenu.purl)">
+                <div style="width: 100px;height: 50px" @click="addTab1(cmenu.permissionName,cmenu.purl)">
                   <i :class="cmenu.iconUrl"></i>
                   {{cmenu.permissionName}}
-                  </div>
+                </div>
               </template>
 
               <template slot="title" v-if="cmenu.permissionss.length!=0">
@@ -66,85 +66,85 @@
 </template>
 <script>
 
-    export default {
-     components:{
+  export default {
+    components:{
 
-       },
-      data(){
-          return{
-            ios:"el-icon-sort",
-            permission:[],
-            editableTabsValue: '2',
-            editableTabs: [],
-            tabIndex: 2
-          }
-        },
-      methods:{
-       qh(){
-         var _this = this
-         this.ios = "el-icon-loading"
-         setTimeout(function () {
-           _this.$router.push("/xszweilcom")
-         },2000)
-       },
-          qxquery(){
-            var yg = this.$store.getters.getsessios
-            this.$axios.post("qx/qxAll.action?ygid="+yg.ygid).then(val=>{
-                this.permission = val.data
-              console.log(val.data)
-            })
-          },
-        addTab(targetName,linkurl) {
-
-          //判断 打开了没有
-          var res =  this.editableTabs.find((item)=>{return item.title ==targetName;});
-          console.log(res)
-          if(res!=undefined){
-            //已打开的    ---选中
-            this.editableTabsValue = res.name;
-          }else{
-            //未打开的   ----添加
-            let newTabName = ++this.tabIndex + '';
-            this.editableTabs.push({
-              title: targetName,
-              name: newTabName,
-              content: linkurl
-            });
-            console.log(this.editableTabs)
-            this.editableTabsValue = newTabName;
-
-          }
-
-
-
-        },
-        addTab1(targetName,linkurl){
-            this.addTab(targetName,linkurl)
-        },
-        removeTab(targetName) {
-          let tabs = this.editableTabs;
-          let activeName = this.editableTabsValue;
-          if (activeName === targetName) {
-            tabs.forEach((tab, index) => {
-              if (tab.name === targetName) {
-                let nextTab = tabs[index + 1] || tabs[index - 1];
-                if (nextTab) {
-                  activeName = nextTab.name;
-                }
-              }
-            });
-          }
-
-          this.editableTabsValue = activeName;
-          this.editableTabs = tabs.filter(tab => tab.name !== targetName);
-        }
+    },
+    data(){
+      return{
+        ios:"el-icon-sort",
+        permission:[],
+        editableTabsValue: '2',
+        editableTabs: [],
+        tabIndex: 2
       }
-      ,
-      created() {
-          this.qxquery()
+    },
+    methods:{
+      qh(){
+        var _this = this
+        this.ios = "el-icon-loading"
+        setTimeout(function () {
+          _this.$router.push("/xszweilcom")
+        },2000)
       },
+      qxquery(){
+        var yg = this.$store.getters.getsessios
+        this.$axios.post("qx/qxAll.action?ygid="+yg.ygid).then(val=>{
+          this.permission = val.data
+          console.log(val.data)
+        })
+      },
+      addTab(targetName,linkurl) {
 
+        //判断 打开了没有
+        var res =  this.editableTabs.find((item)=>{return item.title ==targetName;});
+        console.log(res)
+        if(res!=undefined){
+          //已打开的    ---选中
+          this.editableTabsValue = res.name;
+        }else{
+          //未打开的   ----添加
+          let newTabName = ++this.tabIndex + '';
+          this.editableTabs.push({
+            title: targetName,
+            name: newTabName,
+            content: linkurl
+          });
+          console.log(this.editableTabs)
+          this.editableTabsValue = newTabName;
+
+        }
+
+
+
+      },
+      addTab1(targetName,linkurl){
+        this.addTab(targetName,linkurl)
+      },
+      removeTab(targetName) {
+        let tabs = this.editableTabs;
+        let activeName = this.editableTabsValue;
+        if (activeName === targetName) {
+          tabs.forEach((tab, index) => {
+            if (tab.name === targetName) {
+              let nextTab = tabs[index + 1] || tabs[index - 1];
+              if (nextTab) {
+                activeName = nextTab.name;
+              }
+            }
+          });
+        }
+
+        this.editableTabsValue = activeName;
+        this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+      }
     }
+    ,
+    created() {
+      this.qxquery()
+    },
+
+  }
 </script>
 
 <style scoped>
