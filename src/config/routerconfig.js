@@ -5,6 +5,7 @@ import VueRouter from "vue-router"
  import Home from '../components/Domo1'
  import About from '../components/Domo2'
 import xszweilcom from "../components/xiaosaiz/xszweilcom";
+import shanghuShouye from "../components/hesijie/ShanghuShouye";
 //========供货商
 import indexsup from '../components/jiangweijie/indexsup'  //主页
 import shangpingwh from '../components/jiangweijie/supshangpingwh' //商城维护
@@ -14,6 +15,7 @@ import supshangpingchukujilu from "../components/jiangweijie/supshangpingchukuji
 import supshangpinghowu from "../components/jiangweijie/supshangpinghowu";//货物统计
 import supshangpingcaiwu from "../components/jiangweijie/supshangpingcaiwu";//财务统计
 //=========
+
 //2）Vue组件使用Vue-router组件
 Vue.use(VueRouter)
 
@@ -22,6 +24,7 @@ Vue.use(VueRouter)
  var routes=[{path:"/home",component:Home},
    {path:"/about",component:About},
    {path:"/xszweilcom",component:xszweilcom},
+   {path:"/shanghuShouye",component:shanghuShouye},
    {path:"/indexsup",component: indexsup},
    {path:"/shangpingwh",component: shangpingwh},
    {path:"/supshangpingsogo",component: supshangpingsogo},

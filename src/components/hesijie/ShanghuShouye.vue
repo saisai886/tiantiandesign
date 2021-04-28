@@ -1,0 +1,162 @@
+<template>
+<div id="div">
+  <el-container>
+    <el-aside width="240px">
+      <el-col :span="24">
+        <el-menu
+          style="height: 800px"
+          default-active="1-1"
+          class="el-menu-vertical-demo"
+
+          background-color="#545c64"
+          text-color="#fff"
+          active-text-color="#ffd04b"
+        >
+          <el-submenu  index="1">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>订单管理</span>
+            </template>
+            <el-menu-item-group >
+              <el-menu-item index="1-1" @click="addTab('全部订单','dingdanshow')">全部订单</el-menu-item>
+              <el-menu-item index="1-2" @click="addTab('待收货订单','daishouhuo')">待收货订单</el-menu-item>
+              <el-menu-item index="1-3" @click="addTab('待提货订单','daitihuo')">待提货订单</el-menu-item>
+              <el-menu-item index="1-4" @click="addTab('已提货订单','yitihuo')">已提货订单</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+          <el-menu-item index="2" @click="addTab('统计营收','tongjiyingshou')">
+            <i class="el-icon-menu"></i>
+            <span slot="title">统计营收</span>
+          </el-menu-item>
+          <el-menu-item index="3" @click="addTab('资料维护','ziliaoweihu')">
+            <i class="el-icon-document"></i>
+            <span slot="title">资料维护</span>
+          </el-menu-item>
+        </el-menu>
+      </el-col>
+    </el-aside>
+  <el-container>
+    <el-header>header</el-header>
+    <el-main>
+
+      <el-tabs v-model="editableTabsValue" stretch="stretch" type="card" closable @tab-remove="removeTab">
+        <el-tab-pane
+          v-for="(item, index) in editableTabs"
+          :key="item.name"
+          :label="item.title"
+          :name="item.name"
+        >
+          <component :is="item.content"></component>
+
+        </el-tab-pane>
+      </el-tabs>
+
+    </el-main>
+    <el-footer >Footer</el-footer>
+  </el-container>
+</el-container>
+  </div>
+</template>
+
+<script>
+   import dingdanshow from './Dingdanshow'
+   import daishouhuo from './Daishouhuo'
+   import daitihuo from './Daitihuo'
+   import yitihuo from './Yitihuo'
+   import tongjiyingshou from './Tongjiyingshou'
+   import ziliaoweihu from './Ziliaoweihu'
+
+
+
+    export default {
+        name: "ShanghuShouye",
+      data() {
+        return {
+          editableTabsValue: '2',
+          editableTabs: [],
+          tabIndex: 2
+        }
+      },
+
+      methods: {
+        handleNodeClick(data) {
+          console.log(data);
+        },
+        addTab(targetName,dingdanshow) {
+
+          var res =  this.editableTabs.find((item)=>{return item.title ==targetName;});
+          if(res!=undefined){
+            this.editableTabsValue = res.name;
+          }else {
+          let newTabName = ++this.tabIndex + '';
+          this.editableTabs.push({
+            title: targetName,
+            name: newTabName,
+            content: dingdanshow
+          });
+          this.editableTabsValue = newTabName;
+          }
+        },
+        removeTab(targetName) {
+          let tabs = this.editableTabs;
+          let activeName = this.editableTabsValue;
+          if (activeName === targetName) {
+            tabs.forEach((tab, index) => {
+              if (tab.name === targetName) {
+                let nextTab = tabs[index + 1] || tabs[index - 1];
+                if (nextTab) {
+                  activeName = nextTab.name;
+                }
+              }
+            });
+          }
+          this.editableTabsValue = activeName;
+          this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+        }
+      },
+      components:{
+        dingdanshow,
+        daishouhuo,
+        daitihuo,
+        yitihuo,
+        tongjiyingshou,
+        ziliaoweihu
+      }
+
+    }
+</script>
+
+<style scoped>
+
+  .el-header,
+  .el-footer {
+    color: #333;
+    text-align: center;
+    height: 35px;
+  }
+
+  .el-aside {
+
+    color: #333;
+    text-align: center;
+    height: 800px;
+  }
+
+  .el-main {
+
+    color: #333;
+    text-align: center;
+    line-height: 160px;
+  }
+
+
+
+  .el-container:nth-child(5) .el-aside,
+  .el-container:nth-child(6) .el-aside {
+    line-height: 260px;
+  }
+
+  .el-container:nth-child(7) .el-aside {
+    line-height: 320px;
+  }
+</style>
