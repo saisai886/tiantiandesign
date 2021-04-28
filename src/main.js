@@ -28,7 +28,6 @@ var myrouter=new Vue({
   router:Router,
   //挂载vuex
   store:Store
-
 })
 
 myrouter.$router.replace({

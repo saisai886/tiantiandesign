@@ -3,63 +3,86 @@
   <div>
 
 
-  <el-row>
-    <el-col  :span="6">
-    <el-image src="src/imagedesign/logo.png"></el-image>
-    </el-col>
-    <el-col :span="4"></el-col>
-    <el-col :span="14" >
-      <el-input  placeholder="搜索商品" style="width: 600px;margin-top: 10px">
-        <el-button slot="append" icon="el-icon-search" style="background-color: limegreen"></el-button>
-      </el-input>
-    </el-col>
-  </el-row>
+    <el-container>
+      <!--头部-->
+      <el-header>
 
- <div style="height: 2px;background-color: limegreen"></div>
+        <el-menu default-active="1"
+                 class="el-menu-demo"
+                 mode="horizontal"
+                 background-color="#545c64"
+                 text-color="#fff"
+                 active-text-color="#ffd04b"
+        >
 
-    <el-row>
+          <el-menu-item index="1" @click="myvuecom='xszzhuye'">
+            <template slot="title">
+              <i class="el-icon-s-home"></i>
+              <span>
+                  首页
+               </span>
+            </template>
+          </el-menu-item>
 
-      <el-col :span="4" style="color: orange"><h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;每日推荐</h1></el-col>
-      <el-col :span="16">
-        <el-carousel indicator-position="outside">
-          <el-carousel-item v-for="item in 4" :key="item">
-            <el-image src="src/imagedesign/slide03.jpg"></el-image>
-          </el-carousel-item>
-        </el-carousel>
-      </el-col>
-      <el-col :span="4"></el-col>
-    </el-row>
+          <el-menu-item index="2">
+            <template slot="title">
+              <i class="el-icon-menu"></i>
+              <span>
+                 商品分类
+               </span>
+            </template>
+          </el-menu-item>
 
-    <div style="height: 2px;background-color: limegreen;margin-bottom: 5px"></div>
+          <el-menu-item index="3">
+            <template slot="title">
+              <i class="el-icon-shopping-cart-full"></i>
+              <span>我的购物车</span>
+            </template>
+          </el-menu-item>
+
+          <el-menu-item index="4" @click="myvuecom='xszgerenzhongx'">
+            <template slot="title">
+              <i class="el-icon-s-custom"></i>
+              <span>个人中心</span>
+            </template>
+          </el-menu-item>
+        </el-menu>
 
 
 
-    <el-row :gutter="20">
-      <el-col  style="margin-bottom: 20px;" :span="6" v-for="sef in 16"><div style="border: 1px solid orangered">
-        <el-row>
-          <el-col> <el-image src="src/imagedesign/goods.jpg"></el-image></el-col>
-        </el-row>
 
-        <el-row>
-          <el-col :span="12">库存:300</el-col>
-          <el-col :span="12">销量:100</el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">价格:￥30</el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-button type="warning">查看详情</el-button>
-          </el-col>
-          <el-col :span="12">
-            <el-button type="danger">加入购物车</el-button>
-          </el-col>
-        </el-row>
-      </div>
+      </el-header>
 
-      </el-col>
+      <!--主页面-->
+      <el-main>
 
-    </el-row>
+      <component :is="myvuecom"></component>
+
+
+      </el-main>
+
+
+      <!--脚部用来做网站的信息-->
+      <el-footer>这是脚部</el-footer>
+
+    </el-container>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -87,8 +110,25 @@
 </template>
 
 <script>
+
+  import xszzhuye from "./xszzhuye";
+  import xszgerenzhongx from "./xszgerenzhongx";
+
+
     export default {
-        name: "xszweilcom"
+        name: "xszweilcom",
+        data(){
+          return{
+            myvuecom:"xszzhuye",
+          }
+        },
+      components:{
+        xszzhuye,
+        xszgerenzhongx
+      },
+
+
+
     }
 </script>
 
@@ -97,9 +137,6 @@
 
   .el-row {
     margin-bottom: 20px;
-  &:last-child {
-     margin-bottom: 0;
-   }
   }
   .el-col {
     border-radius: 4px;
@@ -121,6 +158,22 @@
     padding: 10px 0;
     background-color: #f9fafc;
   }
+  .el-main {
+    color: #333;
+    text-align: center;
+  }
+
+  .el-header,.el-footer {
+    background-color: #545c64;
+    color: #333;
+    text-align: center;
+    line-height: 60px;
+  }
+
+  a{
+    text-decoration: none;
+  }
+
 
 
 </style>

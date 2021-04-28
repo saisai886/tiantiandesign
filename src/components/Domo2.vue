@@ -1,7 +1,4 @@
 <template>
-  <div>
-    第2个界面
-  </div>
 </template>
 
 <script>
