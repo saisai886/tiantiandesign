@@ -1,7 +1,16 @@
 <template>
   <div id="app" class="homeWrap">
-    <el-container style="height: 500px; border: 1px solid #d4c8c8;border-radius: 5px;">
-      <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+    <div id="div1">
+      <span id="span" style="float: left;margin: 0px 0px 0px 0px">商城后台</span>
+      <div style="margin-right: 850px;padding-top: 10px">
+        <img src="../../imagedesign/logo.png" />
+      </div>
+      <span id="span1" style="float: right">
+        <span id="span2" :class="ios" @click="qh()">切换首页</span>
+      </span>
+    </div>
+    <el-container style="height: 500px; border: 1px solid whitesmoke;border-radius: 5px;">
+      <el-aside width="200px" style="background-color: rgb(234,237,239)">
         <el-menu>
           <el-submenu  :index="pmenu.pid+''" v-for="pmenu in permission">
             <template slot="title">
@@ -9,16 +18,19 @@
               <span>{{pmenu.permissionName}}</span>
             </template>
             <el-submenu :index="cmenu.pid+''" v-for="cmenu in pmenu.permissions">
+
               <template   slot="title" v-if="cmenu.permissionss.length==0"  >
                  <div style="width: 100px;height: 50px" @click="addTab1(cmenu.permissionName,cmenu.purl)">
                   <i :class="cmenu.iconUrl"></i>
                   {{cmenu.permissionName}}
                   </div>
               </template>
+
               <template slot="title" v-if="cmenu.permissionss.length!=0">
                 <i :class="cmenu.iconUrl"></i>
                 {{cmenu.permissionName}}
               </template>
+
               <el-menu-item @click="addTab(cmenus.permissionName,cmenus.purl)" index="2-4-1" v-for="cmenus in cmenu.permissionss">
                 {{cmenus.permissionName}}
               </el-menu-item>
@@ -44,17 +56,23 @@
         </el-main>
       </el-container>
     </el-container>
+    <div id="div2">
+      <span id="span3">
+        欢迎:{{this.$store.getters.getsessios.yloginname}}
+      </span>
+    </div>
 
   </div>
 </template>
 <script>
-import na from "./taozhuang/na";
+
     export default {
      components:{
-        na
+
        },
       data(){
           return{
+            ios:"el-icon-sort",
             permission:[],
             editableTabsValue: '2',
             editableTabs: [],
@@ -62,8 +80,16 @@ import na from "./taozhuang/na";
           }
         },
       methods:{
+       qh(){
+         var _this = this
+         this.ios = "el-icon-loading"
+         setTimeout(function () {
+           _this.$router.push("/xszweilcom")
+         },2000)
+       },
           qxquery(){
-            this.$axios.post("qx/qxAll.action").then(val=>{
+            var yg = this.$store.getters.getsessios
+            this.$axios.post("qx/qxAll.action?ygid="+yg.ygid).then(val=>{
                 this.permission = val.data
               console.log(val.data)
             })
@@ -163,5 +189,41 @@ import na from "./taozhuang/na";
     transition: transform .3s;
     transition: transform .3s,-webkit-transform .3s;
     font-size: 12px;
+  }
+
+  #div1{
+    width: 100%;
+    height: 80px;
+    background-color: #f6f8fa;
+  }
+  #div2{
+    width: 100%;
+    height: 83px;
+    background-color: #eaeef1;
+  }
+  #span{
+    width: 200px;
+    height: 80px;
+    background-color: #d3d9e0;
+    font-family: "微软雅黑";
+    font-size: 25px;
+    line-height: 80px;
+  }
+  #span1{
+    width: 200px;
+    height: 80px;
+    font-family: "微软雅黑";
+    font-size: 25px;
+    line-height: 80px;
+    margin: -73px 0px 0px 0px;
+  }
+  #span2:hover{
+    color: red;
+  }
+  #span3{
+    width: 200px;
+    height: 80px;
+    line-height: 80px;
+    font-size: 20px;
   }
 </style>
