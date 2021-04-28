@@ -9,7 +9,9 @@ import xszweilcom from "../components/xiaosaiz/xszweilcom";
 import zb_denglu from '../components/zhangbei/zb_denglu'
 import zb_hotai from "../components/zhangbei/zb_hotai";
 //底-----------------------
-
+// //========供货商
+import indexsup from '../components/jiangweijie/indexsup'  //主页
+// //=========
 //2）Vue组件使用Vue-router组件
 Vue.use(VueRouter)
 
@@ -20,8 +22,9 @@ Vue.use(VueRouter)
    {path:"/xszweilcom",component:xszweilcom},
    //张蓓如下:-----------------
    {path:"/zb_denglu",component:zb_denglu},
-   {path:"/zb_hotai",component:zb_hotai}
+   {path:"/zb_hotai",component:zb_hotai},
    //底-----------------------
+   {path:"/indexsup",component: indexsup}
  ]
 
 //4)配置路由管理器

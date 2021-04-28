@@ -11,7 +11,7 @@
              background-color="#545c64"
              text-color="#fff"
              active-text-color="#ffd04b"
-             router="router"
+                  router="router"
          >
 
            <el-menu-item index="xszweilcom">
@@ -46,6 +46,7 @@
              </template>
            </el-menu-item>
 
+           <router-link to="/indexsup">供货商</router-link>
            <el-menu-item index="zb_denglu" style="float: right">
              <template slot="title">
                <i class="el-icon-sort"></i>
@@ -54,7 +55,6 @@
                </span>
              </template>
            </el-menu-item>
-
          </el-menu>
 
 
@@ -77,8 +77,6 @@
 </template>
 
 <script>
-import router from "./config/routerconfig";
-
 export default {
   name: 'app',
   data () {
