@@ -1,16 +1,7 @@
 <template>
   <div id="app" class="homeWrap">
-    <div id="div1">
-      <span id="span" style="float: left;margin: 0px 0px 0px 0px">商城后台</span>
-      <div style="margin-right: 850px;padding-top: 10px">
-        <img src="../../imagedesign/logo.png" />
-      </div>
-      <span id="span1" style="float: right">
-        <span id="span2" :class="ios" @click="qh()">切换首页</span>
-      </span>
-    </div>
-    <el-container style="height: 500px; border: 1px solid whitesmoke;border-radius: 5px;">
-      <el-aside width="200px" style="background-color: rgb(234,237,239)">
+    <el-container style="height: 500px; border: 1px solid #d4c8c8;border-radius: 5px;">
+      <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
         <el-menu>
           <el-submenu  :index="pmenu.pid+''" v-for="pmenu in permission">
             <template slot="title">
@@ -18,19 +9,16 @@
               <span>{{pmenu.permissionName}}</span>
             </template>
             <el-submenu :index="cmenu.pid+''" v-for="cmenu in pmenu.permissions">
-
               <template   slot="title" v-if="cmenu.permissionss.length==0"  >
-                <div style="width: 100px;height: 50px" @click="addTab1(cmenu.permissionName,cmenu.purl)">
+                 <div style="width: 100px;height: 50px" @click="addTab1(cmenu.permissionName,cmenu.purl)">
                   <i :class="cmenu.iconUrl"></i>
                   {{cmenu.permissionName}}
-                </div>
+                  </div>
               </template>
-
               <template slot="title" v-if="cmenu.permissionss.length!=0">
                 <i :class="cmenu.iconUrl"></i>
                 {{cmenu.permissionName}}
               </template>
-
               <el-menu-item @click="addTab(cmenus.permissionName,cmenus.purl)" index="2-4-1" v-for="cmenus in cmenu.permissionss">
                 {{cmenus.permissionName}}
               </el-menu-item>

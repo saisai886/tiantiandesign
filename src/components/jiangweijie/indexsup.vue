@@ -1,14 +1,18 @@
 <template>
   <el-container class="homeWrap">
     <!--头部-->
-    <el-header>
+    <el-header >
+        <img width="100px"  src="src/imagedesign/logo.png" alt="图片没有">
+
+        <el-button id="gid" type="info" icon="el-icon-guide" ></el-button>
 
     </el-header>
     <!--中间部分-->
-
+   <div style="border: 1px solid green"></div>
     <el-container>
+
       <!--左侧-->
-      <el-aside width="200px" style="background-color: lightgray">
+      <el-aside width="200px">
         <!---->
         <el-col :span="24">
 
@@ -17,9 +21,11 @@
             class="el-menu-vertical-demo"
             @open="handleOpen"
             @close="handleClose"
-            background-color="#545c64"
+            background-color="#B3C0D1"
             text-color="#fff"
-            active-text-color="#ffd04b">
+            active-text-color="#ffd04b"
+            style="height: 700px">
+
 
             <el-menu-item index="1">
               <i class="el-icon-s-home"></i>
@@ -27,6 +33,7 @@
                商品维护
             </span> <!--添加动态table标签，下面一样-->
             </el-menu-item>
+
 
             <el-submenu index="2" active>
               <template slot="title">
@@ -71,13 +78,14 @@
 
       </el-aside>
       <!--中间部分-->
-      <el-main style="height: 700px">
-        <el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab">
+      <el-main>
+        <el-tabs v-model="editableTabsValue" type="card"  closable @tab-remove="removeTab">
           <el-tab-pane
             v-for="(item, index) in editableTabs"
             :key="item.name"
             :label="item.title"
             :name="item.name"
+
           >
         <component :is="item.content"></component>
           </el-tab-pane>
@@ -86,7 +94,10 @@
       </el-main>
     </el-container>
     <!--尾部-->
-    <el-footer></el-footer>
+    <el-footer style="background-color: #42b983">
+     供货商无线公司
+
+    </el-footer>
   </el-container>
 
 
@@ -105,9 +116,15 @@ export default {
   components:{supshangpingwh,supshangpingsogo,supshangpingchuku,supshangpingchukujilu,supshangpinghowu,supshangpingcaiwu},
   data() {
     return {
-      editableTabsValue: '2',
-      editableTabs: [],
-      tabIndex:0 ,
+      editableTabsValue: '1',
+      editableTabs: [
+      {
+        title:'商品维护',
+        name:'1',
+        content:supshangpingwh
+      }
+      ],
+      tabIndex:1
     }
   },
   methods:{
@@ -158,11 +175,27 @@ export default {
       this.editableTabs = tabs.filter(tab => tab.name !== targetName);
     }
 
-
+  },
+  created() {
+    this.editableTabsValue='1'
   }
 }
 </script>
 
 <style scoped>
+img{
+  position: absolute;
+  top: 10px;
+  left: 60px;
+
+}
+#gid{
+  position: absolute;
+  top: 10px;
+  left: 1250px;
+}
+
+
+
 
 </style>

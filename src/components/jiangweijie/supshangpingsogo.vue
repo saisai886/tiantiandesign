@@ -1,6 +1,5 @@
 <template>
 <div>
-  <template>
     <el-table
       :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
       style="width: 100%">
@@ -43,6 +42,7 @@
         label="描述"
         prop="desc">
       </el-table-column>
+
       <el-table-column
         label="操作"
        >
@@ -61,7 +61,7 @@
 
       </el-table-column>
     </el-table>
-  </template>
+
 
 
 </div>
