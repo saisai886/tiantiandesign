@@ -12,7 +12,14 @@
         name: "xszgerenzhongx",
       methods:{
         beibei(){
-          this.$router.push("/zb_denglu")
+          var uname = sessionStorage.getItem("yg");
+          console.log(uname)
+          if(uname ==null){
+            this.$router.push("/zb_denglu")
+          }else {
+            this.$router.push("/zb_hotai")
+          }
+
         },
         laojiang(){
           this.$router.push("/indexsup")
