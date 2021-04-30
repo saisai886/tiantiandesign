@@ -64,7 +64,7 @@
               </el-row>
               <el-row>
                 <el-col :span="12">
-                  <el-button type="warning">查看详情</el-button>
+                  <el-button type="warning" @click="ceshi()">查看详情</el-button>
                 </el-col>
                 <el-col :span="12">
                   <el-button type="danger">加入购物车</el-button>
@@ -147,6 +147,9 @@
         fenye(val){
           this.pageNo=val
           this.fenlei();
+        },
+        ceshi(){
+            alert("sfdsfafd")
         }
 
 
