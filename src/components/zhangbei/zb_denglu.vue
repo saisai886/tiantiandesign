@@ -15,7 +15,7 @@
         <el-button @click="resetForm('form')">清空</el-button>
       </el-form-item>
     </el-form>
-  </div>
+   </div>
   </div>
 </template>
 
@@ -50,7 +50,7 @@
           this.$refs[formname].validate(valid=>{
             if(valid){
               this.$axios.post("ygdl/ygdenglu.action",params).then(val=> {
-                console.log(val.data)
+
                 if(val.data!=""){
                    this.$notify({
                      title: "登入成功",
@@ -58,6 +58,9 @@
                      type: 'success',
                      duration:1000
                    });
+                    sessionStorage.setItem("yg",val.data);
+                    sessionStorage.setItem("yloginname",val.data.yloginname);
+                    sessionStorage.setItem("ygid",val.data.ygid);
                     this.$store.commit('setsessios',val.data)
                     this.$router.push("/zb_hotai")
                  }else {

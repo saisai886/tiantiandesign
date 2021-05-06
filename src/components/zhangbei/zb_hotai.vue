@@ -1,7 +1,16 @@
 <template>
   <div id="app" class="homeWrap">
-    <el-container style="height: 500px; border: 1px solid #d4c8c8;border-radius: 5px;">
-      <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+    <div id="div1">
+      <span id="span" style="float: left;margin: 0px 0px 0px 0px">商城后台</span>
+      <div style="margin-right: 850px;padding-top: 10px">
+        <img src="../../imagedesign/logo.png" />
+      </div>
+      <span id="span1" style="float: right">
+        <span id="span2" :class="ios" @click="qh()">切换首页</span>
+      </span>
+    </div>
+    <el-container style="height: 500px; border: 1px solid whitesmoke;border-radius: 5px;">
+      <el-aside width="200px" style="background-color: rgb(234,237,239)">
         <el-menu>
           <el-submenu  :index="pmenu.pid+''" v-for="pmenu in permission">
             <template slot="title">
@@ -9,16 +18,19 @@
               <span>{{pmenu.permissionName}}</span>
             </template>
             <el-submenu :index="cmenu.pid+''" v-for="cmenu in pmenu.permissions">
+
               <template   slot="title" v-if="cmenu.permissionss.length==0"  >
-                 <div style="width: 100px;height: 50px" @click="addTab1(cmenu.permissionName,cmenu.purl)">
+                <div style="width: 100px;height: 50px" @click="addTab1(cmenu.permissionName,cmenu.purl)">
                   <i :class="cmenu.iconUrl"></i>
                   {{cmenu.permissionName}}
-                  </div>
+                </div>
               </template>
+
               <template slot="title" v-if="cmenu.permissionss.length!=0">
                 <i :class="cmenu.iconUrl"></i>
                 {{cmenu.permissionName}}
               </template>
+
               <el-menu-item @click="addTab(cmenus.permissionName,cmenus.purl)" index="2-4-1" v-for="cmenus in cmenu.permissionss">
                 {{cmenus.permissionName}}
               </el-menu-item>
@@ -46,17 +58,22 @@
     </el-container>
     <div id="div2">
       <span id="span3">
-        欢迎:{{this.$store.getters.getsessios.yloginname}}
+        欢迎:{{this.$store.getters.getsessios}}
+        <span @click="tc()" id="tc" title="退出">[退出]</span>
+        <span @click="sx()" class="el-icon-refresh-left" title="刷新"></span>
       </span>
     </div>
 
   </div>
 </template>
 <script>
-
+  //张蓓:
+  import zb_caidanAll from "./xitongguanli/zb_caidanAll";
+  //---------------
   export default {
     components:{
-
+      //张蓓:
+      zb_caidanAll
     },
     data(){
       return{
@@ -68,25 +85,28 @@
       }
     },
     methods:{
+      sx(){
+        this.qxquery()
+      },
+      tc(){
+        sessionStorage.clear()
+        this.$router.push("/xszweilcom")
+      },
       qh(){
-        var _this = this
-        this.ios = "el-icon-loading"
-        setTimeout(function () {
-          _this.$router.push("/xszweilcom")
-        },2000)
+        this.$router.push("/xszweilcom")
       },
       qxquery(){
-        var yg = this.$store.getters.getsessios
-        this.$axios.post("qx/qxAll.action?ygid="+yg.ygid).then(val=>{
+        var yg = sessionStorage.getItem("ygid");
+        var yloginname = sessionStorage.getItem("yloginname");
+        this.$store.commit('setsessios',yloginname)
+        this.$axios.post("qx/qxAll.action?ygid="+yg).then(val=>{
           this.permission = val.data
-          console.log(val.data)
         })
       },
       addTab(targetName,linkurl) {
 
         //判断 打开了没有
         var res =  this.editableTabs.find((item)=>{return item.title ==targetName;});
-        console.log(res)
         if(res!=undefined){
           //已打开的    ---选中
           this.editableTabsValue = res.name;
@@ -213,5 +233,8 @@
     height: 80px;
     line-height: 80px;
     font-size: 20px;
+  }
+  #tc:hover{
+    color: red;
   }
 </style>
