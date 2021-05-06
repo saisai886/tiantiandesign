@@ -56,7 +56,7 @@
       <!--主页面-->
       <el-main>
 
-      <component :is="myvuecom"></component>
+      <component :is="myvuecom" v-on:sid="changevue" :toxqsid="xqsid"></component>
 
 
       </el-main>
@@ -114,6 +114,8 @@
   import xszzhuye from "./xszzhuye";
   import xszgerenzhongx from "./xszgerenzhongx";
   import xszshoptype from "./xszshoptype";
+  import xszshopxq from "./xszshopxq";
+
 
 
     export default {
@@ -121,13 +123,22 @@
         data(){
           return{
             myvuecom:"xszzhuye",
+            xqsid:""
           }
         },
       components:{
         xszzhuye,
         xszgerenzhongx,
-        xszshoptype
+        xszshoptype,
+        xszshopxq
       },
+
+      methods:{
+        changevue(data){
+          this.xqsid=data
+          this.myvuecom=xszshopxq
+        }
+      }
 
 
 

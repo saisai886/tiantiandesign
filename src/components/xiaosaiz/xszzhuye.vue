@@ -72,7 +72,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-button type="warning">查看详情</el-button>
+            <el-button type="warning" @click="xiangqing(sef.sid)">查看详情</el-button>
           </el-col>
           <el-col :span="12">
             <el-button type="danger">加入购物车</el-button>
@@ -145,6 +145,14 @@
         fenye(val){
           this.pageNo=val
           this.showshops();
+        },
+
+
+
+
+        //点击详情展示详情页面
+        xiangqing(sid){
+           this.$emit("sid",sid);
         }
 
 
