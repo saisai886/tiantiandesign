@@ -70,14 +70,16 @@
   //张蓓:
   import zb_caidanAll from "./xitongguanli/zb_caidanAll";
    //zhb
-  import Shangfenleicx from "../zhuhaibo/Shangfenleicx";
+  import Shangpingcx from "../zhuhaibo/Shangpingcx";
+  import Shangpingfenglei from "../zhuhaibo/Shangpingfenglei";
   //---------------
   export default {
     components:{
       //张蓓:
       zb_caidanAll,
       //zhb
-      Shangfenleicx,
+      Shangpingcx,
+      Shangpingfenglei,
     },
     data(){
       return{
