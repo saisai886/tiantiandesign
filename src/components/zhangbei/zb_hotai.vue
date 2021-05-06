@@ -60,6 +60,7 @@
       <span id="span3">
         欢迎:{{this.$store.getters.getsessios}}
         <span @click="tc()" id="tc" title="退出">[退出]</span>
+        <span @click="sx()" class="el-icon-refresh-left" title="刷新"></span>
       </span>
     </div>
 
@@ -84,16 +85,15 @@
       }
     },
     methods:{
+      sx(){
+        this.qxquery()
+      },
       tc(){
         sessionStorage.clear()
         this.$router.push("/xszweilcom")
       },
       qh(){
-        var _this = this
-        this.ios = "el-icon-loading"
-        setTimeout(function () {
-          _this.$router.push("/xszweilcom")
-        },1000)
+        this.$router.push("/xszweilcom")
       },
       qxquery(){
         var yg = sessionStorage.getItem("ygid");

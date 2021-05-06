@@ -15,7 +15,7 @@
         <el-button @click="resetForm('form')">清空</el-button>
       </el-form-item>
     </el-form>
-  </div>
+   </div>
   </div>
 </template>
 
