@@ -4,7 +4,11 @@
     <el-header >
         <img width="100px"  src="src/imagedesign/logo.png" alt="图片没有">
 
-        <el-button id="gid" type="info" icon="el-icon-guide" ></el-button>
+
+      <el-row style="top: 10px">
+        <el-col :span="17"><div class="grid-content bg-purple-dark"></div></el-col>
+        <el-col :span="7"><el-button  type="info" icon="el-icon-guide" ></el-button></el-col>
+      </el-row>
 
     </el-header>
     <!--中间部分-->
@@ -24,7 +28,7 @@
             background-color="#B3C0D1"
             text-color="#fff"
             active-text-color="#ffd04b"
-            style="height: 700px">
+            style="height: 900px">
 
 
             <el-menu-item index="1">
@@ -94,8 +98,7 @@
       </el-main>
     </el-container>
     <!--尾部-->
-    <el-footer style="background-color: #42b983">
-     供货商无线公司
+    <el-footer style="background-color: #B3C0D1">
 
     </el-footer>
   </el-container>
@@ -189,13 +192,12 @@ img{
   left: 60px;
 
 }
-#gid{
-  position: absolute;
-  top: 10px;
-  left: 1250px;
+
+
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
 }
-
-
 
 
 </style>
