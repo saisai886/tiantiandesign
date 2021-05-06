@@ -7,7 +7,6 @@
           style="height: 800px"
           default-active="1-1"
           class="el-menu-vertical-demo"
-
           background-color="#545c64"
           text-color="#fff"
           active-text-color="#ffd04b"
@@ -18,7 +17,7 @@
               <span>订单管理</span>
             </template>
             <el-menu-item-group >
-              <el-menu-item index="1-1" @click="addTab('全部订单','dingdanshow')">全部订单</el-menu-item>
+              <el-menu-item index="1-1"  @click="addTab('全部订单','dingdanshow')">全部订单</el-menu-item>
               <el-menu-item index="1-2" @click="addTab('待收货订单','daishouhuo')">待收货订单</el-menu-item>
               <el-menu-item index="1-3" @click="addTab('待提货订单','daitihuo')">待提货订单</el-menu-item>
               <el-menu-item index="1-4" @click="addTab('已提货订单','yitihuo')">已提货订单</el-menu-item>
@@ -36,7 +35,14 @@
       </el-col>
     </el-aside>
   <el-container>
-    <el-header>header</el-header>
+    <el-header >
+      <el-col :span="6">
+      <el-image src="src/imagedesign/logo.png" @click="tiaozhuang">
+<!--        <router-link to="xszweilcom"></router-link>-->
+      </el-image>
+      </el-col>
+
+    </el-header>
     <el-main>
 
       <el-tabs v-model="editableTabsValue" stretch="stretch" type="card" closable @tab-remove="removeTab">
@@ -52,7 +58,8 @@
       </el-tabs>
 
     </el-main>
-    <el-footer >Footer</el-footer>
+    <el-footer >
+    </el-footer>
   </el-container>
 </el-container>
   </div>
@@ -72,15 +79,26 @@
         name: "ShanghuShouye",
       data() {
         return {
-          editableTabsValue: '2',
-          editableTabs: [],
-          tabIndex: 2
+          editableTabsValue: '1',
+          editableTabs: [
+            {
+            title: '全部订单',
+              name:'1',
+              content: dingdanshow
+            }
+          ],
+          tabIndex: 1
+
         }
       },
 
       methods: {
         handleNodeClick(data) {
           console.log(data);
+        },
+
+        tiaozhuang(){
+          this.$router.push("xszweilcom");
         },
         addTab(targetName,dingdanshow) {
 
@@ -121,6 +139,9 @@
         yitihuo,
         tongjiyingshou,
         ziliaoweihu
+      },
+      created() {
+        this.editableTabsValue='1'
       }
 
     }

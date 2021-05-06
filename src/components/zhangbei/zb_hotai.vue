@@ -1,5 +1,53 @@
 <template>
   <div id="app" class="homeWrap">
+    <el-container style="height: 500px; border: 1px solid #d4c8c8;border-radius: 5px;">
+      <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+        <el-menu>
+          <el-submenu  :index="pmenu.pid+''" v-for="pmenu in permission">
+            <template slot="title">
+              <i :class="pmenu.iconUrl"></i>
+              <span>{{pmenu.permissionName}}</span>
+            </template>
+            <el-submenu :index="cmenu.pid+''" v-for="cmenu in pmenu.permissions">
+              <template   slot="title" v-if="cmenu.permissionss.length==0"  >
+                 <div style="width: 100px;height: 50px" @click="addTab1(cmenu.permissionName,cmenu.purl)">
+                  <i :class="cmenu.iconUrl"></i>
+                  {{cmenu.permissionName}}
+                  </div>
+              </template>
+              <template slot="title" v-if="cmenu.permissionss.length!=0">
+                <i :class="cmenu.iconUrl"></i>
+                {{cmenu.permissionName}}
+              </template>
+              <el-menu-item @click="addTab(cmenus.permissionName,cmenus.purl)" index="2-4-1" v-for="cmenus in cmenu.permissionss">
+                {{cmenus.permissionName}}
+              </el-menu-item>
+            </el-submenu>
+          </el-submenu>
+        </el-menu>
+      </el-aside>
+
+      <el-container>
+        <el-main>
+          <!-- tabs页面显示-->
+          <el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab">
+            <el-tab-pane
+              v-for="(item, index) in editableTabs"
+              :key="item.name"
+              :label="item.title"
+              :name="item.name"
+            >
+              <component :ref="editableTabsValue" :is="item.content"></component>
+
+            </el-tab-pane>
+          </el-tabs>
+        </el-main>
+      </el-container>
+    </el-container>
+
+  </div>
+</template><template>
+  <div id="app" class="homeWrap">
     <div id="div1">
       <span id="span" style="float: left;margin: 0px 0px 0px 0px">商城后台</span>
       <div style="margin-right: 850px;padding-top: 10px">
@@ -242,3 +290,4 @@
     color: red;
   }
 </style>
+
