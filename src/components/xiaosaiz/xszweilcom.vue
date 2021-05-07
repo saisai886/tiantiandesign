@@ -40,7 +40,7 @@
             </template>
           </el-menu-item>
 
-          <el-menu-item index="4" @click="myvuecom='xszgerenzhongx'">
+          <el-menu-item index="4" @click="myvuecom='xszlogin'">
             <template slot="title">
               <i class="el-icon-s-custom"></i>
               <span>个人中心</span>
@@ -63,7 +63,23 @@
 
 
       <!--脚部用来做网站的信息-->
-      <el-footer>这是脚部</el-footer>
+      <el-footer>
+
+        <div class="footer no-mp">
+          <div class="foot_link">
+            <a href="#">关于我们</a>
+            <span>|</span>
+            <a href="#">联系我们</a>
+            <span>|</span>
+            <a href="#">招聘人才</a>
+            <span>|</span>
+            <a href="#">友情链接</a>
+          </div>
+          <p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+          <p>电话：010-****888    京ICP备*******8号</p>
+        </div>
+
+      </el-footer>
 
     </el-container>
 
@@ -115,7 +131,7 @@
   import xszgerenzhongx from "./xszgerenzhongx";
   import xszshoptype from "./xszshoptype";
   import xszshopxq from "./xszshopxq";
-
+  import xszlogin from "./xszlogin";
 
 
     export default {
@@ -130,7 +146,9 @@
         xszzhuye,
         xszgerenzhongx,
         xszshoptype,
-        xszshopxq
+        xszshopxq,
+        xszlogin
+
       },
 
       methods:{
@@ -186,6 +204,19 @@
   a{
     text-decoration: none;
   }
+
+
+  /* 页面底部样式 */
+  .footer{
+    border-top:2px solid #42ad46;
+    margin:60px 0;
+  }
+
+  .foot_link{text-align:center;margin-top:30px;}
+  .foot_link a,.foot_link span{color:#4e4e4e;}
+  .foot_link a:hover{color:#ff8800}
+  .foot_link span{padding:0 10px}
+  .footer p{text-align:center; margin-top:10px;}
 
 
 
