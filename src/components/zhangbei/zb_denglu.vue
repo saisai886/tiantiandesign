@@ -50,7 +50,14 @@
           this.$refs[formname].validate(valid=>{
             if(valid){
               this.$axios.post("ygdl/ygdenglu.action",params).then(val=> {
-
+                if(val.data.ygzhuangtai=="a004"){
+                  this.$notify.error({
+                    title: '错误',
+                    message: "用户名或密码错误",
+                    duration:1000
+                  });
+                  return false;
+                }
                 if(val.data!=""){
                    this.$notify({
                      title: "登入成功",
