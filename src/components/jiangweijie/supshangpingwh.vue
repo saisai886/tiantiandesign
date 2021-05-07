@@ -95,7 +95,7 @@
     <!--====-->
   <!--模态框-->
 
-    <el-dialog title="商品维护"  :visible.sync="dialogFormVisible" :modal="true">
+    <el-dialog title="商品维护" :visible.sync="dialogFormVisible" :modal="true">
       <el-form :model="form">
         <el-form-item label="商品名称" style="width: 500px" :label-width="formLabelWidth">
           <el-input v-model="form.gsname" autocomplete="off"></el-input>
@@ -301,8 +301,8 @@ export default {
 
     },
     shuru(){ //模糊查询，
+      this.pageno=1
     this.chanxu()
-
     },
     currentchange(val){ //分页
       this.pageno=val;
@@ -323,7 +323,8 @@ export default {
       show:false,
       fileList:[], //文件上传赋值
       total:0, //总页数
-      pageno:1
+      pageno:1,
+
     }
   },
   created() {

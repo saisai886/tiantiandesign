@@ -1,46 +1,23 @@
 <template>
 <div>
     <el-table
-      :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+      :data="tableData"
       style="width: 100%">
-      <el-table-column type="expand">
-        <template slot-scope="props">
-          <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="商品名称">
-              <span>{{ props.row.name }}</span>
-            </el-form-item>
-            <el-form-item label="所属店铺">
-              <span>{{ props.row.shop }}</span>
-            </el-form-item>
-            <el-form-item label="商品 ID">
-              <span>{{ props.row.id }}</span>
-            </el-form-item>
-            <el-form-item label="店铺 ID">
-              <span>{{ props.row.shopId }}</span>
-            </el-form-item>
-            <el-form-item label="商品分类">
-              <span>{{ props.row.category }}</span>
-            </el-form-item>
-            <el-form-item label="店铺地址">
-              <span>{{ props.row.address }}</span>
-            </el-form-item>
-            <el-form-item label="商品描述">
-              <span>{{ props.row.desc }}</span>
-            </el-form-item>
-          </el-form>
-        </template>
-      </el-table-column>
       <el-table-column
         label="商品 ID"
-        prop="id">
+        prop="cgdan">
       </el-table-column>
       <el-table-column
-        label="商品名称"
-        prop="name">
+        label="平台"
+        prop="cgcorporate">
       </el-table-column>
       <el-table-column
-        label="描述"
-        prop="desc">
+        label="地址"
+        prop="cgaddress">
+      </el-table-column>
+      <el-table-column
+        label="时间"
+        prop="cgshentime">
       </el-table-column>
 
       <el-table-column
@@ -50,13 +27,13 @@
           <el-input
             v-model="search"
             size="mini"
+            @input="shuru"
             style="width: 200px"
             placeholder="输入关键字搜索"/>
         </template>
 
         <template slot-scope="scope">
-            <el-button  @click="open1" size="small" type="success" round>审核通过</el-button>
-            <el-button  @click="open2" size="small" type="warning" round  >审核不通过</el-button>
+            <el-button  @click="open1(scope.row.cgid)" size="small" type="success" round>审核</el-button>
         </template>
 
       </el-table-column>
@@ -64,7 +41,36 @@
 
 
 
+  <!--分页-->
+  <el-pagination
+    background
+    layout="prev, pager, next"
+    :page-size="5"
+    :total="total"
+    @current-change="currentchange"
+  >
+  </el-pagination>
+
+  <!--模态框-->
+  <el-dialog title="审核" :visible.sync="dialogTableVisible">
+    <el-table :data="gridData">
+      <el-table-column property="gsid" label="ID" width="150"></el-table-column>
+      <el-table-column property="gsname" label="商品" width="200"></el-table-column>
+      <el-table-column property="gsprice" label="单价"></el-table-column>
+      <el-table-column property="cdcoun" label="数量"></el-table-column>
+
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+
+        </template>
+      </el-table-column>
+    </el-table>
+
+  </el-dialog>
+
+
 </div>
+
 </template>
 
 <script>
@@ -72,49 +78,48 @@ export default {
   name: "supshangpingsogo",
   data() {
     return {
-      tableData: [{
-        id: '12987122',
-        name: '商人',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '12987123',
-        name: '好滋好味鸡蛋仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '12987125',
-        name: '好滋好味鸡蛋仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }, {
-        id: '12987126',
-        name: '好滋好味鸡蛋仔',
-        category: '江浙小吃、小吃零食',
-        desc: '荷兰优质淡奶，奶香浓而不腻',
-        address: '上海市普陀区真北路',
-        shop: '王小虎夫妻店',
-        shopId: '10333'
-      }],
-      search:""
+      dialogTableVisible: false,
+      dialogFormVisible: false,
+      formLabelWidth:'70px',
+      gridData:[],//模态框数据表格
+      form:{},
+      tableData:[],
+      search:"",
+      total:0, //总页数
+      pageno:1,
+      radio:"1"//单选框
     }
   },
   methods:{
-    open1() {
-      this.$message({
-        showClose: true,
-        message: '审核通过',
-        type: 'success'
-      });
+    caigochaxu(){
+      var _this=this
+
+      var params=new URLSearchParams()
+      params.append("name",this.search)
+      params.append("pageNo",this.pageno)
+      params.append("pageSize",5)
+     this.$axios.post('/supcaigo/selectListAll.action',params).then(function (value){
+       _this.tableData=value.data.list
+       _this.total=value.data.total
+
+     }).catch()
+
+    },
+
+    open1(item) {
+      var _this=this;
+      this.dialogTableVisible=true
+     var para= new URLSearchParams();
+      para.append("cgid",item)
+
+      this.$axios.post("/supcaigo/selectListAllId.action",para).then(function (value) {
+         _this.gridData=value.data
+
+        console.log(value)
+
+      }).catch()
+
+
     },
     open2() {
       this.$message({
@@ -122,10 +127,43 @@ export default {
         message: '审核不通过',
         type: 'warning'
       });
+    },
+    shuru(){
+     this.caigochaxu()
+
+    },
+    currentchange(val){
+      this.pageno=val;//分页
+      this.caigochaxu()
+    },
+    togo(){
+      alert("dd")
     }
+
+
+  },
+  created() {
+    this.caigochaxu();
   }
+
+
 }
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <style scoped>
 .demo-table-expand {
