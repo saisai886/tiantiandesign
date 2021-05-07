@@ -71,10 +71,14 @@
   import zb_caidanAll from "./xitongguanli/zb_caidanAll";
   import zb_yuangoAll from "./xitongguanli/zb_yuangoAll";
   //---------------
+  //zhb
+  import Shangfenleicx from "../zhuhaibo/Shangfenleicx";
   export default {
     components:{
       //张蓓:
-      zb_caidanAll,zb_yuangoAll
+      zb_caidanAll,zb_yuangoAll,
+      //zhb
+      Shangfenleicx,
     },
     data(){
       return{
