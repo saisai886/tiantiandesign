@@ -69,7 +69,10 @@
 <script>
   //张蓓:
   import zb_caidanAll from "./xitongguanli/zb_caidanAll";
-   //zhb
+  import zb_yuangoAll from "./xitongguanli/zb_yuangoAll";
+  //---------------
+
+  //zhb
   import Shangpingcx from "../zhuhaibo/Shangpingcx";
   import Shangpingfenglei from "../zhuhaibo/Shangpingfenglei";
   //---------------
@@ -77,9 +80,10 @@
     components:{
       //张蓓:
       zb_caidanAll,
+      zb_yuangoAll,
       //zhb
       Shangpingcx,
-      Shangpingfenglei,
+      Shangfenleicx,
     },
     data(){
       return{

@@ -1,7 +1,7 @@
 <template>
   <div>
   <el-table
-    :data="tableData.filter(data => !search || data.gsname.toLowerCase().includes(search.toLowerCase()))"
+    :data="tableData"
     style="width: 100%"
     :row-class-name="tableRowClassName">
     <el-table-column type="expand">
@@ -59,10 +59,11 @@
 
     <el-table-column
       label="操作">
-      <template slot="header" slot-scope="scope">
+      <template slot="header"  slot-scope="scope">
         <el-input
           v-model="search"
           size="mini"
+          @input="shuru"
           style="width: 200px"
           placeholder="输入关键字搜索"/>
       </template>
@@ -82,6 +83,16 @@
     </el-table-column>
 
   </el-table>
+    <!--分页-->
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      :page-size="5"
+      :total="total"
+      @current-change="currentchange"
+      >
+    </el-pagination>
+    <!--====-->
   <!--模态框-->
 
     <el-dialog title="商品维护"  :visible.sync="dialogFormVisible" :modal="true">
@@ -145,7 +156,6 @@
         <el-button type="primary" @click="open1()" >确定</el-button>
       </div>
     </el-dialog>
-
 
 
   </div>
@@ -223,16 +233,12 @@ export default {
 
 
         this.$axios.post("/supplier/tianjian.action",pa).then(function (value) {
-          _this.message()
+          _this.message();
           _this.chanxu();
 
         }).catch(function (value) {
           alert("添加失败")
         })
-
-
-
-
 
       }
 
@@ -240,19 +246,24 @@ export default {
     },
     chanxu(){
       var _this=this;
-      //获取后台图片
-      this.$axios.get("/supplier/safeguard.action").then(function (value){
-          _this.tableData = value.data.map(item => {
+      //获取后台图片和数据
+      var params = new URLSearchParams();
+      params.append("name",this.search);  //查询条件
+      params.append("pageNo",this.pageno); //分页
+      params.append("pageSize",5);
+
+      this.$axios.post("/supplier/safeguard.action",params).then(function (value){
+          _this.tableData = value.data.list.map(item => {
           item.gsimg = "http://localhost:8090/tian/img/"+item.gsimg;
           return item})
 
+        _this.total=value.data.total
 
       }).catch()
 
     },
     filess(item,filet){ //文件添加赋值
        this.form.files=item.name
-      console.log(this.form)
 
     },
     supshnaghw(item){
@@ -280,12 +291,22 @@ export default {
       var gsid=new URLSearchParams()
       gsid.append("gsid",gs)
       var _this=this;
-      this.$axios.post('/supplier/shangchu.action',gsid).then(function (value) {
-        _this.message1()
-        _this.chanxu();
-      }).catch()
+      var con=confirm("确定删除吗？")
+      if(con){
+        this.$axios.post('/supplier/shangchu.action',gsid).then(function (value) {
+          _this.message1()
+          _this.chanxu();
+        }).catch()
+      }
 
+    },
+    shuru(){ //模糊查询，
+    this.chanxu()
 
+    },
+    currentchange(val){ //分页
+      this.pageno=val;
+      this.chanxu()
     }
 
 
@@ -301,7 +322,8 @@ export default {
       search:"",
       show:false,
       fileList:[], //文件上传赋值
-
+      total:0, //总页数
+      pageno:1
     }
   },
   created() {
