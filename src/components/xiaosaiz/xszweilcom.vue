@@ -56,7 +56,7 @@
       <!--主页面-->
       <el-main>
 
-      <component :is="myvuecom" v-on:sid="changevue" :toxqsid="xqsid"></component>
+      <component :is="myvuecom" v-on:sid="changevue" @usergerenzhongxi="gerenzhongx" :toxqsid="xqsid"></component>
 
 
       </el-main>
@@ -155,12 +155,30 @@
         changevue(data){
           this.xqsid=data
           this.myvuecom=xszshopxq
+        },
+        gerenzhongx(data){
+          if(data!=null){
+            this.myvuecom=xszgerenzhongx
+            sessionStorage.setItem("xszuser",data.uname) //保存用户名
+          }
         }
+
+      },watch:{
+        myvuecom(newText,oldText){ //监听session有没有用户名
+          console.log(newText+"第一个")
+          console.log(oldText+"第二个")
+          if(newText=="xszlogin"){
+              if(sessionStorage.getItem("xszuser")!=null){
+                this.myvuecom=xszgerenzhongx
+              }
+          }
+        }
+
       }
 
 
-
     }
+
 </script>
 
 <style scoped>
