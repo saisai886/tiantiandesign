@@ -56,6 +56,7 @@
       <!--主页面-->
       <el-main>
 
+
       <component :is="myvuecom" v-on:sid="changevue" @usergerenzhongxi="gerenzhongx" :toxqsid="xqsid"></component>
 
 

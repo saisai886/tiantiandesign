@@ -7,7 +7,7 @@
 
       <el-row style="top: 10px">
         <el-col :span="17"><div class="grid-content bg-purple-dark"></div></el-col>
-        <el-col :span="7"><el-button  type="info" icon="el-icon-guide" ></el-button></el-col>
+        <el-col :span="7"><el-button  type="info" icon="el-icon-sort" @click="zhuye">切换主页</el-button></el-col>
       </el-row>
 
     </el-header>
@@ -176,6 +176,10 @@ export default {
 
       this.editableTabsValue = activeName;
       this.editableTabs = tabs.filter(tab => tab.name !== targetName);
+    },
+    zhuye(){
+      this.$router.push("/xszweilcom")
+
     }
 
   },
