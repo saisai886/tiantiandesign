@@ -63,20 +63,22 @@
         <span @click="sx()" class="el-icon-refresh-left" title="刷新"></span>
       </span>
     </div>
-
   </div>
 </template>
 <script>
   //张蓓:
   import zb_caidanAll from "./xitongguanli/zb_caidanAll";
   import zb_yuangoAll from "./xitongguanli/zb_yuangoAll";
+  import zb_juese from "./xitongguanli/zb_juese";
   //---------------
   //zhb
   import Shangfenleicx from "../zhuhaibo/Shangfenleicx";
   export default {
     components:{
       //张蓓:
-      zb_caidanAll,zb_yuangoAll,
+      zb_caidanAll,
+      zb_yuangoAll,
+      zb_juese,
       //zhb
       Shangfenleicx,
     },

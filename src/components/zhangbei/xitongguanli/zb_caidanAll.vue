@@ -212,7 +212,7 @@
                 <el-select  v-model="formAdd.valuefj" clearable placeholder="请选择">
                   <el-option
                     v-for="item in fjoptions"
-                    :key="item.pid"
+                      :key="item.pid"
                     :label="item.permissionName"
                     :value="item.pid">
                   </el-option>

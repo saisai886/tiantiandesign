@@ -119,6 +119,14 @@
               <el-form-item label="员工年龄:">
                 <el-input v-model="formygupdate.ygage"></el-input>
               </el-form-item>
+            <el-form-item label="员工状态:">
+              <el-select style="height: 100px"  v-model="formygupdate.ygzhuangtai" placeholder="请选择">
+                <el-option label="请假" value="a001"></el-option><br>
+                <el-option label="在线" value="a002"></el-option><br>
+                <el-option label="空闲" value="a003"></el-option><br>
+              </el-select>
+            </el-form-item>
+
           </el-form>
 
           <div style="margin-left: 50px">
@@ -154,13 +162,13 @@
       methods:{
         //编辑
         bjqr(){
-          alert(this.formygupdate.ygid)
           var params = new URLSearchParams()
           params.append("ygid",this.formygupdate.ygid)
           params.append("ygname",this.formygupdate.ygname)
           params.append("ygsex",this.formygupdate.ygsex)
           params.append("ygphone",this.formygupdate.ygphone)
           params.append("ygage",this.formygupdate.ygage)
+          params.append("ygzhuangtai",this.formygupdate.ygzhuangtai)
           this.$axios.post("ygdl/ygupdate.action",params).then(value => {
             if(value.data>=1){
               this.$notify({
