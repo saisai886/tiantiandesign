@@ -58,7 +58,7 @@
 
 
       <!--添加-->
-      <el-dialog :visible="jsshow" title="添加员工"  width="370px">
+      <el-dialog :visible.sync="jsshow" title="添加员工"  width="370px">
         <div class="div1">
           <el-form ref="formjsAdd" :model="formjsAdd">
               <el-form-item label="角色名称:">
@@ -76,7 +76,7 @@
       </el-dialog>
 
       <!--修改-->
-      <el-dialog :visible="jsupdateshow" title="修改员工"  width="370px">
+      <el-dialog :visible.sync="jsupdateshow" title="修改员工"  width="370px">
         <div class="div1">
           <el-form ref="formjsupdate" :model="formjsupdate">
             <el-form-item label="角色编号:">

@@ -184,13 +184,13 @@
 
 
        <!--删除-->
-      <el-dialog :visible="show" title="是否确定删除?">
+      <el-dialog :visible.sync="show" title="是否确定删除?">
         <el-button @click="qr">确认</el-button>
         <el-button @click="show=false">取消</el-button>
       </el-dialog>
 
       <!--添加-->
-      <el-dialog :visible="tjshow" title="添加权限" width="370px" >
+      <el-dialog :visible.sync="tjshow" title="添加权限" width="370px" >
         <div class="div1">
           <div class="div">
             <el-form :label-position="labelPosition"  label-width="80px" :model="formAdd">
@@ -227,7 +227,7 @@
 
 
       <!--修改-->
-      <el-dialog :visible="updateshow" title="修改权限" width="370px" >
+      <el-dialog :visible.sync="updateshow" title="修改权限" width="370px" >
         <div class="div1">
           <div class="div">
             <el-form :label-position="labelPosition"  label-width="80px" :model="formupdate">

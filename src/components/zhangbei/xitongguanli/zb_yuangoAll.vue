@@ -60,7 +60,7 @@
 
 
 <!--      添加-->
-      <el-dialog :visible="tjshow" title="添加员工"  width="370px">
+      <el-dialog :visible.sync="tjshow" title="添加员工"  width="370px">
         <div class="div1">
           <el-form ref="formygAdd" :model="formygAdd">
             <div :style=dis1>
@@ -101,7 +101,7 @@
       </el-dialog>
 
       <!--      编辑-->
-      <el-dialog :visible="bjshow" title="修改员工信息"  width="370px">
+      <el-dialog :visible.sync="bjshow" title="修改员工信息"  width="370px">
         <div class="div1">
           <el-form :model="formygupdate">
               <el-form-item label="员工姓名:">
