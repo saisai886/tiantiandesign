@@ -99,7 +99,7 @@
           }
       },
       methods:{
-        userlogin(data){ //个人中心登入传入过来的值 账号 密码
+        userlogin(data){ //个人中心登入传入过来的值 账号
           this.$emit("usergerenzhongxi",data)
         }
 

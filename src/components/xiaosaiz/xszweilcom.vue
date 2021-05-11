@@ -33,14 +33,14 @@
             </template>
           </el-menu-item>
 
-          <el-menu-item index="3">
+          <el-menu-item index="3" @click="SupGowuche">
             <template slot="title">
               <i class="el-icon-shopping-cart-full"></i>
               <span>我的购物车</span>
             </template>
           </el-menu-item>
 
-          <el-menu-item index="4" @click="myvuecom='xszlogin'">
+          <el-menu-item index="4" @click="SupGrzx">
             <template slot="title">
               <i class="el-icon-s-custom"></i>
               <span>个人中心</span>
@@ -57,7 +57,7 @@
       <el-main>
 
 
-      <component :is="myvuecom" v-on:sid="changevue" @usergerenzhongxi="gerenzhongx" :toxqsid="xqsid"></component>
+      <component :is="myvuecom" v-on:sid="changevue"  @usergerenzhongxi="gerenzhongx" :toxqsid="xqsid"></component>
 
 
       </el-main>
@@ -133,14 +133,16 @@
   import xszshoptype from "./xszshoptype";
   import xszshopxq from "./xszshopxq";
   import xszlogin from "./xszlogin";
-
+  import xszgowuche from "./xszgowuche";
 
     export default {
         name: "xszweilcom",
         data(){
           return{
             myvuecom:"xszzhuye",
-            xqsid:""
+            xqsid:"",
+            xszgwc:"" //购物车点击判断值
+
           }
         },
       components:{
@@ -148,7 +150,8 @@
         xszgerenzhongx,
         xszshoptype,
         xszshopxq,
-        xszlogin
+        xszlogin,
+        xszgowuche
 
       },
 
@@ -157,22 +160,52 @@
           this.xqsid=data
           this.myvuecom=xszshopxq
         },
-        gerenzhongx(data){
+        gerenzhongx(data){ //该方法是登入页面组件传过来的，账号密码
+          console.log(data)
           if(data!=null){
-            this.myvuecom=xszgerenzhongx
-            sessionStorage.setItem("xszuser",data.uname) //保存用户名
+            if(this.xszgwc=="1"){ //当前进行判断，是否在购物车点击进去，或个人中心点击进去
+              this.xszgwc="" //改变购物车判断的值
+              this.myvuecom=xszgowuche
+            }else{
+              this.myvuecom=xszgerenzhongx
+            }
+            sessionStorage.setItem("xszuser",data) //保存用户名
           }
+
+        },
+
+        SupGowuche(){
+          if(sessionStorage.getItem("xszuser")!=null){ //判断用户登入没有
+            this.myvuecom=xszgowuche
+          }else{
+            this.myvuecom=xszlogin
+            this.xszgwc="1" //改变购物车判断值 为1
+          }
+
+        },
+        SupGrzx(){ //个人中心
+          this.xszgwc="" //改变购物车判断值，可能会多次点击购物车和个人中心，不进行登入
+          this.myvuecom='xszlogin'
         }
 
       },watch:{
         myvuecom(newText,oldText){ //监听session有没有用户名
           console.log(newText+"第一个")
           console.log(oldText+"第二个")
+          console.log(sessionStorage.getItem("xszuser"))
           if(newText=="xszlogin"){
               if(sessionStorage.getItem("xszuser")!=null){
                 this.myvuecom=xszgerenzhongx
               }
           }
+
+          if(newText=="xszgowuche"){
+            if(sessionStorage.getItem("xszuser")!=null){
+              this.myvuecom=xszgowuche
+            }
+          }
+
+
         }
 
       }
