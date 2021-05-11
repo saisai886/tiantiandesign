@@ -73,8 +73,13 @@
   //---------------
 
   //zhb
-  import Shangpingcx from "../zhuhaibo/Shangpingcx";
-  import Shangpingfenglei from "../zhuhaibo/Shangpingfenglei";
+  import ShangpingCx from "../zhuhaibo/ShangpingCx";
+  import ShangpingfengleiCx from "../zhuhaibo/ShangpingfengleiCx";
+  import GongyingshangCx from "../zhuhaibo/GongyingshangCx";
+  import GongyingshangSh from "../zhuhaibo/GongyingshangSh";
+  import ShanghuCx from "../zhuhaibo/ShanghuCx";
+  import ShanghuSh from "../zhuhaibo/ShanghuSh";
+  import UserdtailsCx from "../zhuhaibo/UserdtailsCx";
   //---------------
   export default {
     components:{
@@ -82,8 +87,13 @@
       zb_caidanAll,
       zb_yuangoAll,
       //zhb
-      Shangpingcx,
-      Shangfenleicx,
+      ShangpingCx,
+      ShangpingfengleiCx,
+      GongyingshangCx,
+      GongyingshangSh,
+      ShanghuCx,
+      ShanghuSh,
+      UserdtailsCx
     },
     data(){
       return{

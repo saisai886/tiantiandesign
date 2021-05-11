@@ -107,10 +107,13 @@
           </el-form-item>
           <el-form-item label="商品类型">
             <el-col :span="11">
-              <el-select v-model="form.stid" placeholder="请选择商品类型">
-                <el-option label="水果" value="shanghai"></el-option>
-                <el-option label="奶制品" value="beijing"></el-option>
-              </el-select>
+
+              <div class="block">
+                <el-cascader
+                        v-model="value"
+                        :options="options"
+                        @change="handleChange"></el-cascader>
+              </div>
             </el-col>
           </el-form-item>
           <el-form-item label="库存数量">
@@ -122,7 +125,7 @@
             </el-col>
           </el-form-item>
             <el-form-item label="商品图片">
-              <input type="file" >
+              <input type="file"  @change="getFile($event)">
             </el-form-item>
           <el-form-item label="库存数量">
             <el-input  v-model="form.sbeizhu" placeholder="请输入商品备注"></el-input>
@@ -130,8 +133,8 @@
           <el-form-item label="商品状态">
             <el-col :span="11">
               <el-select v-model="form.sbshang" placeholder="请选择商品状态">
-                <el-option label="上架" value="shanghai"></el-option>
-                <el-option label="下架" value="beijing"></el-option>
+                <el-option label="上架" value="1"></el-option>
+                <el-option label="下架" value="2"></el-option>
               </el-select>
             </el-col>
           </el-form-item>
@@ -167,10 +170,12 @@
           </el-form-item>
           <el-form-item label="商品类型">
             <el-col :span="11">
-              <el-select v-model="xg.stid" placeholder="请选择商品类型">
-                <el-option label="水果" value="shanghai"></el-option>
-                <el-option label="奶制品" value="beijing"></el-option>
-              </el-select>
+              <div class="block">
+                <el-cascader
+                        v-model="value"
+                        :options="options"
+                        @change="handleChange"></el-cascader>
+              </div>
             </el-col>
           </el-form-item>
           <el-form-item label="库存数量">
@@ -182,7 +187,7 @@
             </el-col>
           </el-form-item>
           <el-form-item label="商品图片">
-            <input type="file"  @change="getFile($event)">
+            <input type="file"  @change="getFile1($event)">
           </el-form-item>
           <el-form-item label="库存数量">
             <el-input  v-model="xg.sbeizhu" placeholder="请输入商品备注"></el-input>
@@ -190,13 +195,13 @@
           <el-form-item label="商品状态">
             <el-col :span="11">
               <el-select v-model="xg.sbshang" placeholder="请选择商品状态">
-                <el-option label="上架" value="shanghai"></el-option>
-                <el-option label="下架" value="beijing"></el-option>
+                <el-option label="上架" value="1"></el-option>
+                <el-option label="下架" value="2"></el-option>
               </el-select>
             </el-col>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="">立即创建</el-button>
+            <el-button type="primary" @click="spupdate">立即修改</el-button>
             <el-button @click="bj=false">取消</el-button>
           </el-form-item>
         </el-form>
@@ -211,60 +216,78 @@
         name: "Shangfenleicx",
       data() {
         return {
-          show:false,
-          bj:false,
-          Total2:0,
-          pageSize:10,
-          pageNO:1,
+          value:[],
+          show: false,
+          bj: false,
+          Total2: 0,
+          pageSize: 10,
+          pageNO: 1,
+          spid:0,
           //查询数组
           tableData: [
-            {sid:'',
-              sname:'',
-              sprice:'',
-              soldprice:'',
-              sdanwei:'',
-              sshopcount:'',
-              schandi:'',
-              stid:'',
-              skucun:'',
-              sbaozhitime:'',
-              simg:'',
-              sbeizhu:'',
-              sbshang:''}],
-            search: '',
-        //添加数组
+            {
+              sid: '',
+              sname: '',
+              sprice: '',
+              soldprice: '',
+              sdanwei: '',
+              sshopcount: '',
+              schandi: '',
+              stid: '',
+              skucun: '',
+              sbaozhitime: '',
+              simg: '',
+              sbeizhu: '',
+              sbshang: ''
+            }],
+          search: '',
+          //添加数组
           form: [
-            {sid:'',
-              sname:'',
-              sprice:'',
-              soldprice:'',
-              sdanwei:'',
-              sshopcount:'',
-              schandi:'',
-              stid:'',
-              skucun:'',
-              sbaozhitime:'',
-              simg:'',
-              sbeizhu:'',
-              sbshang:''}],
+            {
+              sid: '',
+              sname: '',
+              sprice: '',
+              soldprice: '',
+              sdanwei: '',
+              sshopcount: '',
+              schandi: '',
+              stid: '',
+              skucun: '',
+              sbaozhitime: '',
+              simg: '',
+              sbeizhu: '',
+              sbshang: ''
+            }],
           //修改数组
-          xg:[
-            {sid:'1',
-              sname:'1',
-              sprice:'',
-              soldprice:'',
-              sdanwei:'',
-              sshopcount:'',
-              schandi:'',
-              stid:'',
-              skucun:'',
-              sbaozhitime:'',
-              simg:'img/1.png',
-              sbeizhu:'',
-              sbshang:''}],
+          xg: [],
+      //下拉框数据
+          options: [],
         }
       },
       methods: {
+          //修改方法
+        getFile1(e){
+          this.xg.simg= e.target.files[0].name;
+        },
+        spupdate(){
+          alert(this.xg.simg)
+          var params=new URLSearchParams();
+          this.xg.stid = this.value[1]
+          this.xg.simg="img/"+this.xg.simg
+          var xg = JSON.stringify(this.xg)
+          var typexg = {
+            headers:{
+              "Content-Type": "application/json;charsetset=UTF-8"
+            }
+          }
+          this.$axios.post("Shop/Xgsp.action",xg,typexg).then(value => {
+            alert("修改成功")
+            this.query();
+          })
+        },
+        handleChange(value) {
+         this.spid = value[1]
+        },
       //商品查询
         query: function () {
           var param = new URLSearchParams();
@@ -274,40 +297,77 @@
           this.$axios.post("Shop/ShopAll.action",param).then(function (val) {
             _this.tableData = val.data.list
             _this.Total2 = val.data.total
+
           })
         },
-        na(){
-          this.show = true
-        },
-    //商品添加
-        onSubmit(){
-         alert("待开发")
+
+        //下拉框查询
+        xlkcx:function(){
+          var _this=this;
+          this.$axios.post("Shoplx/Shoplx.action").then(function (val) {
+             _this.options = val.data
+          })
         },
 
-        //商品编辑
+        na(){
+          this.show = true
+          this.xlkcx()
+        },
+    //商品添加
+        getFile(e){
+          this.form.simg= e.target.files[0].name;//获取选中的文件二进制流
+        },
+        onSubmit(){
+        var _this =this;
+        var params=  new URLSearchParams();
+          params.append("sname",this.form.sname)
+          params.append("sprice",this.form.sprice)
+          params.append("soldprice",this.form.soldprice)
+          params.append("sdanwei",this.form.sdanwei)
+          params.append("sshopcount",this.form.sshopcount)
+          params.append("schandi",this.form.schandi)
+          params.append("stid",this.spid)
+          params.append("skucun",this.form.skucun)
+          params.append("sbaozhitime",this.form.sbaozhitime)
+
+          params.append("simg","img/"+this.form.simg)
+          params.append("sbeizhu",this.form.sbeizhu)
+          params.append("sbshang",this.form.sbshang)
+          this.$axios.post("Shop/ShopAdd.action",params).then(function (response) {
+            _this.form = []
+            _this.query()
+          })
+        },
+
+        //商品编辑查询
         handleEdit(sid) {
          this.bj = true
-          this.tableData.forEach(val=>{
-            if(val.sid=sid){
-              this.xg.sname = val.sname
-              this.xg.sprice = val.sprice
-              this.xg.soldprice = val.soldprice
-              this.xg.sdanwei = val.sdanwei
-              this.xg.sshopcount = val.sshopcount
-              this.xg.schandi = val.schandi
-              this.xg.stid = val.stid
-              this.xg.skucun = val.skucun
-              this.xg.sbaozhitime = val.sbaozhitime
-              this.xg.simg = val.simg
-              this.xg.sbeizhu = val.sbeizhu
-              this.xg.sbshang = val.sbshang
-            }
+          var _this=this;
+         var params=new URLSearchParams();
+         params.append("sid",sid);
+         this.$axios.post("Shop/Xgspcx.action",params).then(function (val){
+           _this.xg=val.data;
+           _this.splx()
+         })
+        },
+        splx(){
+          this.$axios.post("Shoplx/splx.action?stid="+this.xg.stid).then(value => {
+            this.value = []
+            this.value.push(value.data.stpanentid)
+            this.value.push(this.xg.stid)
+            this.xlkcx();
           })
         },
 
         //商品删除
         handleDelete(sid) {
-          alert(sid+"是否删除")
+          var _this=this;
+         var params = new URLSearchParams();
+         params.append("sid",sid)
+          this.$axios.post("Shop/Scsp.action",params).then(value => {
+            _this.query()
+            alert("删除成功")
+          })
         },
 
         //分页方法

@@ -1,12 +1,10 @@
 <template>
-    <div>
-        <table><h1>11</h1></table>
-    </div>
+    
 </template>
 
 <script>
     export default {
-        name: "Shangpingfenglei"
+        name: "GongyingshangCx"
     }
 </script>
 
