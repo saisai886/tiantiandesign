@@ -70,8 +70,8 @@
   //张蓓:
   import zb_caidanAll from "./xitongguanli/zb_caidanAll";
   import zb_yuangoAll from "./xitongguanli/zb_yuangoAll";
+  import zb_juese from "./xitongguanli/zb_juese";
   //---------------
-
   //zhb
   import ShangpingCx from "../zhuhaibo/ShangpingCx";
   import ShangpingfengleiCx from "../zhuhaibo/ShangpingfengleiCx";
@@ -86,6 +86,7 @@
       //张蓓:
       zb_caidanAll,
       zb_yuangoAll,
+      zb_juese,
       //zhb
       ShangpingCx,
       ShangpingfengleiCx,
