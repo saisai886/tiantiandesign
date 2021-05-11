@@ -27,7 +27,6 @@
 
 
 
-
     </div>
 </template>
 
@@ -55,13 +54,10 @@
 
 
 
-
-
       methods:{
         reset(formname){
           this.$refs[formname].resetFields();
         },
-
         login(loginuser){
            this.$refs[loginuser].validate((valida)=>{
              if(valida){
@@ -75,11 +71,15 @@
                this.$axios.post("xszuser/xszlogin.action",params).then(function (val) {
                  if (val.data!=""){
                    //登录成功
+                  console.log(val.data)
                    _this.$message({
                      message:"欢迎您"+val.data.uname,
                      type:"success",
                      showClose:true
                    })
+
+                   _this.$emit("user",val.data)
+
                  }else {
                    //登录失败 账户密码不正确
                    _this.$notify({

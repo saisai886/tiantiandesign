@@ -2,7 +2,6 @@
   <div>
 
 
-
     <el-main style="width: 100%;height: 500px;background-color: limegreen">
 
         <div style="height: 100%;width: 10%;float:left;">
@@ -49,7 +48,7 @@
 
 
           <div style="width: 70%;margin: auto;">
-           <component :is="loginvue"></component>
+           <component :is="loginvue" @user="userlogin"></component>
           </div>
 
 
@@ -98,6 +97,12 @@
           return{
             loginvue:xszdenglu
           }
+      },
+      methods:{
+        userlogin(data){ //个人中心登入传入过来的值 账号 密码
+          this.$emit("usergerenzhongxi",data)
+        }
+
       },
 
 

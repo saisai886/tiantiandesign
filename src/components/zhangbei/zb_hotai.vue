@@ -70,15 +70,31 @@
   //张蓓:
   import zb_caidanAll from "./xitongguanli/zb_caidanAll";
   import zb_yuangoAll from "./xitongguanli/zb_yuangoAll";
+  import zb_juese from "./xitongguanli/zb_juese";
   //---------------
   //zhb
-  import Shangfenleicx from "../zhuhaibo/Shangfenleicx";
+  import ShangpingCx from "../zhuhaibo/ShangpingCx";
+  import ShangpingfengleiCx from "../zhuhaibo/ShangpingfengleiCx";
+  import GongyingshangCx from "../zhuhaibo/GongyingshangCx";
+  import GongyingshangSh from "../zhuhaibo/GongyingshangSh";
+  import ShanghuCx from "../zhuhaibo/ShanghuCx";
+  import ShanghuSh from "../zhuhaibo/ShanghuSh";
+  import UserdtailsCx from "../zhuhaibo/UserdtailsCx";
+  //---------------
   export default {
     components:{
       //张蓓:
-      zb_caidanAll,zb_yuangoAll,
+      zb_caidanAll,
+      zb_yuangoAll,
+      zb_juese,
       //zhb
-      Shangfenleicx,
+      ShangpingCx,
+      ShangpingfengleiCx,
+      GongyingshangCx,
+      GongyingshangSh,
+      ShanghuCx,
+      ShanghuSh,
+      UserdtailsCx
     },
     data(){
       return{

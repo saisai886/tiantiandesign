@@ -58,14 +58,25 @@
       <el-table-column property="gsname" label="商品" width="200"></el-table-column>
       <el-table-column property="gsprice" label="单价"></el-table-column>
       <el-table-column property="cdcoun" label="数量"></el-table-column>
-
       <el-table-column label="操作">
         <template slot-scope="scope">
-
+          <el-radio   :value="scope.row.cdzhuangtai" @change="dd1(scope.row.gsid)" label="cd003">不通过</el-radio>
+          <el-radio   :value="scope.row.cdzhuangtai" @change="dd(scope.row.gsid)"  label="cd001">通过</el-radio>
         </template>
       </el-table-column>
     </el-table>
+    说明：
+    <el-input
+      type="textarea"
+      :rows="2"
+      placeholder="请输入内容"
+      v-model="textarea">
+    </el-input>
 
+    <span slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="ok">确 定</el-button>
+    <el-button @click="dialogTableVisible = false">取 消</el-button>
+  </span>
   </el-dialog>
 
 
@@ -87,7 +98,9 @@ export default {
       search:"",
       total:0, //总页数
       pageno:1,
-      radio:"1"//单选框
+      radio:"cd003",//单选框
+      itemzhuantai:"",//当前选择订单的id
+      textarea: ''
     }
   },
   methods:{
@@ -108,14 +121,13 @@ export default {
 
     open1(item) {
       var _this=this;
+      this.itemzhuantai=item
       this.dialogTableVisible=true
      var para= new URLSearchParams();
       para.append("cgid",item)
 
       this.$axios.post("/supcaigo/selectListAllId.action",para).then(function (value) {
          _this.gridData=value.data
-
-        console.log(value)
 
       }).catch()
 
@@ -136,8 +148,46 @@ export default {
       this.pageno=val;//分页
       this.caigochaxu()
     },
-    togo(){
-      alert("dd")
+    dd(e){ //修改状态商品的审核状态
+     var _this =this
+     var params=new URLSearchParams()
+      params.append("gsid",e)
+
+     this.$axios.post("/supcaigo/supupdataid.action",params).then(function (value) {
+        _this.open1(_this.itemzhuantai) //
+
+     }).catch(function (ecrroe) {
+          alert("错误异常")
+     })
+
+    },
+    dd1(e){
+      var _this =this
+      var params=new URLSearchParams()
+      params.append("gsid",e)
+
+      this.$axios.post("/supcaigo/supupdataidNO.action",params).then(function (value) {
+        _this.open1(_this.itemzhuantai) //
+
+      }).catch(function (){
+        alert("错误异常")
+      })
+
+    },
+    ok(){
+      var _this =this
+      this.dialogTableVisible=false
+      var params=new URLSearchParams()
+      params.append("id",this.itemzhuantai)
+      params.append("textarea",this.textarea)
+      this.$axios.post("/supcaigo/Supsum.action",params).then(function (value) {
+
+       _this.caigochaxu()
+
+      }).catch(function (){
+        alert("错误异常")
+      })
+
     }
 
 

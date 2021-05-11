@@ -45,7 +45,7 @@
           <el-row :gutter="20">
             <el-col  style="margin-bottom: 20px;" :span="8" v-for="sef in shoplist"><div style="border: 1px solid limegreen">
               <el-row>
-                <el-col> <el-image :src="sef.simg" style="width: 120px;height: 120px"></el-image></el-col>
+                <el-col> <el-image :src="sef.simg" style="width: 120px;height: 200px"></el-image></el-col>
               </el-row>
 
               <el-row>
