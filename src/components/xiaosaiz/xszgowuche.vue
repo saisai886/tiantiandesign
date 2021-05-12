@@ -21,7 +21,7 @@
       </el-row>
       </el-header>
     </el-container>
-    <div style="width: 1500px;height: 50px;">
+    <div style="width: 1500px;height: 20px;">
 
     </div>
 
@@ -31,19 +31,19 @@
     <div style="width: 1500px;height: 470px">
     <el-table
       ref="multipleTable"
-      :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+      :data="tableData"
       @selection-change="handleSelectionChange"
       style="width: 100%;">
       <!--        多选框-->
       <el-table-column align="center"  type="selection" width="55" :selectable="canSelect"></el-table-column>
       <!--        商品图片-->
-      <el-table-column label="商品" prop="img" width="110px" align="center">
+      <el-table-column label="商品" prop="simg" width="110px" align="center">
         <template slot-scope="scope">
           <el-image style="width: 100px; height: 100px;" :src="scope.row.img"/>
         </template>
       </el-table-column>
       <!--        商品名字-->
-      <el-table-column label="商品名" prop="name" align="center"></el-table-column>
+      <el-table-column label="商品名" prop="sname" align="center"></el-table-column>
       <!--        上下架状态-->
 <!--      <el-table-column label="状态"  prop="prize" width="110px" align="center">-->
 <!--        <template slot-scope="scope">-->
@@ -51,27 +51,27 @@
 <!--        </template>-->
 <!--      </el-table-column>-->
       <!--        商品单价-->
-      <el-table-column label="单价" prop="prize" width="110px" align="center">
+      <el-table-column label="单价" prop="sprize" width="110px" align="center">
         <template slot-scope="scope">
-          <span>&yen;</span>{{scope.row.price}}
+          <span>&yen;</span>{{scope.row.sprize}}
         </template>
       </el-table-column>
       <!--        商品数量-->
-      <el-table-column label="数量"  prop="num" width="140px" align="center">
+      <el-table-column label="数量"  prop="scount" width="140px" align="center">
         <template slot-scope="scope">
-          <el-input-number size="mini" v-model="scope.row.nums" :min="1" :disabled="scope.row.status==1?true:false"></el-input-number>
+          <el-input-number size="mini" v-model="scope.row.scount" :min="1" :disabled="scope.row.status==1?true:false"></el-input-number>
         </template>
       </el-table-column>
       <!--        商品小计-->
       <el-table-column label="小计"  prop="allPrize" width="110px" align="center">
         <template slot-scope="scope">
-          <span>&yen;</span>{{parseFloat(scope.row.price*scope.row.nums).toFixed(2)}}
+          <span>&yen;</span>{{parseFloat(scope.row.sprize*scope.row.scount).toFixed(2)}}
         </template>
       </el-table-column>
       <!--        操作-->
       <el-table-column align="right">
         <template slot="header" slot-scope="scope">
-          <el-input v-model="search" size="mini" placeholder="输入关键字搜索"/>
+          <el-input v-model="search" @input="shuinput" size="mini" placeholder="输入关键字搜索"/>
         </template>
         <template slot-scope="scope">
           <!--            <el-button size="mini" :disabled="scope.row.status==1?true:false" type="warning" @click="handleEdit(scope.$index, scope.row)">移到收藏</el-button>-->
@@ -83,7 +83,16 @@
     </div>
     <hr>
 <!--尾部-->
-
+    <!--分页-->
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      :page-size="5"
+      :total="total"
+      @current-change="currentchange"
+    >
+    </el-pagination>
+    <!--====-->
 
 
         <div class="balance" style="width: 1500px;height: 100px;background-color: rgb(245,248,250);margin-bottom: auto">
@@ -128,31 +137,14 @@ export default {
   data(){
     return {
       Gonwuche:"",
-      tableData: [{
-        name: 'iPhone',
-        price:6338.90,
-        img:"",
-        nums:1
-      },
-        {
-          name: 'iPhone1',
-          price:6338.90,
-
-          img:"",
-          nums:1
-        },{
-          name: 'iPhone2',
-          price:6338.90,
-
-          img:"",
-          nums:1
-        }
-      ],
+      tableData: [],
       search : '',
       //选中列表
       multipleSelection : [],
       chooseList : [],
-      badeg:"" //标记数量
+      badeg:"", //标记数量
+      total:0, //总页数
+      pageno:1,
     }
   },
   methods:{
@@ -198,11 +190,36 @@ export default {
 
 
 
-    trolleychaxu(){
 
-      this.$axios()
+
+
+    trolleychaxu(){ //查询购物车数据
+      var _this=this;
+      var par=new URLSearchParams()
+      par.append("id",JSON.parse(sessionStorage.getItem("xszuser")).uid)
+      par.append("name",this.search)
+      par.append("pageNo",this.pageno)
+      par.append("pageSize",5)
+      this.$axios.post("/Gowuche/selectAll.action",par).then(function (value) {
+        console.log(value)
+        _this.tableData=value.data.list.map((item)=>{
+          item.simg="http://127.0.0.1:8090/tian/"+item.simg;
+          return item;
+        })
+
+      }).catch(function (val) {
+        alert("错误异常")
+      })
+
 
     },
+    shuinput(){
+      this.trolleychaxu();
+    },
+    currentchange(val){//分页
+      this.pageno=val
+      this.trolleychaxu();
+    }
 
 
   }
