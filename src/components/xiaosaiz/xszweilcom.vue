@@ -48,7 +48,15 @@
           </el-menu-item>
         </el-menu>
 
+        <div class="dengru">
+          <span v-show="useLogn==''">
+              <el-link :underline="false" style="color: #d3d9e0" @click="myvuecom='xszlogin'">请登入</el-link>
+          </span>
+          <span v-show="useLogn!=''">
+              <span >用户名：{{useLogn}}</span>
+          </span>
 
+        </div>
 
 
       </el-header>
@@ -141,8 +149,8 @@
           return{
             myvuecom:"xszzhuye",
             xqsid:"",
-            xszgwc:"" //购物车点击判断值
-
+            xszgwc:"", //购物车点击判断值
+            useLogn:""
           }
         },
       components:{
@@ -170,6 +178,7 @@
               this.myvuecom=xszgerenzhongx
             }
             sessionStorage.setItem("xszuser",JSON.stringify(data)) //保存用户
+            this.useLogn=data.uname
           }
 
         },
@@ -177,10 +186,12 @@
         SupGowuche(){
           if(sessionStorage.getItem("xszuser")!=null){ //判断用户登入没有
             this.myvuecom=xszgowuche
+
           }else{
             this.myvuecom=xszlogin
             this.xszgwc="1" //改变购物车判断值 为1
           }
+
 
         },
         SupGrzx(){ //个人中心
@@ -208,6 +219,8 @@
 
         }
 
+      },created() {
+          this.useLogn=JSON.parse(sessionStorage.getItem("xszuser")).uname
       }
 
 
@@ -216,7 +229,11 @@
 </script>
 
 <style scoped>
-
+.dengru{
+  position: absolute;
+  top: 0px;
+  left: 1650px;
+}
 
   .el-row {
     margin-bottom: 20px;
