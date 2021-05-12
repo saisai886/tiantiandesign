@@ -122,11 +122,13 @@
       },
        methods:{
         getmenu(){
+         var user=JSON.parse(sessionStorage.getItem("xszuser")) //拿到保存的用户
           var _this =this;
           var params = new URLSearchParams();
           params.append("udname",this.udname);  //查询条件
           params.append("pageNo",this.pageNo); //分页
           params.append("pageSize",5);
+          params.append("uid",user.uid);//查询商户所需ID
           this.$axios.post("hsjshanghu/dingdanshows.action",params).then(function (response) {
             _this.total=response.data.total
             _this.tableData = response.data.list;
@@ -166,4 +168,5 @@
     text-align: center;
     line-height: 25px;
   }
+
 </style>

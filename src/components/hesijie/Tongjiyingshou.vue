@@ -17,8 +17,11 @@
       },
       methods:{
           getdate(){
+            var user=JSON.parse(sessionStorage.getItem("xszuser")) //拿到保存的用户
+            var params = new URLSearchParams();
+            params.append("uid",user.uid);//查询商户所需ID
             var _this =this;
-            this.$axios.post("hsjshanghu/yingyeliruen.action").then(function (response) {
+            this.$axios.post("hsjshanghu/yingyeliruen.action",params).then(function (response) {
                _this.jiliruenname= ['2021','2022']
               _this.jiliruen=response.data
             }).catch();

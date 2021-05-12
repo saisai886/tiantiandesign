@@ -169,7 +169,7 @@
             }else{
               this.myvuecom=xszgerenzhongx
             }
-            sessionStorage.setItem("xszuser",data) //保存用户名
+            sessionStorage.setItem("xszuser",JSON.stringify(data)) //保存用户
           }
 
         },

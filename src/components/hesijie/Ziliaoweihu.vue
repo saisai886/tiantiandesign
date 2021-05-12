@@ -75,8 +75,11 @@
       },
       methods: {
         getmenus(){
+          var user=JSON.parse(sessionStorage.getItem("xszuser")) //拿到保存的用户
+          var params = new URLSearchParams();
+          params.append("uid",user.uid);//查询商户所需ID
           var _this =this;
-          this.$axios.post("shanhuziliaoweihu/ziliaoweihu.action").then(function (response) {
+          this.$axios.post("shanhuziliaoweihu/ziliaoweihu.action",params).then(function (response) {
             _this.fileList=[]
             var d={name:response.data.shzhizhao,shid:0}  //自定义文件赋值
             _this.fileList.push(d)
