@@ -33,7 +33,7 @@
             option = {
               title: {
                 text: '营业利润',
-                subtext: '全年收入',
+                subtext: '全年收入(元)',
                 left: 'center'
               },
               tooltip: {
