@@ -9,8 +9,8 @@
       <el-col :span="4"></el-col>
       <el-col :span="10" >
         <el-input  placeholder="搜索商品" style="width: 600px;margin-top: 10px" v-model="seachname">
-          <el-button slot="append" icon="el-icon-search" style="background-color: limegreen" @click="showshops"></el-button>
-        </el-input>
+        <el-button slot="append" icon="el-icon-search" style="background-color: limegreen" @click="showshops"></el-button>
+      </el-input>
       </el-col>
     </el-row>
     <div style="height: 2px;background-color: limegreen"></div>

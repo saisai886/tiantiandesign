@@ -1,7 +1,7 @@
 <template>
     <div>
-      <h1>商品查询</h1>
-<!--展示数据表格-->
+      <h2>商品查询</h2>
+      <!--展示数据表格-->
             <el-table :data="tableData.filter(data => !search || data.sname.toLowerCase().includes(search.toLowerCase()))"
               style="width: 100%">
               <el-table-column type="expand">
@@ -35,13 +35,13 @@
                       <span>{{ props.row.sbaozhitime }}</span>
                     </el-form-item>
                     <el-form-item label="商品图片">
-                      <span><img :src="'http://localhost:8090/tian/'+props.row.simg"></span>
+                      <span><img style="width: 100px;height: 100px" :src="'http://localhost:8090/tian/'+props.row.simg"></span>
                     </el-form-item>
                     <el-form-item label="商品备注">
                       <span>{{ props.row.sbeizhu }}</span>
                     </el-form-item>
                     <el-form-item label="商品状态">
-                      <span>{{ props.row.sbshang }}</span>
+                      <span>{{ props.row.sbshang==1?"上架":"下架" }}</span>
                     </el-form-item>
                   </el-form>
                 </template>
@@ -71,7 +71,8 @@
                 <template slot-scope="scope">
                   <el-button @click="handleEdit(scope.row.sid)" type="danger">编辑</el-button>
                   <el-button @click="na" type="success">添加</el-button>
-                  <el-button @click="handleDelete(scope.row.sid)" type="primary">删除</el-button>
+                  <el-button  @click="handleDelete(scope.row.sid)" type="primary" >删除</el-button>
+
                 </template>
              </el-table-column>
             </el-table>
@@ -224,40 +225,10 @@
           pageNO: 1,
           spid:0,
           //查询数组
-          tableData: [
-            {
-              sid: '',
-              sname: '',
-              sprice: '',
-              soldprice: '',
-              sdanwei: '',
-              sshopcount: '',
-              schandi: '',
-              stid: '',
-              skucun: '',
-              sbaozhitime: '',
-              simg: '',
-              sbeizhu: '',
-              sbshang: ''
-            }],
+          tableData: [],
           search: '',
           //添加数组
-          form: [
-            {
-              sid: '',
-              sname: '',
-              sprice: '',
-              soldprice: '',
-              sdanwei: '',
-              sshopcount: '',
-              schandi: '',
-              stid: '',
-              skucun: '',
-              sbaozhitime: '',
-              simg: '',
-              sbeizhu: '',
-              sbshang: ''
-            }],
+          form: [],
           //修改数组
           xg: [],
       //下拉框数据
@@ -269,22 +240,39 @@
         getFile1(e){
           this.xg.simg= e.target.files[0].name;
         },
+
         spupdate(){
-          alert(this.xg.simg)
-          var params=new URLSearchParams();
-          this.xg.stid = this.value[1]
-          this.xg.simg="img/"+this.xg.simg
-          var xg = JSON.stringify(this.xg)
-          var typexg = {
-            headers:{
-              "Content-Type": "application/json;charsetset=UTF-8"
+          this.$confirm('是否修改?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+            center: true
+          }).then(() => {
+
+            this.xg.stid = this.value[1]
+            this.xg.simg="img/"+this.xg.simg
+            var xg = JSON.stringify(this.xg)
+            var typexg = {
+              headers:{
+                "Content-Type": "application/json;charsetset=UTF-8"
+              }
             }
-          }
-          this.$axios.post("Shop/Xgsp.action",xg,typexg).then(value => {
-            alert("修改成功")
-            this.query();
-          })
+            this.$axios.post("Shop/Xgsp.action",xg,typexg).then(value => {
+              this.query();
+              this.xg=[]
+            })
+            this.$message({
+              type: 'success',
+              message: '修改成功!'
+            });
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消修改'
+            });
+          });
         },
+
         handleChange(value) {
          this.spid = value[1]
         },
@@ -329,7 +317,6 @@
           params.append("stid",this.spid)
           params.append("skucun",this.form.skucun)
           params.append("sbaozhitime",this.form.sbaozhitime)
-
           params.append("simg","img/"+this.form.simg)
           params.append("sbeizhu",this.form.sbeizhu)
           params.append("sbshang",this.form.sbshang)
@@ -361,15 +348,29 @@
 
         //商品删除
         handleDelete(sid) {
-          var _this=this;
-         var params = new URLSearchParams();
-         params.append("sid",sid)
-          this.$axios.post("Shop/Scsp.action",params).then(value => {
-            _this.query()
-            alert("删除成功")
-          })
+          this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+            center: true
+          }).then(() => {
+            var _this=this;
+            var params = new URLSearchParams();
+            params.append("sid",sid)
+            this.$axios.post("Shop/Scsp.action",params).then(value => {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+              _this.query()
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+          });
         },
-
         //分页方法
         fy(val){
           this.pageNO = val
