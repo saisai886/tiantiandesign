@@ -81,7 +81,11 @@
   import ShanghuSh from "../zhuhaibo/ShanghuSh";
   import UserdtailsCx from "../zhuhaibo/UserdtailsCx";
   //---------------
-  export default {
+  // 何思杰
+  import cangkuQuery from '../hesijie/CangkuQuery';
+
+  //--------------
+ export default {
     components:{
       //张蓓:
       zb_caidanAll,
@@ -94,7 +98,11 @@
       GongyingshangSh,
       ShanghuCx,
       ShanghuSh,
-      UserdtailsCx
+      UserdtailsCx,
+
+      // 何思杰
+      cangkuQuery
+
     },
     data(){
       return{

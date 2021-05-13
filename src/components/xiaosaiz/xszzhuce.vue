@@ -103,6 +103,19 @@
         reset(zhuceform){
           this.$refs[zhuceform].resetFields();
         },
+        open(){
+          this.$message({
+            message: '该用户已有,重新注册',
+            type: 'error'
+          });
+        },
+        open1(){
+          this.$message({
+            message: '注册成功',
+            type: 'success'
+          });
+
+        },
 
 
         //注册
@@ -113,6 +126,24 @@
 
                  var params=new URLSearchParams();
                params.append('uname',this.zhuceform.username);
+               params.append("upawssword",this.zhuceform.pwdone)
+
+
+                  this.$axios.post("/xszuser/xszfundusername.action",params).then(function (value){
+
+                       if(value.data==false){
+                        _this.open()
+                       }
+                       _this.open1()
+                    var da={uname:_this.zhuceform.username,upawssword:_this.zhuceform.pwdone}
+                     _this.$emit("user",da)
+
+                  }).catch(function () {
+                    alert("错误异常")
+                  })
+
+
+
 
 
                //写到这里老蒋
@@ -120,7 +151,7 @@
                  //存在的提示用户已存在 return false;
                  //注意一下我在xszweilcom做的动态组件 传值问题可以看一下那个动态组件后面加的属性
 
-                 this.$axios.post("")
+
 
 
 

@@ -195,7 +195,6 @@ export default {
       var _this = this;
 
       var params=new URLSearchParams()
-
       params.append("gsid", this.form.gsid)
       params.append("gsname",this.form.gsname)
       params.append("gsprice",this.form.gsprice)
@@ -218,8 +217,6 @@ export default {
 
       }else{
         var pa=new URLSearchParams()
-
-
         pa.append("gsname",this.form.gsname)
         pa.append("gsprice",this.form.gsprice)
         pa.append("gscount",this.form.gscount)
@@ -264,7 +261,6 @@ export default {
     },
     filess(item,filet){ //文件添加赋值
        this.form.files=item.name
-
     },
     supshnaghw(item){
       var _this=this;
