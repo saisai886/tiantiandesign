@@ -9,8 +9,8 @@
       <el-col :span="4"></el-col>
       <el-col :span="10" >
         <el-input  placeholder="搜索商品" style="width: 600px;margin-top: 10px" v-model="seachname">
-          <el-button slot="append" icon="el-icon-search" style="background-color: limegreen" @click="showshops"></el-button>
-        </el-input>
+        <el-button slot="append" icon="el-icon-search" style="background-color: limegreen" @click="showshops"></el-button>
+      </el-input>
       </el-col>
     </el-row>
     <div style="height: 2px;background-color: limegreen"></div>
@@ -75,7 +75,7 @@
             <el-button type="warning" @click="xiangqing(sef.sid)">查看详情</el-button>
           </el-col>
           <el-col :span="12">
-            <el-button type="danger">加入购物车</el-button>
+            <el-button type="danger" @click="GoWuChe(sef.sid)">加入购物车</el-button>
           </el-col>
         </el-row>
       </div>
@@ -153,9 +153,42 @@
         //点击详情展示详情页面
         xiangqing(sid){
            this.$emit("sid",sid);
+        },
+
+
+        GoWuChe(sid){ //购物车
+          var _this=this;
+          if(JSON.parse(sessionStorage.getItem("xszuser"))!=null){
+            var pars=new URLSearchParams()
+            pars.append("sida",sid) //商品id
+            pars.append("uid",JSON.parse(sessionStorage.getItem("xszuser")).uid) //用户id
+            this.$axios.post("/Gowuche/addGowuche.action",pars).then(function (value) {
+
+            console.log(value.data)
+              if(value.data==true){
+                _this.$message({
+                  message: '添加购物车成功',
+                  type: 'success'
+                });
+              }
+
+
+            }).catch(function (val){
+              alert("错误异常")
+            })
+
+          }else {
+
+            this.$emit("Gowuche","1")
+
+          }
+
+
+
+
+
+
         }
-
-
 
 
 

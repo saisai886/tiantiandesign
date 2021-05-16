@@ -63,6 +63,7 @@
         <span @click="sx()" class="el-icon-refresh-left" title="刷新"></span>
       </span>
     </div>
+
   </div>
 </template>
 <script>
@@ -78,8 +79,19 @@
   import zb_caigoushenghejilu from "./caigoguanli/zb_caigoushenghejilu";
   //---------------
   //zhb
-  import Shangfenleicx from "../zhuhaibo/Shangfenleicx";
-  export default {
+  import ShangpingCx from "../zhuhaibo/ShangpingCx";
+  import ShangpingfengleiCx from "../zhuhaibo/ShangpingfengleiCx";
+  import GongyingshangCx from "../zhuhaibo/GongyingshangCx";
+  import GongyingshangSh from "../zhuhaibo/GongyingshangSh";
+  import ShanghuCx from "../zhuhaibo/ShanghuCx";
+  import ShanghuSh from "../zhuhaibo/ShanghuSh";
+  import UserdtailsCx from "../zhuhaibo/UserdtailsCx";
+  //---------------
+  // 何思杰
+  import cangkuQuery from '../hesijie/CangkuQuery';
+
+  //--------------
+ export default {
     components:{
       //张蓓:
       zb_caidanAll,
@@ -92,7 +104,17 @@
       zb_caigoushenghe,
       zb_caigoushenghejilu,
       //zhb
-      Shangfenleicx,
+      ShangpingCx,
+      ShangpingfengleiCx,
+      GongyingshangCx,
+      GongyingshangSh,
+      ShanghuCx,
+      ShanghuSh,
+      UserdtailsCx,
+
+      // 何思杰
+      cangkuQuery
+
     },
     data(){
       return{

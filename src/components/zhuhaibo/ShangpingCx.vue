@@ -1,6 +1,7 @@
 <template>
     <div>
-      <h1>商品查询</h1>
+      <h2>商品查询</h2>
+      <!--展示数据表格-->
             <el-table :data="tableData.filter(data => !search || data.sname.toLowerCase().includes(search.toLowerCase()))"
               style="width: 100%">
               <el-table-column type="expand">
@@ -34,13 +35,13 @@
                       <span>{{ props.row.sbaozhitime }}</span>
                     </el-form-item>
                     <el-form-item label="商品图片">
-                      <span><img :src="'http://localhost:8090/tian/'+props.row.simg"></span>
+                      <span><img style="width: 100px;height: 100px" :src="'http://localhost:8090/tian/'+props.row.simg"></span>
                     </el-form-item>
                     <el-form-item label="商品备注">
                       <span>{{ props.row.sbeizhu }}</span>
                     </el-form-item>
                     <el-form-item label="商品状态">
-                      <span>{{ props.row.sbshang }}</span>
+                      <span>{{ props.row.sbshang==1?"上架":"下架" }}</span>
                     </el-form-item>
                   </el-form>
                 </template>
@@ -70,13 +71,21 @@
                 <template slot-scope="scope">
                   <el-button @click="handleEdit(scope.row.sid)" type="danger">编辑</el-button>
                   <el-button @click="na" type="success">添加</el-button>
-                  <el-button @click="handleDelete(scope.row.sid)" type="primary">删除</el-button>
+                  <el-button  @click="handleDelete(scope.row.sid)" type="primary" >删除</el-button>
+
                 </template>
              </el-table-column>
             </el-table>
+      <el-pagination
+              style="margin:25px 0px 0px -150px"
+              background
+              :page-size="pageSize"
+              :current-page="pageNO"
+              :total="Total2"
+              @current-change="fy">
+      </el-pagination>
 
-
-<!--        //添加-->
+<!--添加模态框-->
       <el-dialog :visible="show" title="添加商品">
         <el-form ref="form" :model="form" label-width="80px">
           <el-form-item label="商品名称">
@@ -99,10 +108,13 @@
           </el-form-item>
           <el-form-item label="商品类型">
             <el-col :span="11">
-              <el-select v-model="form.stid" placeholder="请选择商品类型">
-                <el-option label="水果" value="shanghai"></el-option>
-                <el-option label="奶制品" value="beijing"></el-option>
-              </el-select>
+
+              <div class="block">
+                <el-cascader
+                        v-model="value"
+                        :options="options"
+                        @change="handleChange"></el-cascader>
+              </div>
             </el-col>
           </el-form-item>
           <el-form-item label="库存数量">
@@ -114,7 +126,7 @@
             </el-col>
           </el-form-item>
             <el-form-item label="商品图片">
-              <input type="file" >
+              <input type="file"  @change="getFile($event)">
             </el-form-item>
           <el-form-item label="库存数量">
             <el-input  v-model="form.sbeizhu" placeholder="请输入商品备注"></el-input>
@@ -122,8 +134,8 @@
           <el-form-item label="商品状态">
             <el-col :span="11">
               <el-select v-model="form.sbshang" placeholder="请选择商品状态">
-                <el-option label="上架" value="shanghai"></el-option>
-                <el-option label="下架" value="beijing"></el-option>
+                <el-option label="上架" value="1"></el-option>
+                <el-option label="下架" value="2"></el-option>
               </el-select>
             </el-col>
           </el-form-item>
@@ -136,7 +148,7 @@
 
 
 
-<!--    //修改-->
+<!-- 修改模态框-->
       <el-dialog :visible="bj" title="修改商品">
         <el-form ref="form" :model="xg" label-width="80px">
           <el-form-item label="商品名称">
@@ -159,10 +171,12 @@
           </el-form-item>
           <el-form-item label="商品类型">
             <el-col :span="11">
-              <el-select v-model="xg.stid" placeholder="请选择商品类型">
-                <el-option label="水果" value="shanghai"></el-option>
-                <el-option label="奶制品" value="beijing"></el-option>
-              </el-select>
+              <div class="block">
+                <el-cascader
+                        v-model="value"
+                        :options="options"
+                        @change="handleChange"></el-cascader>
+              </div>
             </el-col>
           </el-form-item>
           <el-form-item label="库存数量">
@@ -174,7 +188,7 @@
             </el-col>
           </el-form-item>
           <el-form-item label="商品图片">
-            <input type="file"  @change="getFile($event)">
+            <input type="file"  @change="getFile1($event)">
           </el-form-item>
           <el-form-item label="库存数量">
             <el-input  v-model="xg.sbeizhu" placeholder="请输入商品备注"></el-input>
@@ -182,13 +196,13 @@
           <el-form-item label="商品状态">
             <el-col :span="11">
               <el-select v-model="xg.sbshang" placeholder="请选择商品状态">
-                <el-option label="上架" value="shanghai"></el-option>
-                <el-option label="下架" value="beijing"></el-option>
+                <el-option label="上架" value="1"></el-option>
+                <el-option label="下架" value="2"></el-option>
               </el-select>
             </el-col>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="">立即创建</el-button>
+            <el-button type="primary" @click="spupdate">立即修改</el-button>
             <el-button @click="bj=false">取消</el-button>
           </el-form-item>
         </el-form>
@@ -198,107 +212,182 @@
 
 
 
-
 <script>
   export default {
         name: "Shangfenleicx",
       data() {
         return {
-          show:false,
-          bj:false,
+          value:[],
+          show: false,
+          bj: false,
+          Total2: 0,
+          pageSize: 10,
+          pageNO: 1,
+          spid:0,
           //查询数组
-          tableData: [
-            {
-                sid:'',
-                sname:'',
-                sprice:'',
-                soldprice:'',
-                sdanwei:'',
-                sshopcount:'',
-                schandi:'',
-                stid:'',
-                skucun:'',
-                sbaozhitime:'',
-                simg:'',
-                sbeizhu:'',
-                sbshang:''
-            }
-          ],
+          tableData: [],
           search: '',
-        //添加数组
-          form: [
-            {sid:'',
-              sname:'',
-              sprice:'',
-              soldprice:'',
-              sdanwei:'',
-              sshopcount:'',
-              schandi:'',
-              stid:'',
-              skucun:'',
-              sbaozhitime:'',
-              simg:'',
-              sbeizhu:'',
-              sbshang:''}
-          ],
+          //添加数组
+          form: [],
           //修改数组
-          xg: [
-            {sid:'1',
-              sname:'1',
-              sprice:'',
-              soldprice:'',
-              sdanwei:'',
-              sshopcount:'',
-              schandi:'',
-              stid:'',
-              skucun:'',
-              sbaozhitime:'',
-              simg:'img/1.png',
-              sbeizhu:'',
-              sbshang:''}
-          ]
+          xg: [],
+      //下拉框数据
+          options: [],
         }
-
       },
       methods: {
-          query() {
-            this.$axios.post("Shop/ShopAll.action").then(function (val) {
-              this.tableData = val.data;
-              console.log(val.data)
-            })
-          },
-
-        //add
-        onSubmit(){
-         alert("待开发")
+          //修改方法
+        getFile1(e){
+          this.xg.simg= e.target.files[0].name;
         },
-        na(){
-           this.show = true
-          },
-        handleEdit(sid) {
-         this.bj = true
-          this.tableData.forEach(val=>{
-            if(val.sid=sid){
-              this.xg.sname = val.sname
+
+        spupdate(){
+          this.$confirm('是否修改?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+            center: true
+          }).then(() => {
+
+            this.xg.stid = this.value[1]
+            this.xg.simg="img/"+this.xg.simg
+            var xg = JSON.stringify(this.xg)
+            var typexg = {
+              headers:{
+                "Content-Type": "application/json;charsetset=UTF-8"
+              }
             }
+            this.$axios.post("Shop/Xgsp.action",xg,typexg).then(value => {
+              this.query();
+              this.xg=[]
+            })
+            this.$message({
+              type: 'success',
+              message: '修改成功!'
+            });
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消修改'
+            });
+          });
+        },
+
+        handleChange(value) {
+         this.spid = value[1]
+        },
+      //商品查询
+        query: function () {
+          var param = new URLSearchParams();
+          param.append("pageNo",this.pageNO);
+          param.append("pageSize",this.pageSize);
+          var _this = this;
+          this.$axios.post("Shop/ShopAll.action",param).then(function (val) {
+            _this.tableData = val.data.list
+            _this.Total2 = val.data.total
+
           })
         },
-        handleDelete(sid) {
 
-      alert(sid+"是否删除")
-        }
+        //下拉框查询
+        xlkcx:function(){
+          var _this=this;
+          this.$axios.post("Shoplx/Shoplx.action").then(function (val) {
+             _this.options = val.data
+          })
+        },
+
+        na(){
+          this.show = true
+          this.xlkcx()
+        },
+    //商品添加
+        getFile(e){
+          this.form.simg= e.target.files[0].name;//获取选中的文件二进制流
+        },
+        onSubmit(){
+        var _this =this;
+        var params=  new URLSearchParams();
+          params.append("sname",this.form.sname)
+          params.append("sprice",this.form.sprice)
+          params.append("soldprice",this.form.soldprice)
+          params.append("sdanwei",this.form.sdanwei)
+          params.append("sshopcount",this.form.sshopcount)
+          params.append("schandi",this.form.schandi)
+          params.append("stid",this.spid)
+          params.append("skucun",this.form.skucun)
+          params.append("sbaozhitime",this.form.sbaozhitime)
+          params.append("simg","img/"+this.form.simg)
+          params.append("sbeizhu",this.form.sbeizhu)
+          params.append("sbshang",this.form.sbshang)
+          this.$axios.post("Shop/ShopAdd.action",params).then(function (response) {
+            _this.form = []
+            _this.query()
+          })
+        },
+
+        //商品编辑查询
+        handleEdit(sid) {
+         this.bj = true
+          var _this=this;
+         var params=new URLSearchParams();
+         params.append("sid",sid);
+         this.$axios.post("Shop/Xgspcx.action",params).then(function (val){
+           _this.xg=val.data;
+           _this.splx()
+         })
+        },
+        splx(){
+          this.$axios.post("Shoplx/splx.action?stid="+this.xg.stid).then(value => {
+            this.value = []
+            this.value.push(value.data.stpanentid)
+            this.value.push(this.xg.stid)
+            this.xlkcx();
+          })
+        },
+
+        //商品删除
+        handleDelete(sid) {
+          this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning',
+            center: true
+          }).then(() => {
+            var _this=this;
+            var params = new URLSearchParams();
+            params.append("sid",sid)
+            this.$axios.post("Shop/Scsp.action",params).then(value => {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+              _this.query()
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+          });
+        },
+        //分页方法
+        fy(val){
+          this.pageNO = val
+          this.query()
+        },
+
       },
+
+    //弹框
       handleClose(done) {
         this.$confirm('确认关闭？')
                 .then(_ => {
                   done();
                 })
-                .catch(_ => {});
       },
-    //   getFile(e){
-    //   console.log(e.target.files[0])
-    //   this.xg.simg= e.target.files[0];  //获取选中的文件二进制流
-    // },
+
+    //初始化
       created() {
       this.query();
     },
