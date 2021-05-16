@@ -73,20 +73,19 @@
                   <el-radio label="女">女</el-radio>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item label="联系电话:" >
-                <el-input placeholder="请输入联系电话" v-model="formygAdd.ygphone"></el-input>
-              </el-form-item>
-              <el-form-item label="员工年龄:">
-                <el-input placeholder="请输入年龄" v-model="formygAdd.ygage"></el-input>
-              </el-form-item>
-            </div>
-
-            <div :style="dis2">
               <el-form-item label="登录名:" >
                 <el-input placeholder="请输入员工登录名"  v-model="formygAdd.yloginname"></el-input>
               </el-form-item>
               <el-form-item label="登录密码:">
                 <el-input placeholder="请输入员工登录密码" type="password" v-model="formygAdd.ygpwd"></el-input>
+              </el-form-item>
+            </div>
+            <div :style="dis2">
+              <el-form-item label="联系电话:" >
+                <el-input placeholder="请输入联系电话" v-model="formygAdd.ygphone"></el-input>
+              </el-form-item>
+              <el-form-item label="员工年龄:">
+                <el-input placeholder="请输入年龄" v-model="formygAdd.ygage"></el-input>
               </el-form-item>
             </div>
           </el-form>
@@ -191,9 +190,28 @@
          qx(){
            this.formygAdd = []
            this.tjshow = false
+           this.dis1='display:block',
+             this.dis2='display:none'
          },
         //添加
         tjqr(){
+          if(this.formygAdd.yloginname==undefined){
+            this.$message({
+              showClose: true,
+              message: '账号不能为空',
+              type: 'error'
+            });
+            return false;
+          }
+          if(this.formygAdd.ygpwd==undefined){
+            this.$message({
+              showClose: true,
+              message: '密码不能为空',
+              type: 'error'
+            });
+            return false;
+          }
+          this.tjyz()
           var params = new URLSearchParams()
           params.append("ygname",this.formygAdd.ygname)
           params.append("ygsex",this.formygAdd.ygsex)
@@ -261,6 +279,40 @@
         currentPage(val){
            this.pages = val
            this.ygAll()
+        },
+        tjyz(){
+          if(this.formygAdd.ygname==undefined){
+            this.$message({
+              showClose: true,
+              message: '员工名称不能为空',
+              type: 'error'
+            });
+            return false;
+          }
+          if(this.formygAdd.ygsex==undefined){
+            this.$message({
+              showClose: true,
+              message: '员工性别不能为空',
+              type: 'error'
+            });
+            return false;
+          }
+          if(this.formygAdd.ygphone==undefined){
+            this.$message({
+              showClose: true,
+              message: '员工联系电话不能为空',
+              type: 'error'
+            });
+            return false;
+          }
+          if(this.formygAdd.ygage==undefined){
+            this.$message({
+              showClose: true,
+              message: '员工年龄不能为空',
+              type: 'error'
+            });
+            return false;
+          }
         }
       },
       created() {
@@ -269,7 +321,44 @@
     }
 </script>
 
-<style scoped>
+<style>
+  .el-table-filter {
+    max-height: 300px;
+    overflow: auto;
+  }
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
+  .div1{
+    width: 270px;
+  }
+  .el-input el-input--mini{
+    width: 100px;
+  }
+  .el-scrollbar__bar.is-vertical {
+    opacity: 1;
+    width: 5px;
+  }
+
+  .el-select-dropdown{
+    max-width: 243px;
+  }
+  .el-select-dropdown__item{
+    display: inline-block;
+  }
+  .el-select-dropdown__item span {
+    min-width: 105px;
+    display: inline-block;
+  }
   .demo-table-expand {
     font-size: 0;
   }

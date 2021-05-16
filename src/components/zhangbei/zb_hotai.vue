@@ -70,6 +70,12 @@
   import zb_caidanAll from "./xitongguanli/zb_caidanAll";
   import zb_yuangoAll from "./xitongguanli/zb_yuangoAll";
   import zb_juese from "./xitongguanli/zb_juese";
+  import zb_zhiweiAll from "./xitongguanli/zb_zhiweiAll";
+  import zb_qxAll from "./xitongguanli/zb_qxAll";
+  import zb_caigoushengqing from "./caigoguanli/zb_caigoushengqing";
+  import zb_caigoushengqingjilu from "./caigoguanli/zb_caigoushengqingjilu";
+  import zb_caigoushenghe from "./caigoguanli/zb_caigoushenghe";
+  import zb_caigoushenghejilu from "./caigoguanli/zb_caigoushenghejilu";
   //---------------
   //zhb
   import Shangfenleicx from "../zhuhaibo/Shangfenleicx";
@@ -79,6 +85,12 @@
       zb_caidanAll,
       zb_yuangoAll,
       zb_juese,
+      zb_zhiweiAll,
+      zb_qxAll,
+      zb_caigoushengqing,
+      zb_caigoushengqingjilu,
+      zb_caigoushenghe,
+      zb_caigoushenghejilu,
       //zhb
       Shangfenleicx,
     },
