@@ -83,7 +83,8 @@
   //---------------
   // 何思杰
   import cangkuQuery from '../hesijie/CangkuQuery';
-
+  import rukuShengHe from '../hesijie/RukuShengHe';
+  import rukuShengHeJilu from '../hesijie/RukuShengHeJilu';
   //--------------
  export default {
     components:{
@@ -101,7 +102,9 @@
       UserdtailsCx,
 
       // 何思杰
-      cangkuQuery
+      cangkuQuery,
+      rukuShengHe,
+      rukuShengHeJilu
 
     },
     data(){
