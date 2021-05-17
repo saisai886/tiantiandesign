@@ -60,7 +60,7 @@
                             placeholder="输入关键字搜索"/>
                 </template>
                 <template slot-scope="scope">
-                    <el-button  type="primary">编辑</el-button>
+                    <el-button @click="xgmtk(scope.row.shid)" type="primary">编辑</el-button>
                     <el-button @click="sc(scope.row.shid)"  type="primary">删除</el-button>
                 </template>
             </el-table-column>
@@ -74,6 +74,49 @@
                 @current-change="fy">
         </el-pagination>
 
+        <!-- 修改模态框-->
+        <el-dialog :visible="bj" title="修改商户">
+            <el-form ref="form" :model="xg" label-width="110px">
+                <el-form-item label="商户名称">
+                    <el-input v-model="xg.shname" placeholder="请输入商户名称"></el-input>
+                </el-form-item>
+                <el-form-item label="负责人姓名">
+                    <el-input v-model="xg.shfuzename" placeholder="请输入负责人姓名"></el-input>
+                </el-form-item>
+                <el-form-item label="负责人联系方式">
+                    <el-input  v-model="xg.shphone" placeholder="请输入负责人联系方式"></el-input>
+                </el-form-item>
+                <el-form-item label="店铺地址">
+                    <el-input v-model="xg.shaddr" placeholder="请输入店铺地址"></el-input>
+                </el-form-item>
+                <el-form-item label="负责人身份证">
+                    <el-input  v-model="xg.shfuzecard" placeholder="请输入负责人身份证"></el-input>
+                </el-form-item>
+                <el-form-item label="店铺营业执照">
+                    <input type="file"  @change="getFile($event)">
+                </el-form-item>
+                <el-form-item label="店铺注册日期">
+                    <el-col :span="11">
+                        <el-date-picker type="date" placeholder="请选择供应商注册日期" v-model="xg.shzhucetime" style="width: 100%;"></el-date-picker>
+                    </el-col>
+                </el-form-item>
+                <!--                <el-form-item label="供应商状态">-->
+                <!--                    <el-col :span="11">-->
+                <!--                        <el-select v-model="xg.shzhuangtai" placeholder="请选择供应商状态">-->
+                <!--                            <el-option label="未审核" value="G001"></el-option>-->
+                <!--                            <el-option label="待审核" value="G002"></el-option>-->
+                <!--                            <el-option label="已审核" value="G003"></el-option>-->
+                <!--                            <el-option label="已删除" value="G004"></el-option>-->
+                <!--                        </el-select>-->
+                <!--                    </el-col>-->
+                <!--                </el-form-item>-->
+                <el-form-item>
+                    <el-button type="primary" @click="spupdate">立即修改</el-button>
+                    <el-button @click="bj=false">取消</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+
     </div>
 </template>
 
@@ -86,7 +129,9 @@
                 pageNO:1,
                 Total2:0,
                 search:'',
+                bj:false,
                 Shcxsz:[],
+                xg:[],
             }
         },
         methods:{
@@ -116,7 +161,6 @@
                         });
                         this.Shtgsh();
                     })
-
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -124,15 +168,58 @@
                     });
                 });
             },
-
+            xgmtk(shid){
+                this.bj=true;
+                var param=new URLSearchParams();
+                param.append("shid",shid)
+                this.$axios.post("Shanghu/SelectId.action",param).then(value => {
+                    this.xg=value.data;
+                })
+            },
 
 
             //分页
             fy(val){
                 this.pageNO=val
                 this.Shtgsh();
-            }
+            },
+
+            getFile(e){
+                this.xg.shzhizhao=e.target.files[0].name
+            },
+            spupdate(){
+                this.$confirm('此操作将修改该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.xg.shzhizhao="yyzz/"+this.xg.shzhizhao;
+                    var xg = JSON.stringify(this.xg);
+                    var typexg = {
+                        headers:{
+                            "Content-Type": "application/json;charsetset=UTF-8"
+                        }
+                    }
+                    this.$axios.post("Shanghu/XgShanghu.action",xg,typexg).then(value => {
+
+                        this.Shtgsh();
+                       this.bj=false;
+                    })
+                    this.$message({
+                        type: 'success',
+                        message: '修改成功!'
+                    });
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消修改'
+                    });
+                });
+
+            },
+
         },
+
         created() {
             this.Shtgsh();
         }
