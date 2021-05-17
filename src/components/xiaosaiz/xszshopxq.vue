@@ -106,7 +106,7 @@
              </el-row>
 
              <br>
-             <el-button type="success">加入购物车</el-button>
+             <el-button type="success" @click="GoWuChe(shop.sid,shop.skucun)" >加入购物车</el-button>
              <el-button type="warning">立即购买</el-button>
 
            </div>
@@ -239,7 +239,56 @@
            }
 
           this.xiaoji=this.count*this.shop.sprice
+        },
+
+        GoWuChe(sid,kuchu){
+           if(kuchu!=0){
+             var _this=this;
+             if(JSON.parse(sessionStorage.getItem("xszuser"))!=null){
+               var pars=new URLSearchParams()
+               pars.append("sida",sid) //商品id
+               pars.append("uid",JSON.parse(sessionStorage.getItem("xszuser")).uid) //用户id
+               pars.append("scount",this.count) //数量
+               this.$axios.post("/Gowuche/addGowuche.action",pars).then(function (value) {
+
+                 console.log(value.data)
+                 if(value.data==true){
+                   _this.$message({
+                     message: '添加购物车成功',
+                     type: 'success'
+                   });
+                 }
+
+
+               }).catch(function (val){
+                 alert("错误异常")
+               })
+
+             }else {
+
+               this.$emit("Gowuche","1")
+
+             }
+           }else{
+             this.$alert('库存不足！！！', '提示', {
+               confirmButtonText: '确定',
+               callback: action => {
+                 this.$message({
+                   type: 'info',
+                   message: `购物车添加失败`
+                 });
+               }
+             });
+
+
+           }
+
+
+
         }
+
+
+
 
       },
 

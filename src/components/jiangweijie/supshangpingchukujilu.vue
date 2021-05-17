@@ -61,7 +61,7 @@
       </el-table>
 
       <span slot="footer" class="dialog-footer">
-      <el-button type="primary" >确 定</el-button>
+      <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>
     <el-button @click="dialogTableVisible = false">取 消</el-button>
   </span>
     </el-dialog>
