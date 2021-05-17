@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h2>商品分类查询</h2>
         <el-table :data="cx.filter(data => !search || data.sname.toLowerCase().includes(search.toLowerCase()))"
                   style="width: 100%">
             <el-table-column type="expand">
@@ -70,5 +71,16 @@
 </script>
 
 <style scoped>
-
+    .demo-table-expand {
+        font-size: 0;
+    }
+    .demo-table-expand label {
+        width: 90px;
+        color: #99a9bf;
+    }
+    .demo-table-expand .el-form-item {
+        margin-right: 0;
+        margin-bottom: 0;
+        width: 50%;
+    }
 </style>

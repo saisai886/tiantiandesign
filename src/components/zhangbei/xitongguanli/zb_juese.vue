@@ -207,6 +207,42 @@
     }
 </script>
 
-<style scoped>
+<style>
+  .el-table-filter {
+    max-height: 300px;
+    overflow: auto;
+  }
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
+  .div1{
+    width: 270px;
+  }
+  .el-input el-input--mini{
+    width: 100px;
+  }
+  .el-scrollbar__bar.is-vertical {
+    opacity: 1;
+    width: 5px;
+  }
 
+  .el-select-dropdown{
+    max-width: 243px;
+  }
+  .el-select-dropdown__item{
+    display: inline-block;
+  }
+  .el-select-dropdown__item span {
+    min-width: 105px;
+    display: inline-block;
+  }
 </style>

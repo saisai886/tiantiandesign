@@ -46,7 +46,25 @@
               <span>个人中心</span>
             </template>
           </el-menu-item>
+
+          <el-menu-item style="margin-left: 1000px">
+            <template slot="title" >
+              <spna v-show="useLogn==''">
+              <i class="el-icon-s-custom"></i>
+              <span @click="myvuecom='xszlogin'">请登入</span>
+              </spna>
+            </template>
+            <template slot="title">
+              <span v-show="useLogn!=''">
+              <el-avatar icon="el-icon-user-solid"></el-avatar>
+              <span >用户名：{{useLogn}}</span>
+              </span>
+            </template>
+
+          </el-menu-item>
         </el-menu>
+
+
 
 
 
@@ -57,7 +75,7 @@
       <el-main>
 
 
-      <component :is="myvuecom" v-on:sid="changevue"  @usergerenzhongxi="gerenzhongx" :toxqsid="xqsid"></component>
+      <component :is="myvuecom" v-on:sid="changevue" @Gowuche="Gowu"  @usergerenzhongxi="gerenzhongx" :toxqsid="xqsid"></component>
 
 
       </el-main>
@@ -141,8 +159,8 @@
           return{
             myvuecom:"xszzhuye",
             xqsid:"",
-            xszgwc:"" //购物车点击判断值
-
+            xszgwc:"", //购物车点击判断值
+            useLogn:""
           }
         },
       components:{
@@ -170,6 +188,7 @@
               this.myvuecom=xszgerenzhongx
             }
             sessionStorage.setItem("xszuser",JSON.stringify(data)) //保存用户
+            this.useLogn=data.uname
           }
 
         },
@@ -177,16 +196,26 @@
         SupGowuche(){
           if(sessionStorage.getItem("xszuser")!=null){ //判断用户登入没有
             this.myvuecom=xszgowuche
+
           }else{
             this.myvuecom=xszlogin
             this.xszgwc="1" //改变购物车判断值 为1
           }
 
+
         },
         SupGrzx(){ //个人中心
           this.xszgwc="" //改变购物车判断值，可能会多次点击购物车和个人中心，不进行登入
-          this.myvuecom='xszlogin'
+          this.myvuecom="xszlogin"
+        },
+        Gowu(){
+          this.myvuecom=xszlogin
         }
+
+
+
+
+
 
       },watch:{
         myvuecom(newText,oldText){ //监听session有没有用户名
@@ -208,6 +237,11 @@
 
         }
 
+      },created() {
+          if(JSON.parse(sessionStorage.getItem("xszuser"))!=null){
+            this.useLogn=JSON.parse(sessionStorage.getItem("xszuser")).uname
+          }
+
       }
 
 
@@ -216,7 +250,11 @@
 </script>
 
 <style scoped>
-
+.dengru{
+  position: absolute;
+  top: 0px;
+  left: 1650px;
+}
 
   .el-row {
     margin-bottom: 20px;

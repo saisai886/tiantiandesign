@@ -9,6 +9,7 @@
         <span id="span2" :class="ios" @click="qh()">切换首页</span>
       </span>
     </div>
+<!--    修改宽度-->
     <el-container style="height: 500px; border: 1px solid whitesmoke;border-radius: 5px;">
       <el-aside width="200px" style="background-color: rgb(234,237,239)">
         <el-menu>
@@ -71,6 +72,12 @@
   import zb_caidanAll from "./xitongguanli/zb_caidanAll";
   import zb_yuangoAll from "./xitongguanli/zb_yuangoAll";
   import zb_juese from "./xitongguanli/zb_juese";
+  import zb_zhiweiAll from "./xitongguanli/zb_zhiweiAll";
+  import zb_qxAll from "./xitongguanli/zb_qxAll";
+  import zb_caigoushengqing from "./caigoguanli/zb_caigoushengqing";
+  import zb_caigoushengqingjilu from "./caigoguanli/zb_caigoushengqingjilu";
+  import zb_caigoushenghe from "./caigoguanli/zb_caigoushenghe";
+  import zb_caigoushenghejilu from "./caigoguanli/zb_caigoushenghejilu";
   //---------------
   //zhb
   import ShangpingCx from "../zhuhaibo/ShangpingCx";
@@ -92,6 +99,12 @@
       zb_caidanAll,
       zb_yuangoAll,
       zb_juese,
+      zb_zhiweiAll,
+      zb_qxAll,
+      zb_caigoushengqing,
+      zb_caigoushengqingjilu,
+      zb_caigoushenghe,
+      zb_caigoushenghejilu,
       //zhb
       ShangpingCx,
       ShangpingfengleiCx,
