@@ -9,6 +9,7 @@
         <span id="span2" :class="ios" @click="qh()">切换首页</span>
       </span>
     </div>
+<!--    修改宽度-->
     <el-container style="height: 500px; border: 1px solid whitesmoke;border-radius: 5px;">
       <el-aside width="200px" style="background-color: rgb(234,237,239)">
         <el-menu>

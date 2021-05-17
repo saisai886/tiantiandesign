@@ -40,9 +40,6 @@
                     <el-form-item label="商品备注">
                       <span>{{ props.row.sbeizhu }}</span>
                     </el-form-item>
-                    <el-form-item label="商品状态">
-                      <span>{{ props.row.sbshang==1?"上架":"下架" }}</span>
-                    </el-form-item>
                   </el-form>
                 </template>
               </el-table-column>
@@ -55,8 +52,11 @@
                       prop="sname">
               </el-table-column>
               <el-table-column
-                      label="商品备注"
-                      prop="sbeizhu">
+                      label="商品状态"
+                      prop="">
+                <template slot-scope="scope">
+                  {{scope.row.sbshang=='1'?'上架':'下架'}}
+                </template>
               </el-table-column>
               <el-table-column
                       label="操作"

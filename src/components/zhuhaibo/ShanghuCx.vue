@@ -31,9 +31,6 @@
                         <el-form-item label="店铺注册日期">
                             <span>{{ props.row.shzhucetime}}</span>
                         </el-form-item>
-                        <el-form-item label="审核状态">
-                            <span>{{ props.row.shzhuangtai}}</span>
-                        </el-form-item>
                     </el-form>
                 </template>
             </el-table-column>
@@ -46,8 +43,11 @@
                     prop="shname">
             </el-table-column>
             <el-table-column
-                    label="负责人姓名"
-                    prop="shfuzename">
+                    label="审核状态"
+                    prop="">
+                <template slot-scope="scope">
+                <span>{{scope.row.shzhuangtai=='K001'?'未审核':scope.row.shzhuangtai=='K002'?'待审核':scope.row.shzhuangtai=='K003'?'已审核':scope.row.shzhuangtai=='K004'?'已删除':''}}</span>
+                </template>
             </el-table-column>
             <el-table-column
                     label="操作"
@@ -107,10 +107,16 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
+                var param=new URLSearchParams();
+                    param.append("shid",shid);
+                    this.$axios.post("Shanghu/deletesh.action",param).then(value => {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        this.Shtgsh();
+                    })
+
                 }).catch(() => {
                     this.$message({
                         type: 'info',

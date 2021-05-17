@@ -31,9 +31,6 @@
                         <el-form-item label="营业执照">
                             <span><img style="width: 100px;height: 100px;" :src="'http://localhost:8090/tian/'+props.row.gyingyeimg"></span>
                         </el-form-item>
-                        <el-form-item label="审核状态">
-                            <span>{{ props.row.gzhuangtai}}</span>
-                        </el-form-item>
                     </el-form>
                 </template>
             </el-table-column>
@@ -46,8 +43,11 @@
                     prop="gname">
             </el-table-column>
             <el-table-column
-                    label="法人姓名"
-                    prop="gfaname">
+                    label="审核状态"
+                    prop="">
+                <template slot-scope="scope">
+                    <span>{{ scope.row.gzhuangtai=='G001'?'未审核' :scope.row.gzhuangtai=='G002'?'待审核':scope.row.gzhuangtai=='G003'?'已审核':scope.row.gzhuangtai=='G004'?'已删除':''}}</span>
+                </template>
             </el-table-column>
             <el-table-column
                     label="操作"

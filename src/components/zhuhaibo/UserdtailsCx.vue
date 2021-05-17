@@ -45,7 +45,10 @@
             </el-table-column>
             <el-table-column
                     label="用户状态"
-                    prop="userZhuangtai">
+                    prop="">
+                <template slot-scope="scope">
+                    {{scope.row.userzhuangtai=='0'?'禁用':'可用'}}
+                </template>
             </el-table-column>
 
             <el-table-column
@@ -128,7 +131,6 @@
         methods:{
             //用户查询
             query: function (){
-                alert("1")
                 var param = new URLSearchParams();
                 param.append("pageNo",this.pageNO);
                 param.append("pageSize",this.pageSize);
@@ -136,6 +138,7 @@
                 this.$axios.post("userdtails/SelectAll.action",param).then(value => {
                     _this.YhSz=value.data.list
                     _this.Total2 = value.data.total
+                    console.log(_this.YhSz)
                 }).catch()
             },
             getFile(e){
