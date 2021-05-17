@@ -91,7 +91,7 @@ name: "supshangpingchukujilu",
       var para= new URLSearchParams();
       para.append("cgid",item)
 
-      this.$axios.post("/supcaigo/selectListAllId.action",para).then(function (value) {
+      this.$axios.post("/supcaigo/selectListAllIdchuku.action",para).then(function (value) {
         _this.gridData=value.data
 
       }).catch()
