@@ -124,16 +124,16 @@
                if (valida){
                var _this=this
 
-                 var params=new URLSearchParams();
+               var params=new URLSearchParams();
                params.append('uname',this.zhuceform.username);
                params.append("upawssword",this.zhuceform.pwdone)
 
 
-                  this.$axios.post("/xszuser/xszfundusername.action",params).then(function (value){
+              this.$axios.post("/xszuser/xszfundusername.action",params).then(function (value){
 
-                       if(value.data==false){
+                     if(value.data==false){
                         _this.open()
-                       }
+                      }
                        _this.open1()
                     var da={uname:_this.zhuceform.username,upawssword:_this.zhuceform.pwdone}
                      _this.$emit("user",da)
@@ -141,16 +141,6 @@
                   }).catch(function () {
                     alert("错误异常")
                   })
-
-
-
-
-
-               //写到这里老蒋
-                 //做查询操作看用户名存不存在 不存在就新增在回调函数里面再做新增请求
-                 //存在的提示用户已存在 return false;
-                 //注意一下我在xszweilcom做的动态组件 传值问题可以看一下那个动态组件后面加的属性
-
 
 
 
