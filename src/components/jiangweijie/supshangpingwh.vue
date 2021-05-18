@@ -95,21 +95,21 @@
     <!--====-->
   <!--模态框-->
 
-    <el-dialog title="商品维护" :visible.sync="dialogFormVisible" :modal="true">
-      <el-form :model="form">
-        <el-form-item label="商品名称" style="width: 500px" :label-width="formLabelWidth">
+    <el-dialog title="商品维护"  :visible.sync="dialogFormVisible" :modal="true">
+      <el-form :model="form" :rules="rules" ref="form">
+        <el-form-item label="商品名称" style="width: 500px"  prop="gsname" :label-width="formLabelWidth">
           <el-input v-model="form.gsname" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="价格" style="width: 500px" :label-width="formLabelWidth">
-          <el-input v-model="form.gsprice" autocomplete="off"></el-input>
+        <el-form-item label="价格" style="width: 500px" prop="gsprice" :label-width="formLabelWidth">
+          <el-input v-model.number="form.gsprice" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="存库数量" style="width: 500px" :label-width="formLabelWidth">
-          <el-input v-model="form.gscount" autocomplete="off"></el-input>
+        <el-form-item label="存库数量" style="width: 500px" prop="gscount" :label-width="formLabelWidth">
+          <el-input v-model.number="form.gscount" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="描述" style="width: 500px" :label-width="formLabelWidth">
+        <el-form-item label="描述" style="width: 500px" prop="gsmiaoshu" :label-width="formLabelWidth">
           <el-input v-model="form.gsmiaoshu" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="图片" style="width: 500px" :label-width="formLabelWidth">
+        <el-form-item label="图片" style="width: 500px" prop="gsimg" :label-width="formLabelWidth">
           <!-- 文件上传-->
 <!--         <input type="file" id="fileid"  @change="filess($event)"></input>-->
           <el-upload
@@ -123,10 +123,10 @@
           </el-upload>
 
         </el-form-item>
-        <el-form-item label="地址" style="width: 500px" :label-width="formLabelWidth">
+        <el-form-item label="地址" style="width: 500px" prop="gschandi" :label-width="formLabelWidth">
           <el-input v-model="form.gschandi" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="生产时间" style="width: 500px" :label-width="formLabelWidth">
+        <el-form-item label="生产时间" style="width: 500px"  :label-width="formLabelWidth">
           <el-date-picker
             v-model="form.gstime"
             type="datetime"
@@ -134,7 +134,7 @@
             placeholder="选择日期时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="保质期" style="width: 500px" :label-width="formLabelWidth">
+        <el-form-item label="保质期" style="width: 500px"  :label-width="formLabelWidth">
           <el-date-picker
             v-model="form.gsbozhi"
             type="datetime"
@@ -143,7 +143,7 @@
           </el-date-picker>
 
         </el-form-item>
-        <el-form-item label="成本" style="width: 500px" :label-width="formLabelWidth">
+        <el-form-item label="成本" style="width: 500px" prop="gschengben" :label-width="formLabelWidth">
           <el-input v-model="form.gschengben" autocomplete="off"></el-input>
         </el-form-item>
 
@@ -153,7 +153,7 @@
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="open1()" >确定</el-button>
+        <el-button type="primary" @click="open1('form')" >确定</el-button>
       </div>
     </el-dialog>
 
@@ -189,55 +189,71 @@ export default {
         type: 'success'
       });
     },
-    open1() {
+    open1(form) {
 
-      this.dialogFormVisible = false
-      var _this = this;
-
-      var params=new URLSearchParams()
-      params.append("gsid", this.form.gsid)
-      params.append("gsname",this.form.gsname)
-      params.append("gsprice",this.form.gsprice)
-      params.append("gscount",this.form.gscount)
-      params.append("gsmiaoshu",this.form.gsmiaoshu)
-      params.append("gsimg",this.form.files)
-      params.append("gstime",this.form.gstime)
-      params.append("gschandi",this.form.gschandi)
-      params.append("gsbozhi",this.form.gsbozhi)
-      params.append("gschengben",this.form.gschengben)
-
-      if(this.form.gsid!=undefined){
-        console.log(this.form.gsid)
-        this.$axios.post("/supplier/biangjixugai.action",params).then(function (value){
-          _this.message()
-          _this.chanxu();
-        }).catch(function (succes){
-          alert("编辑失败")
-        })
-
-      }else{
-        var pa=new URLSearchParams()
-        pa.append("gsname",this.form.gsname)
-        pa.append("gsprice",this.form.gsprice)
-        pa.append("gscount",this.form.gscount)
-        pa.append("gsmiaoshu",this.form.gsmiaoshu)
-        pa.append("gsimg",this.form.files)
-
-        pa.append("gstime",this.form.gstime)
-        pa.append("gschandi",this.form.gschandi)
-        pa.append("gsbozhi",this.form.gsbozhi)
-        pa.append("gschengben",this.form.gschengben)
+      this.$refs[form].validate((valid) => {
+        if (valid) {
 
 
-        this.$axios.post("/supplier/tianjian.action",pa).then(function (value) {
-          _this.message();
-          _this.chanxu();
 
-        }).catch(function (value) {
-          alert("添加失败")
-        })
+          this.dialogFormVisible = false
+          var _this = this;
 
-      }
+          var params=new URLSearchParams()
+          params.append("gsid", this.form.gsid)
+          params.append("gsname",this.form.gsname)
+          params.append("gsprice",this.form.gsprice)
+          params.append("gscount",this.form.gscount)
+          params.append("gsmiaoshu",this.form.gsmiaoshu)
+          params.append("gsimg",this.form.gsimg)
+          params.append("gstime",this.form.gstime)
+          params.append("gschandi",this.form.gschandi)
+          params.append("gsbozhi",this.form.gsbozhi)
+          params.append("gschengben",this.form.gschengben)
+
+          if(this.form.gsid!=undefined){
+            console.log(this.form.gsid)
+            this.$axios.post("/supplier/biangjixugai.action",params).then(function (value){
+              _this.message()
+              _this.chanxu();
+            }).catch(function (succes){
+              alert("编辑失败")
+            })
+
+          }else{
+            var pa=new URLSearchParams()
+            pa.append("gsname",this.form.gsname)
+            pa.append("gsprice",this.form.gsprice)
+            pa.append("gscount",this.form.gscount)
+            pa.append("gsmiaoshu",this.form.gsmiaoshu)
+            pa.append("gsimg",this.form.gsimg)
+
+            pa.append("gstime",this.form.gstime)
+            pa.append("gschandi",this.form.gschandi)
+            pa.append("gsbozhi",this.form.gsbozhi)
+            pa.append("gschengben",this.form.gschengben)
+
+
+            this.$axios.post("/supplier/tianjian.action",pa).then(function (value) {
+              _this.message();
+              _this.chanxu();
+
+            }).catch(function (value) {
+              alert("添加失败")
+            })
+
+          }
+
+
+
+
+
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+
 
 
     },
@@ -260,7 +276,7 @@ export default {
 
     },
     filess(item,filet){ //文件添加赋值
-       this.form.files=item.name
+        this.form.gsimg=item.name
     },
     supshnaghw(item){
       var _this=this;
@@ -272,6 +288,7 @@ export default {
         _this.fileList.push(d)
 
         _this.form=value.data
+
         _this.dialogFormVisible = true
        console.log(_this.fileList)
       }).catch()
@@ -287,13 +304,30 @@ export default {
       var gsid=new URLSearchParams()
       gsid.append("gsid",gs)
       var _this=this;
-      var con=confirm("确定删除吗？")
-      if(con){
+
+
+
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+
         this.$axios.post('/supplier/shangchu.action',gsid).then(function (value) {
-          _this.message1()
           _this.chanxu();
         }).catch()
-      }
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
 
     },
     shuru(){ //模糊查询，
@@ -314,12 +348,48 @@ export default {
       dialogTableVisible: false,
       dialogFormVisible: false,
       form: {},
-      formLabelWidth: '70px',
+      formLabelWidth: '100px',
       search:"",
       show:false,
       fileList:[], //文件上传赋值
       total:0, //总页数
       pageno:1,
+      rules:{
+        gsname: [
+          { required: true, message: '请输入商品名称', trigger: 'blur' },
+          { min: 1, max: 30, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+        ],
+        gsprice: [
+          { required: true, message: '价格不能为空'},
+          { type: 'number', message: '价格必须为数字值'}
+        ],
+        gscount: [
+          { required: true, message: '数量不能为空'},
+          { type: 'number', message: '数量必须为数字值'}
+        ],
+        gsmiaoshu: [
+          { required: true, message: '请输入描述', trigger: 'blur' },
+          { min: 1, max: 30, message: '长度在 1 到 5 个字符', trigger: 'blur' }
+        ],
+        gschandi: [
+          { required: true, message: '请输入地址', trigger: 'blur' },
+          { min: 1, max: 5, message: '长度在 1 到 5 个字符', trigger: 'blur' }
+        ],
+        gstime: [
+          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+        ],
+        gsbozhi: [
+          { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+        ],
+        gschengben: [
+          { required: true, message: '请输入成本', trigger: 'blur' },
+          { min: 1, max: 10, message: '长度在 1 到 5 个字符', trigger: 'blur' }
+        ]
+
+      }
+
+
+
 
     }
   },

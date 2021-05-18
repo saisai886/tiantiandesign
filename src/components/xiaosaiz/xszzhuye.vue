@@ -162,6 +162,7 @@
             var pars=new URLSearchParams()
             pars.append("sida",sid) //商品id
             pars.append("uid",JSON.parse(sessionStorage.getItem("xszuser")).uid) //用户id
+            pars.append("scount",1) //数量
             this.$axios.post("/Gowuche/addGowuche.action",pars).then(function (value) {
 
             console.log(value.data)
