@@ -167,6 +167,15 @@
             })
           },
           jsqr(){
+
+            if(this.formjsAdd.rname=='' || this.formjsAdd.rname==null || this.formjsAdd.rname==undefined){
+              this.$message({
+                showClose: true,
+                message: '角色名称不能为空',
+                type: 'error'
+              });
+              return false;
+            }
             var param = new URLSearchParams();
             param.append("rname",this.formjsAdd.rname);
             param.append("rdesc",this.formjsAdd.rdesc);

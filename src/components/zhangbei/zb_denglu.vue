@@ -2,6 +2,8 @@
 <template>
   <div id="div1">
    <div id="div">
+     <el-page-header @back="goBack" content="首页">
+     </el-page-header>
     <h2>商城后台登录</h2>
     <el-form ref="form" :model="form" :rules="rules">
       <el-form-item label="账号" prop="name">
@@ -42,6 +44,9 @@
         }
       },
       methods:{
+        goBack(){
+          this.$router.push("/xszweilcom")
+        },
         djdl(formname){
           var params = new URLSearchParams()
           params.append("yloginname",this.form.name)

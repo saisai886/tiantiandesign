@@ -77,6 +77,10 @@
   import zb_caigoushengqingjilu from "./caigoguanli/zb_caigoushengqingjilu";
   import zb_caigoushenghe from "./caigoguanli/zb_caigoushenghe";
   import zb_caigoushenghejilu from "./caigoguanli/zb_caigoushenghejilu";
+  import zb_cheliangAll from "./cheliangguanli/zb_cheliangAll";
+  import zb_peisong from "./peisong/zb_peisong";
+  import zb_shoppeisong from "./peisong/zb_shoppeisong";
+  import zb_peisongjilu from "./peisong/zb_peisongjilu";
   //---------------
   //zhb
   import ShangpingCx from "../zhuhaibo/ShangpingCx";
@@ -103,6 +107,10 @@
       zb_caigoushengqingjilu,
       zb_caigoushenghe,
       zb_caigoushenghejilu,
+      zb_cheliangAll,
+      zb_peisong,
+      zb_shoppeisong,
+      zb_peisongjilu,
       //zhb
       ShangpingCx,
       ShangpingfengleiCx,
@@ -130,7 +138,7 @@
         this.qxquery()
       },
       tc(){
-        sessionStorage.clear()
+        sessionStorage.removeItem("yg");
         this.$router.push("/xszweilcom")
       },
       qh(){
