@@ -1,7 +1,6 @@
 <template>
     <div id="app">
       <div id="main" style="width: 400px;height:300px;float: left"></div>
-      <div id="main2" style="width: 400px;height:300px;float: right"></div>
     </div>
 </template>
 
