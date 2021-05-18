@@ -454,7 +454,7 @@ export default {
         alert("错误异常")
       })
 
-
+      this.zf=""
       this.passwod=false; //关闭模态框
 
     },

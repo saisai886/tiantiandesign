@@ -104,10 +104,12 @@
        <el-pagination layout="prev,pager,next"
                       background
                       :total="total"
+
                       :page-size="pageSize"
                       @current-change="fenye"
        >
        </el-pagination>
+
      </div>
 </template>
 

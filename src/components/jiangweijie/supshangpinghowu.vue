@@ -1,104 +1,97 @@
 <template>
-<div>
-  <el-table
-    :data="tableData"
-    border
-    show-summary
-    style="width: 100%">
-    <el-table-column
-      prop="id"
-      label="ID"
-      width="180">
-    </el-table-column>
-    <el-table-column
-      prop="name"
-      label="姓名">
-    </el-table-column>
-    <el-table-column
-      prop="amount1"
-      sortable
-      label="数值 1">
-    </el-table-column>
-    <el-table-column
-      prop="amount2"
-      sortable
-      label="数值 2">
-    </el-table-column>
-    <el-table-column
-      prop="amount3"
-      sortable
-      label="数值 3">
-    </el-table-column>
-  </el-table>
+  <div id="main" style="width: 600px;height:500px;">
 
-</div>
+  </div>
 </template>
 
 <script>
+import * as echarts from "echarts";
+
 export default {
   name: "supshangpinghowu",
   data() {
     return {
-      tableData: [{
-        id: '12987122',
-        name: '王小虎',
-        amount1: '234',
-        amount2: '3.2',
-        amount3: 10
-      }, {
-        id: '12987123',
-        name: '王小虎',
-        amount1: '165',
-        amount2: '4.43',
-        amount3: 12
-      }, {
-        id: '12987124',
-        name: '王小虎',
-        amount1: '324',
-        amount2: '1.9',
-        amount3: 9
-      }, {
-        id: '12987125',
-        name: '王小虎',
-        amount1: '621',
-        amount2: '2.2',
-        amount3: 17
-      }, {
-        id: '12987126',
-        name: '王小虎',
-        amount1: '539',
-        amount2: '4.1',
-        amount3: 15
-      }]
+      // zhi:[{name:this.name}]
+      names:"",
+      value:1,
+      zhi:[]
     };
   },
   methods: {
-    getSummaries(param) {
-      const { columns, data } = param;
-      const sums = [];
-      columns.forEach((column, index) => {
-        if (index === 0) {
-          sums[index] = '总价';
-          return;
+    getmenus(){
+      var user=JSON.parse(sessionStorage.getItem("xszuser")) //拿到保存的用户
+      var params = new URLSearchParams();
+      params.append("uid",user.uid);//查询商户所需ID
+      var _this =this;
+      this.$axios.post("jwjgystj/GongYingshangHuowuTongji.action",params).then(function (response) {
+        for (var i=0;i<response.data.length;i++){
+          _this.names=response.data[i].gsname
+          _this.value=response.data[i].gscount
+          var gys={name:_this.names,value:_this.value}
+          _this.zhi.push(gys)
         }
-        const values = data.map(item => Number(item[column.property]));
-        if (!values.every(value => isNaN(value))) {
-          sums[index] = values.reduce((prev, curr) => {
-            const value = Number(curr);
-            if (!isNaN(value)) {
-              return prev + curr;
-            } else {
-              return prev;
-            }
-          }, 0);
-          sums[index] += ' 元';
-        } else {
-          sums[index] = 'N/A';
-        }
-      });
+        console.log( _this.zhi)
+      }).catch();
+    },
+    echarts(){
+      var chartDom = document.getElementById('main');
+      var myChart = echarts.init(chartDom);
+      var option;
 
-      return sums;
+      option = {
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          top: '5%',
+          left: 'center'
+        },
+        series: [
+          {
+            name: '访问来源',
+            type: 'pie',
+            radius: ['40%', '70%'],
+            avoidLabelOverlap: false,
+            itemStyle: {
+              borderRadius: 10,
+              borderColor: '#fff',
+              borderWidth: 2
+            },
+            label: {
+              show: false,
+              position: 'center'
+            },
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: '40',
+                fontWeight: 'bold'
+              }
+            },
+            labelLine: {
+              show: false
+            },
+            data:this.zhi
+
+          }
+        ]
+      };
+
+      option && myChart.setOption(option);
+
     }
+  },
+  mounted() {
+    this.echarts();
+  },
+  created() {
+    this.getmenus()
+  },
+  watch:{
+    zhi: function(newval,oldval) {
+      this.echarts()
+    },
+    deep:true
   }
 }
 </script>

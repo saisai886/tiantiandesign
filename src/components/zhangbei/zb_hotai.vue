@@ -92,6 +92,9 @@
   import cangkuQuery from '../hesijie/CangkuQuery';
   import rukuShengHe from '../hesijie/RukuShengHe';
   import rukuShengHeJilu from '../hesijie/RukuShengHeJilu';
+  import shangJiatongJi from '../hesijie/ShangJiatongJi';
+  import gongYingshangTongji from '../hesijie/GongYingshangTongji';
+  import caiwuTongji from '../hesijie/CaiwuTongji';
   //--------------
  export default {
     components:{
@@ -117,8 +120,10 @@
       // 何思杰
       cangkuQuery,
       rukuShengHe,
-      rukuShengHeJilu
-
+      rukuShengHeJilu,
+      shangJiatongJi,
+      gongYingshangTongji,
+      caiwuTongji
     },
     data(){
       return{

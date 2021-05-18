@@ -46,8 +46,19 @@
         </el-table-column>
         <el-table-column
           prop="scaddr"
-          label="仓库地址">
+          label="仓库地址"
+          width="180">
         </el-table-column>
+
+        <el-table-column
+          label="状态">
+          <template scope="scope">
+            <div :style="scope.row.sczhuangtai">
+              {{scope.row.sczhuangtai=='0'?'可用':'不可用'}}
+            </div>
+          </template>
+        </el-table-column>
+
         <el-table-column
           label="操作"
         >
@@ -62,8 +73,11 @@
             <el-button  @click="dialogFormVisible = true" type="success" >添加</el-button>
           </template>
           <template slot-scope="scope">
+            <div v-if="scope.row.sczhuangtai==0">
             <el-button @click="handleEdit(scope.row.scid)" type="primary">编辑</el-button>
-            <el-button @click="handleDelete(scope.row.scid)" type="danger">删除</el-button>
+                <el-button @click="handleDelete(scope.row.scid)" type="danger">删除</el-button>
+<!--            <el-button type="primary" icon="el-icon-search" @click="cx(scope.row.scid)">查询{{scope.row.scname}}商品</el-button>-->
+            </div>
           </template>
         </el-table-column>
 
@@ -200,7 +214,7 @@
               message: '已取消删除'
             });
           });
-          console.log(scid)
+
         }
       },
       created() {
