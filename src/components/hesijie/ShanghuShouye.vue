@@ -2,6 +2,7 @@
 <div id="div">
   <el-container>
     <el-aside width="240px">
+
       <el-col :span="24">
         <el-menu
           style="height: 800px"
@@ -41,6 +42,11 @@
 <!--        <router-link to="xszweilcom"></router-link>-->
       </el-image>
       </el-col>
+
+      <el-row style="top: 10px;float: right">
+        <el-col :span="17"><div class="grid-content bg-purple-dark"></div></el-col>
+        <el-col :span="7"><el-button  type="info" icon="el-icon-sort" @click="tiaozhuang">切换主页</el-button></el-col>
+      </el-row>
 
     </el-header>
     <el-main>

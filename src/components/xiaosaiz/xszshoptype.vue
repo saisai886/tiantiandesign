@@ -64,10 +64,10 @@
               </el-row>
               <el-row>
                 <el-col :span="12">
-                  <el-button type="warning" @click="ceshi()">查看详情</el-button>
+                  <el-button type="warning" @click="ceshi(sef.sid)">查看详情</el-button>
                 </el-col>
                 <el-col :span="12">
-                  <el-button type="danger">加入购物车</el-button>
+                  <el-button type="danger" @click="GoWuChe(sef.sid)">加入购物车</el-button>
                 </el-col>
               </el-row>
             </div>
@@ -148,9 +148,39 @@
           this.pageNo=val
           this.fenlei();
         },
-        ceshi(){
-            alert("sfdsfafd")
-        }
+        ceshi(sid){
+           this.$emit("sid",sid)
+
+        },
+        GoWuChe(sid){ //加入购物车
+          var _this=this;
+          if(JSON.parse(sessionStorage.getItem("xszuser"))!=null){
+            var pars=new URLSearchParams()
+            pars.append("sida",sid) //商品id
+            pars.append("uid",JSON.parse(sessionStorage.getItem("xszuser")).uid) //用户id
+            pars.append("scount",1) //数量
+            this.$axios.post("/Gowuche/addGowuche.action",pars).then(function (value) {
+
+              console.log(value.data)
+              if(value.data==true){
+                _this.$message({
+                  message: '添加购物车成功',
+                  type: 'success'
+                });
+              }
+
+
+            }).catch(function (val){
+              alert("错误异常")
+            })
+
+          }else {
+
+            this.$emit("Gowuche","1")
+
+          }
+
+        },
 
 
       },

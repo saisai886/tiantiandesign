@@ -163,16 +163,6 @@
             useLogn:""
           }
         },
-      components:{
-        xszzhuye,
-        xszgerenzhongx,
-        xszshoptype,
-        xszshopxq,
-        xszlogin,
-        xszgowuche
-
-      },
-
       methods:{
         changevue(data){
           this.xqsid=data
@@ -242,7 +232,16 @@
             this.useLogn=JSON.parse(sessionStorage.getItem("xszuser")).uname
           }
 
-      }
+      },
+      components:{
+        xszzhuye,
+        xszgerenzhongx,
+        xszshoptype,
+        xszshopxq,
+        xszlogin,
+        xszgowuche
+
+      },
 
 
     }

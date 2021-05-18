@@ -181,7 +181,6 @@ export default {
       params.append("id",this.itemzhuantai)
       params.append("textarea",this.textarea)
       this.$axios.post("/supcaigo/Supsum.action",params).then(function (value) {
-
        _this.caigochaxu()
 
       }).catch(function (){

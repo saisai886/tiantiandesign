@@ -9,6 +9,7 @@
         <span id="span2" :class="ios" @click="qh()">切换首页</span>
       </span>
     </div>
+<!--    修改宽度-->
     <el-container style="height: 500px; border: 1px solid whitesmoke;border-radius: 5px;">
       <el-aside width="200px" style="background-color: rgb(234,237,239)">
         <el-menu>
@@ -93,7 +94,11 @@
   //---------------
   // 何思杰
   import cangkuQuery from '../hesijie/CangkuQuery';
-
+  import rukuShengHe from '../hesijie/RukuShengHe';
+  import rukuShengHeJilu from '../hesijie/RukuShengHeJilu';
+  import shangJiatongJi from '../hesijie/ShangJiatongJi';
+  import gongYingshangTongji from '../hesijie/GongYingshangTongji';
+  import caiwuTongji from '../hesijie/CaiwuTongji';
   //--------------
  export default {
     components:{
@@ -121,8 +126,12 @@
       UserdtailsCx,
 
       // 何思杰
-      cangkuQuery
-
+      cangkuQuery,
+      rukuShengHe,
+      rukuShengHeJilu,
+      shangJiatongJi,
+      gongYingshangTongji,
+      caiwuTongji
     },
     data(){
       return{
