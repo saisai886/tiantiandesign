@@ -175,7 +175,8 @@
                 <el-cascader
                         v-model="value"
                         :options="options"
-                        @change="handleChange"></el-cascader>
+                        @change="handleChange">
+                </el-cascader>
               </div>
             </el-col>
           </el-form-item>
@@ -381,8 +382,7 @@
 
     //弹框
       handleClose(done) {
-        this.$confirm('确认关闭？')
-                .then(_ => {
+        this.$confirm('确认关闭？').then(_ => {
                   done();
                 })
       },

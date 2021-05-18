@@ -171,7 +171,6 @@
                     this.$axios.post("userdtails/Xgyh.action",xg,typexg).then(value => {
                         this.query();
                         this.xg=[]
-
                     })
                     this.$message({
                         type: 'success',
