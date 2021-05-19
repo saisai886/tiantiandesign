@@ -39,7 +39,7 @@
           </template>
           <template slot-scope="props">
             <el-button @click="zwbjAll(props.row.zid)" type="primary">编辑</el-button>
-            <el-button @click="zwsc(props.row.zid)"   type="primary">删除</el-button>
+            <el-button @click="zwsc(props.row.zid)"   type="danger">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

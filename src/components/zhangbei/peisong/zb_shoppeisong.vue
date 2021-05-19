@@ -20,25 +20,24 @@
         </el-table-column>
         <el-table-column
           type="selection"
-          width="100">
+          width="200"
+          >
         </el-table-column>
         <el-table-column
           label="配送订单号"
           prop="peisongid"
-          width="300"
-        >
-        </el-table-column>
-        <el-table-column
-          label="配送人"
-          prop="ygname"
-          width="300"
-        >
-        </el-table-column>
 
-        <el-table-column
-          label="操作"
-          width="200"
         >
+        </el-table-column>
+        <el-table-column
+          label="状态"
+        >
+          <template slot-scope="scope">
+            {{scope.row.pzhuangtai=='z001'?'配送中':scope.row.pzhuangtai=='z002'?'待配送':scope.row.pzhuangtai=='z003'?'完成配送':''}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="操作">
           <template slot="header" slot-scope="scope">
             <el-input
               v-model="search"
@@ -52,18 +51,36 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-button @click="queren" type="primary" style="float: left;margin-top: 20px" >
+      <el-select  clearable style="float: left;margin-top: 20px;" v-model="ygid" placeholder="请选择配送员工">
+        <el-option
+          v-for="item in yg"
+          :key="item.ygid"
+          :label="item.ygname"
+          :value="item.ygid">
+        </el-option>
+      </el-select>
+      <el-select clearable style="float: left;margin-top: 20px" v-model="clid" placeholder="请选择车辆">
+        <el-option
+          v-for="item in cl"
+          :key="item.clcid"
+          :label="item.clmz"
+          :value="item.clcid">
+        </el-option>
+      </el-select>
+
+      <el-button @click="queren" type="primary" style="float: left;margin-top: 20px;margin-left: 10px" >
         确认发货
       </el-button>
-
       <el-pagination
-        style="margin:25px 0px 0px -150px"
+        style="margin:25px 300px 0px -150px"
         background
         :page-size="pageSize"
         :current-page="pageNo"
         :total="total"
         @current-change="currentPage">
       </el-pagination>
+
+
 
 
       <el-dialog  :visible.sync="userddshow" title="用户订单">
@@ -74,19 +91,26 @@
           <el-table-column
             label="订单号"
             prop="udddingdan"
-            width="200"
           >
           </el-table-column>
           <el-table-column
             label="下单用户"
             prop="uname"
-            width="200"
           >
           </el-table-column>
           <el-table-column
             label="商品总数量"
             prop="ucount"
-            width="200"
+          >
+          </el-table-column>
+          <el-table-column
+            label="商户名称"
+            prop="shname"
+          >
+          </el-table-column>
+          <el-table-column
+            label="存放地址"
+            prop="shaddr"
           >
           </el-table-column>
           <el-table-column
@@ -94,7 +118,7 @@
             width="150"
           >
             <template slot-scope="scope">
-              <el-button @click="ckddsp(scope.row.spsid)" type="primary">
+              <el-button @click="ckddsp(scope.row.uddid)" type="primary">
                 查看订单商品
               </el-button>
             </template>
@@ -105,6 +129,9 @@
             取消
           </el-button>
         </div>
+        <label style="float: left">
+          用户订单数量：{{userdd.length}}条
+        </label>
       </el-dialog>
 
 
@@ -112,7 +139,7 @@
         <el-table
           :data="usershop"
           style="width: 100%"
-          height="200">
+          height="280">
           <el-table-column
             label="商品名"
             prop="sname"
@@ -121,6 +148,11 @@
           <el-table-column
             label="价格"
             prop="sprice"
+          >
+          </el-table-column>
+          <el-table-column
+            label="购买数量"
+            prop="scount"
           >
           </el-table-column>
           <el-table-column
@@ -136,6 +168,9 @@
             取消
           </el-button>
         </div>
+        <label style="float: left">
+          用户商品数量：{{usershop.length}}条
+        </label>
       </el-dialog>
 
     </div>
@@ -146,6 +181,10 @@
         name: "zb_shoppeisong",
       data(){
           return{
+            yg:[],
+            ygid:"请选择配送员工",
+            clid:"请选择配送车辆",
+            cl:[],
             total:0,
             pageNo:1,
             pageSize:20,
@@ -159,7 +198,35 @@
           }
       },
       methods:{
+          //员工查询
+        ygAll(){
+          this.$axios.post("ygdl/ygpeisong.action").then(value=>{
+            this.yg = value.data
+          })
+        },
+        //车辆查询
+        clAll(){
+          this.$axios.post("cl/clpeisong.action").then(value=>{
+            this.cl = value.data
+          })
+        },
         queren(){
+          if(this.clid=="请选择配送车辆"){
+            this.$message({
+              showClose: true,
+              message: '请选择配送车辆',
+              type: 'error'
+            });
+            return false;
+          }
+          if(this.ygid=="请选择配送员工"){
+            this.$message({
+              showClose: true,
+              message: '请选择配送员工',
+              type: 'error'
+            });
+            return false;
+          }
           if(this.na.length==0){
             this.$message({
               showClose: true,
@@ -168,6 +235,11 @@
             });
             return false;
           }
+
+          this.na.forEach(value=>{
+            value.clcid = this.clid
+            value.ygid = this.ygid
+          })
            var arr = JSON.stringify(this.na)
           var zfj = {
             headers: {
@@ -187,6 +259,10 @@
                   type: 'success',
                   duration:1000
                 })
+                this.clid ="请选择配送车辆"
+                this.ygid ="请选择配送员工"
+                this.ygAll()
+                this.clAll()
                 this.sppeisongAll()
               }
             })
@@ -201,9 +277,9 @@
         handleSelectionChange(value){
           this.na = value
         },
-        ckddsp(sid){
+        ckddsp(uddid){
           this.usershopshow = true
-          this.$axios.post("uddsh/sidAll.action?sid="+sid).then(value => {
+          this.$axios.post("uddsh/sidAll.action?uddid="+uddid).then(value => {
             this.usershop = value.data
           })
         },
@@ -211,6 +287,7 @@
         ckuser(pcid){
           this.userddshow = true
           this.$axios.post("uddsh/pciduserAll.action?pcid="+pcid).then(value=>{
+            console.log(value.data)
             this.userdd  = value.data
           })
         },
@@ -230,6 +307,8 @@
           }
       },
       created() {
+          this.ygAll()
+          this.clAll()
           this.sppeisongAll()
       }
     }

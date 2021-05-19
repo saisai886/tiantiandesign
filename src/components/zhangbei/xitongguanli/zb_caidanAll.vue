@@ -47,7 +47,7 @@
                 </template>
                 <template slot-scope="props">
                   <el-button @click="bjupdate(props.row.pid,props.row.pisnavi)"  type="primary">编辑</el-button>
-                  <el-button @click="scfzhi(props.row.pid)" type="primary">删除</el-button>
+                  <el-button @click="scfzhi(props.row.pid)" type="danger">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -108,7 +108,7 @@
                 </template>
                 <template slot-scope="props">
                   <el-button @click="bjupdate(props.row.pid,props.row.pisnavi)" type="primary">编辑</el-button>
-                  <el-button @click="scfzhi(props.row.pid)" type="primary">删除</el-button>
+                  <el-button @click="scfzhi(props.row.pid)" type="danger">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -166,7 +166,7 @@
                 </template>
                 <template slot-scope="props">
                   <el-button @click="bjupdate(props.row.pid,props.row.pisnavi)" type="primary">编辑</el-button>
-                  <el-button @click="scfzhi(props.row.pid)" type="primary">删除</el-button>
+                  <el-button @click="scfzhi(props.row.pid)" type="danger">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>

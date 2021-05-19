@@ -42,7 +42,6 @@
 
         <el-table-column
           label="操作"
-          width="250px"
         >
           <template slot="header" slot-scope="scope">
             <el-input
@@ -51,8 +50,9 @@
               placeholder="输入车辆名称搜索"/>
           </template>
           <template slot-scope="scope">
-            <el-button @click="clcj(scope.row.clcid)" type="primary">编辑</el-button>
-            <el-button @click="clsc(scope.row.clcid)" type="primary">删除</el-button>
+            <el-button  title="配送订单" @click="clpeisong(scope.row.clcid)" type="primary">查看</el-button>
+            <el-button  @click="clcj(scope.row.clcid)" type="primary">编辑</el-button>
+            <el-button  @click="clsc(scope.row.clcid)" type="danger">删除</el-button>
           </template>
 
         </el-table-column>
@@ -108,6 +108,34 @@
         </div>
       </el-dialog>
 
+      <el-dialog  :visible.sync="peisongshow" title="配送订单">
+        <el-table
+          :data="peisongAll"
+          style="width: 100%"
+          height="280">
+          <el-table-column
+            label="配送订单号"
+            prop="peisongid"
+          >
+          </el-table-column>
+          <el-table-column
+            label="状态"
+          >
+            <template slot-scope="scope">
+              {{scope.row.pzhuangtai=='z001'?'配送中':scope.row.pzhuangtai=='z002'?'待配送':scope.row.pzhuangtai=='z003'?'完成配送':''}}
+            </template>
+          </el-table-column>
+        </el-table>
+        <div style="margin-left: 600px;margin-top: 20px;">
+          <el-button @click="peisongshow=false" type="primary">
+            取消
+          </el-button>
+        </div>
+        <label style="float: left">
+         配送订单数量：{{peisongAll.length}}条
+        </label>
+      </el-dialog>
+
     </div>
 </template>
 
@@ -116,6 +144,7 @@
         name: "zb_zheliangAll",
       data(){
           return{
+            peisongshow:false,
             search:"",
             total:0,
             pageNo:1,
@@ -125,10 +154,19 @@
             //添加
             cltjshow:false,
             clxgshow:false,
-            clAdd:[]
+            clAdd:[],
+            peisongAll:[]
           }
       },
       methods:{
+          clpeisong(clcid){
+           this.peisongshow = true
+            this.$axios.post("ps/peisongAll.action?clcid="+clcid).then(value => {
+               console.log(value.data)
+              this.peisongAll = value.data
+            })
+
+            },
           clsc(clcid){
             this.$confirm('删除该车辆, 是否继续?', '提示', {
               confirmButtonText: '确定',

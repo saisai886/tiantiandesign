@@ -43,7 +43,7 @@
           </template>
           <template slot-scope="props">
             <el-button @click="bj(props.row.rid)"  type="primary">编辑</el-button>
-            <el-button @click="sc(props.row.rid)"  type="primary">删除</el-button>
+            <el-button @click="sc(props.row.rid)"  type="danger">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

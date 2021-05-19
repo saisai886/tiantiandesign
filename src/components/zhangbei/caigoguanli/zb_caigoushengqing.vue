@@ -101,19 +101,17 @@
           <el-table-column
             label="供货商商品编号"
             prop="gsid"
-            width="200"
             align="center">
           </el-table-column>
           <el-table-column align="center"
             label="供货商商品名称"
             prop="gsname"
-            width="200">
+          >
           </el-table-column>
 
           <el-table-column
             label="供货商商品图片"
             prop="gsimg"
-            width="200"
             align="center">
             <template slot-scope="scope">
               <img style="width: 50px;height: 50px" :src="'http://localhost:8090/tian/img/'+scope.row.gsimg"/>
@@ -122,7 +120,6 @@
           <el-table-column
             label="价格"
             prop="gsprice"
-            width="200"
             align="center">
             <template slot-scope="scope">
               {{scope.row.gsprice | fh}}
@@ -130,7 +127,7 @@
           </el-table-column>
           <el-table-column
             label="采购数量"
-            width="200">
+          >
             <template slot-scope="scope">
               <el-input-number v-model="scope.row.zb_num" @change="handleChange(scope.row.gsid)" :min="1" :max="scope.row.gscount">1</el-input-number>
               <br>
@@ -139,7 +136,6 @@
           </el-table-column>
           <el-table-column
             label="小计"
-             width="100"
             align="center">
             <template slot-scope="scope">
                <label>{{scope.row.zb_xj | fh}}</label>
@@ -194,6 +190,11 @@
     methods:{
       tjshengqingdan(){
         if(this.na.length==0){
+          this.$message({
+            showClose: true,
+            message: '请选择采购商品',
+            type: 'error'
+          });
           return false;
         }
         var arrcg = []

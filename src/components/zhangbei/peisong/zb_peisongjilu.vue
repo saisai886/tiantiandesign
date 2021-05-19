@@ -17,12 +17,14 @@
       <el-table-column
         label="配送订单号"
         prop="peisongid"
-        width="300"
       >
       </el-table-column>
       <el-table-column
+       label="配送人"
+        prop="ygname">
+      </el-table-column>
+      <el-table-column
         label="状态"
-        width="300"
       >
         <template slot-scope="scope">
           {{scope.row.pzhuangtai=='z001'?'配送中':scope.row.pzhuangtai=='z002'?'待配送':scope.row.pzhuangtai=='z003'?'完成配送':''}}
@@ -31,7 +33,6 @@
 
       <el-table-column
         label="操作"
-        width="200"
       >
         <template slot="header" slot-scope="scope">
           <el-input
@@ -42,10 +43,13 @@
       </el-table-column>
       <el-table-column>
         <template slot-scope="scope">
-          <el-button @click="queryuser(scope.row.pcid)" type="primary">查看用户订单</el-button>
+          <el-button @click="queryuser(scope.row.pcid,scope.row.ygid)" type="primary">查看用户订单</el-button>
         </template>
       </el-table-column>
     </el-table>
+    <label type="primary" style="float: left;margin-top: 20px;margin-left: 10px" >
+
+    </label>
     <el-pagination
       style="margin:25px 0px 0px -150px"
       background
@@ -76,13 +80,84 @@
           prop="ucount"
         >
         </el-table-column>
+        <el-table-column
+          label="商户名称"
+          prop="shname"
+        >
+        </el-table-column>
+        <el-table-column
+          label="存放地址"
+          prop="shaddr"
+        >
+        </el-table-column>
+        <el-table-column
+        >
+          <template slot-scope="scope">
+            <el-button v-if="scope.row.wczhuangtai!='wc002'" @click="wcps(scope.row.uddid)" type="primary">
+              完成配送
+            </el-button>
+            <span style="color: greenyellow" v-if="scope.row.wczhuangtai=='wc002'">
+               配送已完成
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column
+        >
+          <template slot-scope="scope">
+            <el-button @click="ckddsp(scope.row.uddid)" type="primary">
+              查看订单商品
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
       <div style="margin-left: 600px;margin-top: 20px;">
         <el-button @click="userddshow=false" type="primary">
           取消
         </el-button>
       </div>
+      <label style="float: left">用户订单数量：{{userddAll.length}}条</label>
     </el-dialog>
+
+
+    <el-dialog  :visible.sync="usershopshow" title="用户购买商品">
+      <el-table
+        :data="usershop"
+        style="width: 100%"
+        height="280">
+        <el-table-column
+          label="商品名"
+          prop="sname"
+        >
+        </el-table-column>
+        <el-table-column
+          label="价格"
+          prop="sprice"
+        >
+        </el-table-column>
+        <el-table-column
+          label="购买数量"
+          prop="scount"
+        >
+        </el-table-column>
+        <el-table-column
+          label="图片"
+        >
+          <template slot-scope="scope">
+            <img width="50" height="50" :src="'http://localhost:8090/tian/'+scope.row.simg">
+          </template>
+        </el-table-column>
+      </el-table>
+      <div style="margin-left: 600px;margin-top: 20px;">
+        <el-button @click="usershopshow=false" type="primary">
+          取消
+        </el-button>
+      </div>
+      <label style="float: left">
+        用户商品数量：{{usershop.length}}条
+      </label>
+    </el-dialog>
+
+
   </div>
 </template>
 
@@ -96,12 +171,50 @@
             pageSize:5,
             search:"",
             userddshow:false,
+            usershopshow:false,
             peisongAll:[],
-            userddAll:[]
+            userddAll:[],
+            usershop:[],
+            sl:[],
+            pcid:0,
+            ygid:0.
           }
       },
       methods:{
-        queryuser(pcid){
+          wc(){
+            this.$axios.post("ps/wancheng.action?ygid="+this.ygid).then(value => {
+                this.All()
+            })
+          },
+          //完成配送
+        wcps(uddid){
+          var arr = [{pcid:this.pcid,uddid:uddid}]
+          var zhi =  JSON.stringify(arr)
+          var zfj = {
+            headers: {
+              'Content-Type':'application/json;charset=UTF-8'
+            }
+          }
+          this.$axios.post("ps/wanchengpeisong.action",zhi,zfj).then(value => {
+             this.queryuser(this.pcid,this.ygid)
+              this.$notify({
+                title:"提示",
+                message: "配送成功",
+                type: 'success',
+                duration:1000
+              })
+             this.wc()
+          })
+        },
+        ckddsp(uddid){
+          this.usershopshow = true
+          this.$axios.post("uddsh/sidAll.action?uddid="+uddid).then(value => {
+            this.usershop = value.data
+          })
+        },
+        queryuser(pcid,ygid){
+          this.ygid = ygid
+          this.pcid = pcid
           this.userddshow = true
           this.$axios.post("uddsh/pciduserAll.action?pcid="+pcid).then(value=>{
             this.userddAll  = value.data
@@ -116,7 +229,6 @@
             param.append("pageNo",this.pageNo)
             param.append("pageSize",this.pageSize)
             this.$axios.post("ps/All.action",param).then(value => {
-              console.log(value.data.list)
               this.peisongAll = value.data.list
               this.total = value.data.total
             })
@@ -129,5 +241,50 @@
 </script>
 
 <style>
+  .el-table-filter {
+    max-height: 300px;
+    overflow: auto;
+  }
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
+  .div1{
+    width: 270px;
+  }
+  .el-input el-input--mini{
+    width: 100px;
+  }
+  .el-scrollbar__bar.is-vertical {
+    opacity: 1;
+    width: 5px;
+  }
 
+  .el-select-dropdown{
+    max-width: 243px;
+  }
+  .el-select-dropdown__item{
+    display: inline-block;
+  }
+  .el-select-dropdown__item span {
+    min-width: 105px;
+    display: inline-block;
+  }
+  .el-dialog {
+    position: relative;
+    margin: 0 auto 50px;
+    border-radius: 2px;
+    /*-webkit-box-shadow: 0 1px 3px rgb(0 0 0  30%);*/
+    /*box-shadow: 0 1px 3px rgb(0 0 0 30%);*/
+    box-sizing: border-box;
+    width: 60%;
+  }
 </style>

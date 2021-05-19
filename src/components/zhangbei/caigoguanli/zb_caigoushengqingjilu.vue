@@ -7,27 +7,27 @@
         <el-table-column
           prop="cgdan"
           label="采购单"
-          width="180">
+         >
         </el-table-column>
         <el-table-column
           prop="yloginname"
           label="采购人"
-          width="180">
+          >
         </el-table-column>
         <el-table-column
           prop="cgallmoney"
           label="总金额"
-          width="180">
+        >
         </el-table-column>
         <el-table-column
           prop="cgtime"
           label="申请时间"
-          width="180">
+          >
         </el-table-column>
         <el-table-column
           prop="cgzhuangtai"
           label="状态"
-          width="150">
+          >
           <template slot-scope="scope">
             <span style="color: #78dc15" v-if="scope.row.cgzhuangtai=='c001'">
               通过采购申请
@@ -42,7 +42,7 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="250px">
+          >
           <template slot-scope="scope">
             <el-button type="primary" @click="ck(scope.row.cgid)">查看</el-button>
           </template>
@@ -67,32 +67,32 @@
             <el-table-column
               prop="cgid"
               label="采购编号"
-              width="160">
+              >
             </el-table-column>
             <el-table-column
               prop="gname"
               label="供应商名称"
-              width="160">
+              >
             </el-table-column>
             <el-table-column
               prop="gsname"
               label="商品名称"
-              width="160">
+              >
             </el-table-column>
             <el-table-column
               prop="cdcoun"
               label="采购数量"
-              width="160">
+              >
             </el-table-column>
             <el-table-column
               prop="cdxiaoji"
               label="小计"
-              width="160">
+              >
             </el-table-column>
           <el-table-column
             prop="cdxxzhuangtai"
             label="状态"
-            width="100">
+            >
             <template slot-scope="scope">
             <span style="color: #78dc15" v-if="scope.row.cdxxzhuangtai=='cdxx001'">
               通过

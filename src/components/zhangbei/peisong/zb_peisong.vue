@@ -126,46 +126,41 @@
 
         <div style="margin-left: 600px;margin-top: 20px;">
           <el-button @click="qc" style="float: left;" type="primary">取消</el-button>
-          <el-button :style="y" @click="qr1" type="primary">
-            确认
-          </el-button>
-          <el-button :style="x" @click="scpeisongdan" type="primary">
+<!--          <el-button :style="y" @click="qr1" type="primary">-->
+<!--            确认-->
+<!--          </el-button>-->
+          <el-button @click="scpeisongdan" type="primary">
             生成配送订单
           </el-button>
-        </div>
-        <div style="margin-right: 500px">
-          <span>{{ygmz | yggr}}</span>
-          <span>{{clmz | clgr}}</span>
         </div>
       </el-dialog>
 
 
-      <el-dialog  :visible.sync="userddshow2" title="配送人员">
-        <el-select v-model="ygid" placeholder="请选择配送员工">
-          <el-option
-            v-for="item in yg"
-            :key="item.ygid"
-            :label="item.ygname"
-            :value="item.ygid">
-          </el-option>
-        </el-select>
-
-        <el-select v-model="clid" placeholder="请选择车辆">
-          <el-option
-            v-for="item in cl"
-            :key="item.clcid"
-            :label="item.clmz"
-            :value="item.clcid">
-          </el-option>
-        </el-select>
-        <div style="margin-top: 20px;margin-left: 500px">
-          <el-button @click="ygclqr" type="primary">
-            确认
-          </el-button>
-          <el-button  type="primary" @click="qc2">
-            取消
-          </el-button>
-        </div>
+      <el-dialog :visible.sync="userddshow2" title="配送人员">
+<!--        <el-select v-model="ygid" placeholder="请选择配送员工">-->
+<!--          <el-option-->
+<!--            v-for="item in yg"-->
+<!--            :key="item.ygid"-->
+<!--            :label="item.ygname"-->
+<!--            :value="item.ygid">-->
+<!--          </el-option>-->
+<!--        </el-select>-->
+<!--        <el-select v-model="clid" placeholder="请选择车辆">-->
+<!--          <el-option-->
+<!--            v-for="item in cl"-->
+<!--            :key="item.clcid"-->
+<!--            :label="item.clmz"-->
+<!--            :value="item.clcid">-->
+<!--          </el-option>-->
+<!--        </el-select>-->
+<!--        <div style="margin-top: 20px;margin-left: 500px">-->
+<!--          <el-button @click="ygclqr" type="primary">-->
+<!--            确认-->
+<!--          </el-button>-->
+<!--          <el-button  type="primary" @click="qc2">-->
+<!--            取消-->
+<!--          </el-button>-->
+<!--        </div>-->
       </el-dialog>
 
     </div>
@@ -176,8 +171,8 @@
         name: "zb_peisong",
       data(){
           return{
-            y:'display:block;',
-            x:'display:none',
+            // y:'display:block;',
+            // x:'display:none',
             userddshow2:false,
             userddshow1:false,
             userddshow:false,
@@ -222,80 +217,74 @@
                   type: 'success',
                   duration:1000
                 })
-                this.ygid="请选择配送员工"
-                this.clid="请选择车辆"
-                this.y = 'display:block'
-                this.x = 'display:none'
+               // this.ygid="请选择配送员工"
+                // this.clid="请选择车辆"
+                // this.y = 'display:block'
+                // this.x = 'display:none'
                 this.userddzhi = []
                 this.userddshow1 = false
                 this.uddAll()
               }
           })
         },
-          qc2(){
-            this.ygid="请选择配送员工"
-            this.clid="请选择车辆"
-            this.userddshow2=false
-          },
+          // qc2(){
+          //   //this.ygid="请选择配送员工"
+          //   // this.clid="请选择车辆"
+          //   this.userddshow2=false
+          // },
           qc(){
-            this.ygmz = ""
-            this.clmz = ""
-            this.y = 'display:block'
-            this.x = 'display:none'
+            // this.ygmz = ""
+            // this.clmz = ""
+            // this.y = 'display:block'
+            // this.x = 'display:none'
             this.userddshow1 = false
           },
         scpeisongdan(){
-          var zhi = [{ygid:this.ygid,clcid:this.clid}]
-          var arr = JSON.stringify(zhi)
-          var zfj = {
-            headers: {
-              'Content-Type':'application/json;charset=UTF-8'
-            }
-          }
-          this.$axios.post("ps/peisonginsert.action",arr,zfj).then(value => {
+          this.$axios.post("ps/peisonginsert.action").then(value => {
              this.peisongxx(value.data)
           })
         },
           //选员工车辆确认
-        ygclqr(){
-          if(this.ygid=="请选择配送员工" && this.clid=="请选择车辆"){
-            this.$message({
-              showClose: true,
-              message: '请选择车辆和员工',
-              type: 'error'
-            });
-            return false;
-          }
-          this.yg.forEach(value => {
-            if(value.ygid==parseInt(this.ygid)){
-              this.ygmz = value.ygname
-            }
-          })
-          this.cl.forEach(value => {
-            if(value.clcid==parseInt(this.clid)){
-              this.clmz = value.clmz
-            }
-          })
-          this.y = 'display:none'
-          this.x = 'display:block',
-          this.userddshow2 = false;
-
-        },
-        clAll(){
-          this.$axios.post("cl/clpeisong.action").then(value=>{
-            this.cl = value.data
-          })
-        },
+        // ygclqr(){
+        // // && this.clid=="请选择车辆"
+        //   if(this.ygid=="请选择配送员工" ){
+        //     this.$message({
+        //       showClose: true,
+        //       message: '请选择员工',
+        //       type: 'error'
+        //     });
+        //     return false;
+        //   }
+        //   this.yg.forEach(value => {
+        //     if(value.ygid==parseInt(this.ygid)){
+        //       this.ygmz = value.ygname
+        //     }
+        //   })
+        //   this.cl.forEach(value => {
+        //     if(value.clcid==parseInt(this.clid)){
+        //       this.clmz = value.clmz
+        //     }
+        //   })
+        //   this.y = 'display:none'
+        //   this.x = 'display:block',
+        //   this.userddshow2 = false;
+        //
+        // },
+        // clAll(){
+        //   this.$axios.post("cl/clpeisong.action").then(value=>{
+        //     this.cl = value.data
+        //   })
+        // },
         ygAll(){
           this.$axios.post("ygdl/ygpeisong.action").then(value=>{
             this.yg = value.data
           })
         },
-        qr1(){
-          this.userddshow2 = true
-          this.clAll()
-          this.ygAll()
-        },
+        // qr1(){
+        //   this.userddshow2 = true
+        //   // this.clAll()
+        //   this.ygAll()
+        // },
         qr(){
           if(this.na.length==0){
             this.$message({

@@ -20,7 +20,7 @@
                 <span>{{ props.row.ygtime }}</span>
               </el-form-item>
               <el-form-item label="员工状态:">
-                <span>{{props.row.ygzhuangtai=="a001"?"请假":(props.row.ygzhuangtai=="a002"?"在线":(props.row.ygzhuangtai=="a003"?"空闲":""))}}</span>
+                <span>{{props.row.ygzhuangtai=="a001"?"请假":(props.row.ygzhuangtai=="a002"?"工作中":(props.row.ygzhuangtai=="a003"?"空闲":""))}}</span>
               </el-form-item>
             </el-form>
           </template>
@@ -45,7 +45,7 @@
           </template>
           <template slot-scope="props">
             <el-button @click="bj(props.row.ygid)" type="primary">编辑</el-button>
-            <el-button @click="sc(props.row.ygid)" type="primary">删除</el-button>
+            <el-button @click="sc(props.row.ygid)" type="danger">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

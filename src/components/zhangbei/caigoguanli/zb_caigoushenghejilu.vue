@@ -7,17 +7,17 @@
         <el-table-column
           prop="cgdan"
           label="采购单"
-          width="300">
+          >
         </el-table-column>
         <el-table-column
           prop="cgshentime"
           label="审核时间"
-          width="300">
+          >
         </el-table-column>
         <el-table-column
           prop="cdxxzhuangtai"
           label="状态"
-          width="300">
+          >
           <template slot-scope="scope">
             <span style="color: #78dc15" v-if="scope.row.cgzhuangtai=='c001'">
               采购单通过
@@ -29,7 +29,7 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="220px">
+          >
           <template slot-scope="scope">
             <el-button type="primary"  @click="shenghejiluchek(scope.row.cgid)">查看</el-button>
           </template>
@@ -56,32 +56,32 @@
             <el-table-column
               prop="cgid"
               label="采购编号"
-              width="150">
+              >
             </el-table-column>
             <el-table-column
               prop="gname"
               label="供应商名称"
-              width="120">
+              >
             </el-table-column>
             <el-table-column
               prop="gsname"
               label="商品名称"
-              width="120">
+             >
             </el-table-column>
             <el-table-column
               prop="cdcoun"
               label="采购数量"
-              width="120">
+              >
             </el-table-column>
             <el-table-column
               prop="cdxiaoji"
               label="小计"
-              width="120">
+             >
             </el-table-column>
             <el-table-column
               prop=""
               label="操作"
-              width="200">
+              >
               <template slot-scope="scope">
                 <el-radio-group v-model="scope.row.cdxxzhuangtai">
                   <el-radio label="cdxx001">通过</el-radio>
@@ -117,32 +117,32 @@
             <el-table-column
               prop="cgid"
               label="采购编号"
-              width="150">
+             >
             </el-table-column>
             <el-table-column
               prop="gname"
               label="供应商名称"
-              width="120">
+              >
             </el-table-column>
             <el-table-column
               prop="gsname"
               label="商品名称"
-              width="120">
+             >
             </el-table-column>
             <el-table-column
               prop="cdcoun"
               label="采购数量"
-              width="120">
+              >
             </el-table-column>
             <el-table-column
               prop="cdxiaoji"
               label="小计"
-              width="120">
+             >
             </el-table-column>
             <el-table-column
               prop=""
               label="操作"
-              width="200">
+              >
               <template slot-scope="scope">
                 <el-radio-group v-model="scope.row.cdxxzhuangtai">
                   <el-radio label="cdxx001">通过</el-radio>
