@@ -38,8 +38,8 @@
                 <div style="margin-top: 50px">
                     <el-row>
                         <el-col :span="12">
-                            <el-button type="warning" >申请商户</el-button>
-                            <el-button type="primary" >申请供应商</el-button>
+                            <el-button type="warning" @click="shanghui">申请商户</el-button>
+                            <el-button type="primary" @click="gyshang">申请供应商</el-button>
                         </el-col>
                     </el-row>
                 </div>
@@ -360,20 +360,37 @@
 
       <!--商户注册-->
       <el-dialog title="商户注册" :visible.sync="dialogFormVisible">
-        <el-form :model="form">
-          <el-form-item label="名称" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
+        <el-form :model="form" :rules="rules"  ref="form" label-width="80px">
+          <el-form-item label="商户名称" prop="shname" :label-width="formLabelWidth">
+            <el-input v-model="form.shname" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="活动名称" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-form-item label="负责人名称" prop="shfuzename" :label-width="formLabelWidth">
+            <el-input v-model="form.shfuzename" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="联系方式" prop="shphone" :label-width="formLabelWidth">
+            <el-input v-model="form.shphone" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="店铺地址" prop="shaddr" :label-width="formLabelWidth">
+            <el-input v-model="form.shaddr" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="身份证" prop="shfuzecard" :label-width="formLabelWidth">
+            <el-input v-model="form.shfuzecard" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="营业执照" prop="shzhizhao" :label-width="formLabelWidth">
+            <el-input v-model="form.shzhizhao" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="店铺注册日期" prop="shzhucetime" :label-width="formLabelWidth">
+            <el-date-picker type="date" placeholder="选择日期" v-model="form.shzhucetime" style="width: 100%;"></el-date-picker>
           </el-form-item>
 
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+          <el-button type="primary" @click="submitForm('form')">确 定</el-button>
         </div>
       </el-dialog>
+
+
 
     </div>
 </template>
@@ -385,6 +402,8 @@
             return {
               form:[],
               dialogFormVisible:false,
+
+
 
               currentPage1:1,
               currentPage2:1,
@@ -435,7 +454,40 @@
               tableData1: [],
               tableData2: [],
               tableData3: [],
-              tableData5:[]
+              tableData5:[],
+
+              rules: {
+                shname: [
+                  { required: true, message: '请输入商户名称', trigger: 'blur' },
+                  { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                ],
+                shfuzename:[
+                  { required: true, message: '请输入正确姓名', trigger: 'blur' },
+                  { min: 2, max: 10, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                ],
+                shphone:[
+                  { required: true, message: '请输入正确电话', trigger: 'blur' },
+                  { min: 11, max: 11, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                ],
+                shaddr:[
+                  { required: true, message: '请输入店铺地址', trigger: 'blur' },
+                  { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                ],
+                shfuzecard:[
+                  { required: true, message: '请输入身份证', trigger: 'blur' },
+                  { min: 15, max: 18, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                ],
+                shzhizhao:[
+                  { required: true, message: '请输入营业执照', trigger: 'blur' },
+                  { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                ],
+                shzhucetime:[
+                  { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+                ],
+              },
+
+
+
             }
         },
 
@@ -496,6 +548,61 @@
 
             console.log(`当前页: ${val}`);
           },
+
+
+          shanghui(){ //商户注册
+            this.dialogFormVisible=true;
+          },
+          submitForm(form){ //商户确定
+            var _this=this;
+            this.$refs[form].validate((valid) => {
+              if (valid) {
+              var arr=JSON.stringify(this.form)
+
+                var zff={
+                  headers: {
+                    'Content-Type':'application/json;charset=UTF-8'
+                  }
+                }
+              this.$axios.post("/GwcAll/shangzc.action?uid="+JSON.parse(sessionStorage.getItem("xszuser")).uid,arr,zff).then(function (value) {
+                if(value.data==1){
+                  _this.$alert('成功', '提示', {
+                    confirmButtonText: '确定',
+                    callback: action => {
+                      _this.$message({
+                        type: 'info',
+                        message: `成功`
+                      });
+                    }
+                  });
+                }
+
+              }).catch(function (val) {
+                  alert("错误异常")
+              })
+
+
+
+              } else {
+                console.log('error submit!!');
+                return false;
+              }
+            });
+
+          },
+          resetForm(formName) {
+            this.$refs[formName].resetFields();
+          },
+          gyshang(){ //供应商
+
+          },
+
+
+
+
+
+
+
 
 
 
@@ -599,7 +706,17 @@
                   }
                   _this.$axios.post("/Gowuche/grzxquanxuan.action?uid="+JSON.parse(sessionStorage.getItem("xszuser")).uid+"&uddid="+_this.uddid,ar,zf).then(function (value) {
 
-                    alert("成功")
+                    _this.$alert('成功', '提示', {
+                      confirmButtonText: '确定',
+                      callback: action => {
+                        _this.$message({
+                          type: 'info',
+                          message: `成功`
+                        });
+                      }
+                    });
+
+
                     _this.Alldaizhif()
                     _this.qxpassword=false;
                   }).catch(function (val) {

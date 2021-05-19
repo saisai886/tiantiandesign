@@ -93,7 +93,10 @@
               placeholder="输入收货人名称搜索"
               @input="ss"
             />
-          </template>
+           </template>
+<!--          <template slot-scope="scope">-->
+<!--            <el-button type="primary" @click="chakan(scope.row.uddid)">查看</el-button>-->
+<!--          </template>-->
 
         </el-table-column>
       </el-table>
@@ -142,6 +145,9 @@
         ss(){
               this.getmenu();
         }
+         // chakan(uddid){
+         //   console.log(uddid)
+         // }
       },
       created() {
         this.getmenu()
