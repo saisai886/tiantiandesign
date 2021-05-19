@@ -8,7 +8,7 @@
 <!--                登录进来显示头像,可编辑此用户的个人信息-->
                 <div id="div1">
                     <el-image  src="ss" style="width: 200px;height: 200px;"></el-image>
-                    <el-button type="primary">编辑个人信息</el-button>
+                    <el-button type="primary" @click="biangji">编辑个人信息</el-button>
                 </div>
             </el-main>
 
@@ -376,8 +376,19 @@
           <el-form-item label="身份证" prop="shfuzecard" :label-width="formLabelWidth">
             <el-input v-model="form.shfuzecard" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="营业执照" prop="shzhizhao" :label-width="formLabelWidth">
-            <el-input v-model="form.shzhizhao" autocomplete="off"></el-input>
+          <el-form-item label="营业执照"  :label-width="formLabelWidth">
+
+            <el-upload
+              class="upload-demo"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :limit="1"
+              :on-success="chanfile"
+              :file-list="fileList"
+              list-type="picture">
+              <el-button size="small" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+
           </el-form-item>
           <el-form-item label="店铺注册日期" prop="shzhucetime" :label-width="formLabelWidth">
             <el-date-picker type="date" placeholder="选择日期" v-model="form.shzhucetime" style="width: 100%;"></el-date-picker>
@@ -391,6 +402,98 @@
       </el-dialog>
 
 
+      <!--供应商注册-->
+      <el-dialog title="供应商注册" :visible.sync="dialog">
+        <el-form :model="formm"   ref="form" label-width="80px">
+          <el-form-item label="公司名称" prop="gname" :label-width="formLabelWidth">
+            <el-input v-model="formm.gname" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="地址" prop="gaddre" :label-width="formLabelWidth">
+            <el-input v-model="formm.gaddre" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="电话" prop="gphone" :label-width="formLabelWidth">
+            <el-input v-model="formm.gphone" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="类型" prop="gzhutitype" :label-width="formLabelWidth">
+            <el-input v-model="formm.gzhutitype" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="姓名" prop="gfaname" :label-width="formLabelWidth">
+            <el-input v-model="formm.gfaname" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="身份证" prop="gfarcard" :label-width="formLabelWidth">
+            <el-input v-model="formm.gfarcard" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="营业执照"  :label-width="formLabelWidth">
+
+            <el-upload
+              class="upload-demo"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :limit="1"
+              :on-success="chanfile"
+              :file-list="fileList"
+              list-type="picture">
+              <el-button size="small" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+
+          </el-form-item>
+          <el-form-item label="店铺注册日期" prop="gzhucetime" :label-width="formLabelWidth">
+            <el-date-picker type="date" placeholder="选择日期" v-model="formm.gzhucetime" style="width: 100%;"></el-date-picker>
+          </el-form-item>
+
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialog = false">取 消</el-button>
+          <el-button type="primary" @click="submitFormm('formm')">确 定</el-button>
+        </div>
+      </el-dialog>
+
+
+      <!--编辑个人信息-->
+      <el-dialog title="个人信息" :visible.sync="dialoggrxx">
+        <el-form :model="grxx"   label-width="80px">
+          <el-form-item label="收货人姓名"  :label-width="formLabelWidth">
+            <el-input v-model="grxx.udname" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="电话"  :label-width="formLabelWidth">
+            <el-input v-model="grxx.udphone" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="地址"  :label-width="formLabelWidth">
+            <el-input v-model="grxx.udaddr" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="头像"  :label-width="formLabelWidth">
+            <el-upload
+              class="upload-demo"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :limit="1"
+              v-model="grxx.udimg"
+              :on-success="chan"
+              :file-list="filelisttt"
+              list-type="picture">
+              <el-button size="small" type="primary">点击上传</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
+
+          </el-form-item>
+          <el-form-item label="性别"  :label-width="formLabelWidth">
+            <el-radio v-model="radio" label="男">男</el-radio>
+            <el-radio  v-model="radio" label="女">女</el-radio>
+
+          </el-form-item>
+          <el-form-item label="支付密码"  :label-width="formLabelWidth">
+            <el-input type="password" v-model="grxx.udpwd" autocomplete="off"></el-input>
+          </el-form-item>
+
+
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialoggrxx = false">取 消</el-button>
+          <el-button type="primary" @click="ok">确 定</el-button>
+        </div>
+      </el-dialog>
+
+
+
 
     </div>
 </template>
@@ -400,10 +503,21 @@
         name: "xszgerenzhongx",
         data() {
             return {
+              radio:"男",
+              filelisttt:[],
+              fileLists:[],
+              fileList:[],//图片
+              fil:"",
+              fils:"",
+              grfils:"",
+
+
+              grxx:[],
+              formm:[],
               form:[],
               dialogFormVisible:false,
-
-
+              dialog:false,
+              dialoggrxx:false,
 
               currentPage1:1,
               currentPage2:1,
@@ -463,24 +577,24 @@
                 ],
                 shfuzename:[
                   { required: true, message: '请输入正确姓名', trigger: 'blur' },
-                  { min: 2, max: 10, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                  { min: 2, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' }
                 ],
                 shphone:[
                   { required: true, message: '请输入正确电话', trigger: 'blur' },
-                  { min: 11, max: 11, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                  { min: 11, max: 11, message: '长度在 11 个字符', trigger: 'blur' }
                 ],
                 shaddr:[
                   { required: true, message: '请输入店铺地址', trigger: 'blur' },
-                  { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                  { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
                 ],
                 shfuzecard:[
                   { required: true, message: '请输入身份证', trigger: 'blur' },
-                  { min: 15, max: 18, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                  { min: 15, max: 18, message: '长度在 15 到 18 个字符', trigger: 'blur' }
                 ],
-                shzhizhao:[
-                  { required: true, message: '请输入营业执照', trigger: 'blur' },
-                  { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-                ],
+                // shzhizhao:[
+                //   { required: true, message: '请输入营业执照', trigger: 'blur' },
+                //   { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                // ],
                 shzhucetime:[
                   { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
                 ],
@@ -492,6 +606,18 @@
         },
 
         methods: {
+          //=========== 图片
+          chanfile(response, file, fileList){
+            this.fil=file.raw
+          console.log(file.raw)
+          },
+          chanfilee(file){
+            this.fils=file.raw
+          },
+          //===========
+
+
+
           handleSizeChange(val) {
              this.pageon=val
             this.tableAll();
@@ -551,35 +677,65 @@
 
 
           shanghui(){ //商户注册
-            this.dialogFormVisible=true;
+            var _this=this;
+          var pa=new  URLSearchParams();
+          pa.append("uid",JSON.parse(sessionStorage.getItem("xszuser")).uid)
+            this.$axios.post("/GwcAll/pingshagn.action",pa).then(function (value) {
+              if(value.data==null||value.data==''){
+                _this.dialogFormVisible=true;
+              }else{
+                _this.$alert('已注册', '提示', {
+                  confirmButtonText: '确定',
+                  callback: action => {
+                    _this.$message({
+                      type: 'info',
+                      message: `注册了`
+                    });
+                  }
+                });
+              }
+            }).catch(function (val) {
+
+            })
+
+
+
           },
           submitForm(form){ //商户确定
+           // this.form.simg=this.fil.name
             var _this=this;
             this.$refs[form].validate((valid) => {
               if (valid) {
-              var arr=JSON.stringify(this.form)
 
-                var zff={
-                  headers: {
-                    'Content-Type':'application/json;charset=UTF-8'
+               var pars=new  URLSearchParams();
+              pars.append("uid",JSON.parse(sessionStorage.getItem("xszuser")).uid)
+              pars.append("shname",this.form.shname)
+                pars.append("shfuzename",this.form.shfuzename)
+                pars.append("shphone",this.form.shphone)
+                pars.append("shaddr",this.form.shaddr)
+                pars.append("shfuzecard",this.form.shfuzecard)
+                pars.append("shzhizhao",this.fil.name)
+                pars.append("shzhucetime",this.form.shzhucetime)
+                pars.append("shzhuangtai","k001")
+
+                this.$axios.post("/GwcAll/shangzc.action",pars).then(function (value) {
+                  if(value.data==1){
+                    _this.$alert('注册中', '提示', {
+                      confirmButtonText: '确定',
+                      callback: action => {
+                        _this.$message({
+                          type: 'info',
+                          message: `成功`
+                        });
+                      }
+                    });
+
                   }
-                }
-              this.$axios.post("/GwcAll/shangzc.action?uid="+JSON.parse(sessionStorage.getItem("xszuser")).uid,arr,zff).then(function (value) {
-                if(value.data==1){
-                  _this.$alert('成功', '提示', {
-                    confirmButtonText: '确定',
-                    callback: action => {
-                      _this.$message({
-                        type: 'info',
-                        message: `成功`
-                      });
-                    }
-                  });
-                }
+                  _this.dialogFormVisible=false;
+                }).catch(function (val) {
+                    alert("错误")
+                })
 
-              }).catch(function (val) {
-                  alert("错误异常")
-              })
 
 
 
@@ -594,10 +750,68 @@
             this.$refs[formName].resetFields();
           },
           gyshang(){ //供应商
+            var _this=this;
+            var pa=new  URLSearchParams();
+            pa.append("uid",JSON.parse(sessionStorage.getItem("xszuser")).uid)
+            this.$axios.post("/GwcAll/gys.action",pa).then(function (value) {
+              if(value.data==null||value.data==''){
+                _this.dialog=true;
+              }else{
+                _this.$alert('已注册', '提示', {
+                  confirmButtonText: '确定',
+                  callback: action => {
+                    _this.$message({
+                      type: 'info',
+                      message: `注册了`
+                    });
+                  }
+                });
+              }
+            }).catch(function (val) {
+
+            })
+
+
 
           },
+          submitFormm(){
+          var _this=this;
+
+            var pars=new  URLSearchParams();
+            pars.append("uid",JSON.parse(sessionStorage.getItem("xszuser")).uid)
+            pars.append("gname",this.formm.gname)
+            pars.append("gaddre",this.formm.gaddre)
+            pars.append("gphone",this.formm.gphone)
+            pars.append("gzhutitype",this.formm.gzhutitype)
+            pars.append("gfaname",this.formm.gfaname)
+            pars.append("gfarcard",this.formm.gfarcard)
+            pars.append("gzhucetime",this.formm.gzhucetime)
+            pars.append("gyingyeimg",this.fil.name)
+            pars.append("gzhuangtai","g001")
 
 
+            this.$axios.post("/GwcAll/gyshang.action",pars).then(function (value) {
+
+              if(value.data==1){
+                _this.$alert('注册中', '提示', {
+                  confirmButtonText: '确定',
+                  callback: action => {
+                    _this.$message({
+                      type: 'info',
+                      message: `成功`
+                    });
+                  }
+                });
+
+              }
+              _this.dialog=false;
+            }).catch(function (val) {
+              alert("错误")
+            })
+
+
+
+          },
 
 
 
@@ -838,7 +1052,58 @@
             }else if(tab.label=="已提货"){
               this.yiAlldaitihuo();
             }
+          },
+
+
+          chan(response, file, fileList){
+            this.grfils=file
+
+          },
+
+          biangji(){ //编辑
+            var _this=this;
+            var par=new URLSearchParams()
+            par.append("uid",JSON.parse(sessionStorage.getItem("xszuser")).uid)
+
+            this.$axios.post("/grzx/grselect.action",par).then(function (value) {
+              _this.grxx=value.data
+              _this.filelisttt=value.data.udimg
+              _this.radio=value.data.udsex;
+              _this.dialoggrxx=true;
+            }).catch(function (val) {
+
+            })
+
+
+          },
+
+        ok(){
+
+          var _this=this;
+
+
+          var arr=JSON.stringify(this.grxx)
+
+          var zf={
+            headers: {
+              'Content-Type':'application/json;charset=UTF-8'
+            }
+
           }
+
+          this.$axios.post("/grzx/updatedtais.action?fil="+this.grfils+"&rade="+this.radio,arr,zf).then(function (value) {
+
+            _this.dialoggrxx=false;
+          }).catch(function (val) {
+
+          })
+
+
+        },
+
+
+
+
 
 
 

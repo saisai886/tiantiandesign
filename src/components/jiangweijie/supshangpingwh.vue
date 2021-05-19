@@ -234,7 +234,7 @@ export default {
             pa.append("gschengben",this.form.gschengben)
 
 
-            this.$axios.post("/supplier/tianjian.action",pa).then(function (value) {
+            this.$axios.post("/supplier/tianjian.action?uid="+JSON.parse(sessionStorage.getItem("xszuser")).uid,pa).then(function (value) {
               _this.message();
               _this.chanxu();
 
