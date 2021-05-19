@@ -100,7 +100,18 @@
       },
       methods:{
         userlogin(data){ //个人中心登入传入过来的值 账号
-          this.$emit("usergerenzhongxi",data)
+          var _this=this;
+          var pars=new URLSearchParams();
+          pars.append("uid",data.uid)
+
+          this.$axios.post("/supplier/userlogin.action",pars).then(function (value) {
+
+            _this.$emit("usergerenzhongxi",value.data)
+
+          }).catch(function () {
+              alert("错误")
+          })
+
         }
 
       },

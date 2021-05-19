@@ -321,9 +321,11 @@
                         </el-tabs>
                     </template>
                 </div>
-
-
-
+<!--      文件上传测试-->
+<!--              <form action="http://localhost:8090/tian/file.action"  enctype="multipart/form-data" method="post">-->
+<!--                <input type="file" name="file">-->
+<!--                <input type="submit" value="确定">-->
+<!--              </form>-->
 
             </el-footer>
         </el-container>
@@ -495,6 +497,7 @@
 
 
 
+
     </div>
 </template>
 
@@ -607,12 +610,13 @@
 
         methods: {
           //=========== 图片
+
           chanfile(response, file, fileList){
             this.fil=file.raw
           console.log(file.raw)
           },
-          chanfilee(file){
-            this.fils=file.raw
+          cg(file, fileList){
+            console.log(file)
           },
           //===========
 
@@ -1056,7 +1060,7 @@
 
 
           chan(response, file, fileList){
-            this.grfils=file
+            this.grfils=file.raw
 
           },
 
@@ -1079,6 +1083,8 @@
 
         ok(){
 
+            console.log(this.grfils)
+
           var _this=this;
 
 
@@ -1091,9 +1097,42 @@
 
           }
 
-          this.$axios.post("/grzx/updatedtais.action?fil="+this.grfils+"&rade="+this.radio,arr,zf).then(function (value) {
+          this.$axios.post("/grzx/updatedtais.action?fil="+this.grfils.name+"&rade="+this.radio,arr,zf).then(function (value) {
+            if(value.data==1){
 
-            _this.dialoggrxx=false;
+              //==================== 图片上传
+              var d=new FormData();
+              d.append("file",_this.grfils) //this的值是grfils的raw值   必须和文件上传的值一样
+              var zf={
+                headers: {
+                  'Content-Type':'multipart/form-data'  //必须加
+                }
+              }
+
+              _this.$axios.post("/file.action",d,zf).then(function (value) {
+
+                _this.$alert('修改成功', '提示', {
+                  confirmButtonText: '确定',
+                  callback: action => {
+                    _this.$message({
+                      type: 'info',
+                      message: `修改成功`
+                    });
+                  }
+                });
+
+                _this.dialoggrxx=false;
+
+              }).catch(function (val) {
+                alert("错误异常")
+              })
+
+              //====================
+
+            }
+
+
+
           }).catch(function (val) {
 
           })
@@ -1112,6 +1151,7 @@
         },
         created() {
         this.tableAll();
+
         var userlogin=JSON.parse(sessionStorage.getItem("xszuser"))
         this.userlog=userlogin
 
