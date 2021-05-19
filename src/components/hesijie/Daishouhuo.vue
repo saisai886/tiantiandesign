@@ -1,9 +1,32 @@
 <template>
   <div>
+    <el-dialog title="订单信息" :visible.sync="dialogTableVisible">
+      <el-table :data="gridData" >
+        <el-table-column property="sname" label="商品名称"></el-table-column>
+        <el-table-column property="udname" label="收货人" ></el-table-column>
+        <el-table-column property="sprice" label="商品单价" ></el-table-column>
+        <el-table-column property="ucount" label="购买数量"></el-table-column>
+        <el-table-column property="sbeizhu" label="商品描述"></el-table-column>
+        <el-table-column  label="商品图片">
+          <template scope="scope">
+            <div :style="scope.row.simg">
+              <img :src="'http://127.0.0.1:8090/tian/'+scope.row.simg"   width="60px" height="60px">
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-button @click="dialogTableVisible = false">取 消</el-button>
+      <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>
+    </el-dialog>
     <template>
       <el-table
         :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-        style="width: 100%" >
+        style="width: 100%"
+        @selection-change="handleSelectionChange">
+        <el-table-column
+          type="selection"
+          width="100">
+        </el-table-column>
         <el-table-column
           label="订单编号"
           prop="udddingdan">
@@ -36,11 +59,13 @@
             />
           </template>
           <template slot-scope="scope">
-            <el-button type="primary" round @click="shouhuo(scope.row.uddid)">确定收货</el-button>
+            <el-button type="primary" @click="chakan(scope.row.uddid)">查看</el-button>
           </template>
          </el-table-column>
       </el-table>
-
+      <el-button @click="shouhuo" type="primary" style="float: left;margin-top: 20px" >
+        确认收货
+      </el-button>
       <el-pagination layout="prev,pager,next"
                      background
                      :total="total"
@@ -63,7 +88,11 @@
           udname:"",
           total:0,
           pageNo:1,
-          pageSize:5
+          pageSize:5,
+          na:[],
+          gridData: [],
+          dialogTableVisible:false,
+          formLabelWidth: '250px'
         }
       },
       methods:{
@@ -87,22 +116,38 @@
         ss(){
           this.getmenus();
         },
-        shouhuo(id){
+        shouhuo(){
+          if(this.na.length==0){
+            this.$message({
+              showClose: true,
+              message: '请选择收货订单',
+              type: 'error'
+            });
+            return false;
+          }
+
+
           var _this =this;
-          var params = new URLSearchParams();
-          params.append("uddid",id);
+
+          var arr = JSON.stringify(this.na)
+          var config = {
+            headers: {
+              'Content-Type':'application/json;charset=UTF-8'
+            }
+          }
           this.$confirm('此操作将收取货物, 是否继续?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            this.$axios.post("hsjshanghu/quedingshouhuo.action",params).then(function (response) {
+            this.$axios.post("hsjshanghu/quedingshouhuo.action",arr,config).then(function (response) {
               _this.getmenus()
+              _this.$message({
+                type: 'success',
+                message: '收货成功!'
+              });
             }).catch();
-            this.$message({
-              type: 'success',
-              message: '收货成功!'
-            });
+
           }).catch(() => {
             this.$message({
               type: 'info',
@@ -110,6 +155,18 @@
             });
           });
 
+        },
+        handleSelectionChange(value){
+          this.na = value
+        },
+        chakan(uddid) {
+          this.dialogTableVisible = true
+          var _this = this;
+          var params = new URLSearchParams();
+          params.append("uddid", uddid);  //查询条件
+          this.$axios.post("hsjshanghu/daishouhuoqueryId.action", params).then(function (response) {
+            _this.gridData = response.data.list
+          }).catch();
         }
       },
       created() {
