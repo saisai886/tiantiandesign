@@ -28,10 +28,6 @@
                         <el-form-item label="公司注册日期">
                             <span>{{ props.row.gzhucetime}}</span>
                         </el-form-item>
-                        <el-form-item label="营业执照">
-                            <span><img :src="'http://localhost:8090/tian/'+props.row.gyingyeimg"></span>
-                        </el-form-item>
-
                     </el-form>
                 </template>
             </el-table-column>
@@ -42,6 +38,13 @@
             <el-table-column
                     label="公司名称"
                     prop="gname">
+            </el-table-column>
+            <el-table-column label="营业执照"
+                             prop="gyingyeimg"
+                             align="center">
+                <template slot-scope="scope">
+               <img :src="'http://localhost:8090/tian/'+scope.row.gyingyeimg">
+                </template>
             </el-table-column>
             <el-table-column
                     label="审核状态"
@@ -106,16 +109,6 @@
                 <el-form-item label="供应商营业执照">
                     <input type="file"  @change="getFile($event)">
                 </el-form-item>
-<!--                <el-form-item label="供应商状态">-->
-<!--                    <el-col :span="11">-->
-<!--                        <el-select v-model="xggys.gzhuangtai" placeholder="请选择供应商状态">-->
-<!--                            <el-option label="未审核" value="G001"></el-option>-->
-<!--                            <el-option label="待审核" value="G002"></el-option>-->
-<!--                            <el-option label="已审核" value="G003"></el-option>-->
-<!--                            <el-option label="已删除" value="G004"></el-option>-->
-<!--                        </el-select>-->
-<!--                    </el-col>-->
-<!--                </el-form-item>-->
                 <el-form-item>
                     <el-button type="primary" @click="spupdate">立即修改</el-button>
                     <el-button @click="bj=false">取消</el-button>

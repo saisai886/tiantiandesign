@@ -28,9 +28,7 @@
                         <el-form-item label="公司注册日期">
                             <span>{{ props.row.gzhucetime}}</span>
                         </el-form-item>
-                        <el-form-item label="营业执照">
-                            <span><img style="width: 100px;height: 100px;" :src="'http://localhost:8090/tian/'+props.row.gyingyeimg"></span>
-                        </el-form-item>
+
                     </el-form>
                 </template>
             </el-table-column>
@@ -41,6 +39,13 @@
             <el-table-column
                     label="公司名称"
                     prop="gname">
+            </el-table-column>
+            <el-table-column label="营业执照"
+                             prop="gyingyeimg"
+                             align="center">
+                <template slot-scope="scope">
+                    <img :src="'http://localhost:8090/tian/'+scope.row.gyingyeimg">
+                </template>
             </el-table-column>
             <el-table-column
                     label="审核状态"

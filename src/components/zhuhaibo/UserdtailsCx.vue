@@ -19,9 +19,6 @@
                         <el-form-item label="地址">
                             <span>{{ props.row.udaddr }}</span>
                         </el-form-item>
-                        <el-form-item label="头像">
-                            <span><img  style="height: 100px;width: 100px" :src="'http://localhost:8090/tian/'+props.row.udimg"></span>
-                        </el-form-item>
                         <el-form-item label="性别">
                             <span>{{ props.row.udsex }}</span>
                         </el-form-item>
@@ -31,7 +28,6 @@
                         <el-form-item label="支付密码">
                             <span>{{ props.row.udpwd }}</span>
                         </el-form-item>
-
                     </el-form>
                 </template>
             </el-table-column>
@@ -43,6 +39,14 @@
                     label="收货人姓名"
                     prop="udname">
             </el-table-column>
+            <el-table-column label="头像"
+                             prop="udimg"
+                             align="center">
+                <template slot-scope="scope">
+                    <img  style="height: 100px;width: 100px" :src="'http://localhost:8090/tian/'+scope.row.udimg">
+                </template>
+            </el-table-column>
+
             <el-table-column
                     label="用户状态"
                     prop="">

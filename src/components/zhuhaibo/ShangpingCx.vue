@@ -34,9 +34,7 @@
                     <el-form-item label="商品保质期">
                       <span>{{ props.row.sbaozhitime }}</span>
                     </el-form-item>
-                    <el-form-item label="商品图片">
-                      <span><img style="width: 100px;height: 100px" :src="'http://localhost:8090/tian/'+props.row.simg"></span>
-                    </el-form-item>
+
                     <el-form-item label="商品备注">
                       <span>{{ props.row.sbeizhu }}</span>
                     </el-form-item>
@@ -50,6 +48,14 @@
               <el-table-column
                       label="商品名称"
                       prop="sname">
+              </el-table-column>
+              <el-table-column label="商品图片"
+                               width="200px"
+                               prop="simg"
+                               align="center">
+                <template slot-scope="scope">
+                 <img style="width: 50px;height: 50px" :src="'http://localhost:8090/tian/'+scope.row.simg">
+                </template>
               </el-table-column>
               <el-table-column
                       label="商品状态"
@@ -133,6 +139,7 @@
           </el-form-item>
           <el-form-item label="商品状态">
             <el-col :span="11">
+
               <el-select v-model="form.sbshang" placeholder="请选择商品状态">
                 <el-option label="上架" value="1"></el-option>
                 <el-option label="下架" value="2"></el-option>
@@ -191,14 +198,16 @@
           <el-form-item label="商品图片">
             <input type="file"  @change="getFile1($event)">
           </el-form-item>
-          <el-form-item label="库存数量">
+          <el-form-item label="商品备注">
             <el-input  v-model="xg.sbeizhu" placeholder="请输入商品备注"></el-input>
           </el-form-item>
+
           <el-form-item label="商品状态">
             <el-col :span="11">
               <el-select v-model="xg.sbshang" placeholder="请选择商品状态">
-                <el-option label="上架" value="1"></el-option>
-                <el-option label="下架" value="2"></el-option>
+                <el-option label="上架" ></el-option>
+                <el-option label="下架" ></el-option>
+
               </el-select>
             </el-col>
           </el-form-item>
@@ -234,6 +243,7 @@
           xg: [],
       //下拉框数据
           options: [],
+          wj:'',
         }
       },
       methods: {
@@ -304,6 +314,8 @@
         },
     //商品添加
         getFile(e){
+          this.wj=e.target.files[0]
+          console.log(e.target.files[0])
           this.form.simg= e.target.files[0].name;//获取选中的文件二进制流
         },
         onSubmit(){
@@ -322,8 +334,33 @@
           params.append("sbeizhu",this.form.sbeizhu)
           params.append("sbshang",this.form.sbshang)
           this.$axios.post("Shop/ShopAdd.action",params).then(function (response) {
-            _this.form = []
-            _this.query()
+            var d=new FormData();
+            d.append("zhbfile",_this.wj) //this的值是grfils的raw值   必须和文件上传的值一样
+            var zf={
+              headers: {
+                'Content-Type':'multipart/form-data'  //必须加
+              }
+            }
+
+            _this.$axios.post("/zhbfile.action",d,zf).then(function (value) {
+
+              _this.$alert('修改成功', '提示', {
+                confirmButtonText: '确定',
+                callback: action => {
+                  _this.$message({
+                    type: 'info',
+                    message: `修改成功`
+                  });
+                }
+              });
+
+              _this.form = []
+              _this.query()
+
+            }).catch(function (val) {
+              alert("错误异常")
+            })
+
           })
         },
 

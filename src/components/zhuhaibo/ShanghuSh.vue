@@ -42,6 +42,13 @@
                 label="商户名称"
                 prop="shname">
         </el-table-column>
+        <el-table-column label="营业执照"
+                         prop="shzhizhao"
+                         align="center">
+            <template slot-scope="scope">
+                <img :src="'http://localhost:8090/tian/'+scope.row.shzhizhao">
+            </template>
+        </el-table-column>
         <el-table-column
                 label="审核状态"
                 prop="">
