@@ -56,8 +56,9 @@
             </template>
             <template slot="title">
               <span v-show="useLogn!=''">
-              <el-avatar icon="el-icon-user-solid"></el-avatar>
-              <span >用户名：{{useLogn}}</span>
+              <el-avatar :src="img" icon="el-icon-user-solid"></el-avatar>
+
+              <span >用户名：{{useLogn.uname}}</span>
               </span>
             </template>
 
@@ -160,7 +161,8 @@
             myvuecom:"xszzhuye",
             xqsid:"",
             xszgwc:"", //购物车点击判断值
-            useLogn:""
+            useLogn:"",
+            img:""
           }
         },
       methods:{
@@ -170,6 +172,8 @@
         },
         gerenzhongx(data){ //该方法是登入页面组件传过来的，账号密码
           console.log(data)
+
+
           if(data!=null){
             if(this.xszgwc=="1"){ //当前进行判断，是否在购物车点击进去，或个人中心点击进去
               this.xszgwc="" //改变购物车判断的值
@@ -177,8 +181,10 @@
             }else{
               this.myvuecom=xszgerenzhongx
             }
+
             sessionStorage.setItem("xszuser",JSON.stringify(data)) //保存用户
-            this.useLogn=data.uname
+            this.useLogn=data
+            this.img="http://localhost:8090/tian/img/"+data.udimg
           }
 
         },

@@ -611,7 +611,18 @@ export default {
               }
               _this.$axios.post("/Gowuche/quanxuan.action?uid="+JSON.parse(sessionStorage.getItem("xszuser")).uid,arr,zfj).then(function (value) {
 
-                alert("成功")
+
+                _this.$alert('成功', '提示', {
+                  confirmButtonText: '确定',
+                  callback: action => {
+                    _this.$message({
+                      type: 'info',
+                      message: `成功`
+                    });
+                  }
+                });
+
+
                 _this.trolleychaxu();
 
               }).catch(function (val) {
