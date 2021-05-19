@@ -1,57 +1,51 @@
 <template>
   <div>
+    <el-dialog title="订单信息" :visible.sync="dialogTableVisible">
+      <el-table :data="gridData" >
+        <el-table-column property="sname" label="商品名称"></el-table-column>
+        <el-table-column property="udname" label="收货人" ></el-table-column>
+        <el-table-column property="sprice" label="商品单价" ></el-table-column>
+        <el-table-column property="ucount" label="购买数量"></el-table-column>
+        <el-table-column property="sbeizhu" label="商品描述"></el-table-column>
+        <el-table-column  label="商品图片">
+          <template scope="scope">
+            <div :style="scope.row.simg">
+              <img :src="'http://127.0.0.1:8090/tian/'+scope.row.simg"   width="60px" height="60px">
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-button @click="dialogTableVisible = false">取 消</el-button>
+      <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>
+    </el-dialog>
+
+
+<!--    <el-dialog title="审核信息" :visible.sync="dialogTableVisible">-->
+<!--      <el-table-->
+<!--        :data="gridData"-->
+<!--        >-->
+<!--        <el-table-column property="sname" label="商品名称"></el-table-column>-->
+<!--        <el-table-column property="udname" label="收货人" ></el-table-column>-->
+<!--        <el-table-column property="sprice" label="商品单价" ></el-table-column>-->
+<!--        <el-table-column property="ucount" label="购买数量"></el-table-column>-->
+<!--        <el-table-column property="sbeizhu" label="商品描述"></el-table-column>-->
+<!--        <el-table-column  label="商品图片">-->
+<!--          <template scope="scope">-->
+<!--            <div :style="scope.row.gsimg">-->
+<!--              <img :src="'http://127.0.0.1:8090/tian/'+props.row.simg"   width="60px" height="60px">-->
+<!--            </div>-->
+<!--          </template>-->
+<!--        </el-table-column>-->
+<!--      </el-table>-->
+<!--      <el-button @click="dialogTableVisible = false">取 消</el-button>-->
+<!--      <el-button type="primary" @click="dialogTableVisible = false">确 定</el-button>-->
+<!--    </el-dialog>-->
+
+
     <template>
       <el-table
         :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
         style="width: 100%" >
-        <el-table-column type="expand">
-          <template slot-scope="props">
-            <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="图片">
-                <img :src="'http://127.0.0.1:8090/tian/'+props.row.simg"   width="60px" height="60px">
-              </el-form-item>
-              <el-form-item label="商品名称">
-                <span>{{ props.row.sname }}</span>
-              </el-form-item>
-              <el-form-item label="商品单价">
-                <span>{{ props.row.sprice }}</span>
-              </el-form-item>
-              <el-form-item label="收货人">
-                <span>{{ props.row.udname }}</span>
-              </el-form-item>
-              <el-form-item label="联系电话">
-                <span>{{ props.row.udphone }}</span>
-              </el-form-item>
-              <el-form-item label="自提店">
-                <span>{{ props.row.shname }}</span>
-              </el-form-item>
-              <el-form-item label="自提店地址">
-                <span>{{ props.row.shaddr }}</span>
-              </el-form-item>
-              <el-form-item label="购买数量">
-                <span>{{ props.row.ucount }}</span>
-              </el-form-item>
-              <el-form-item label="订单合计">
-                <span>{{ props.row.udspricesum }}</span>
-              </el-form-item>
-              <el-form-item label="下单时间">
-                <span>{{ props.row.udtime }}</span>
-              </el-form-item>
-              <el-form-item label="商城发货时间">
-                <span>{{ props.row.udfahuotime }}</span>
-              </el-form-item>
-              <el-form-item label="商户收到货时间">
-                <span>{{ props.row.uddaititime }}</span>
-              </el-form-item>
-              <el-form-item label="提货时间">
-                <span>{{ props.row.udendtime }}</span>
-              </el-form-item>
-              <el-form-item label="商品描述">
-                <span>{{ props.row.sbeizhu }}</span>
-              </el-form-item>
-            </el-form>
-          </template>
-        </el-table-column>
 
         <el-table-column
           label="订单编号"
@@ -61,12 +55,12 @@
           label="收货人"
           prop="udname">
         </el-table-column>
+<!--        <el-table-column-->
+<!--          label="商品名称"-->
+<!--          prop="sname">-->
+<!--        </el-table-column>-->
         <el-table-column
-          label="商品名称"
-          prop="sname">
-        </el-table-column>
-        <el-table-column
-          label="商品总价"
+          label="订单合计"
           prop="udspricesum">
         </el-table-column>
         <el-table-column
@@ -94,9 +88,9 @@
               @input="ss"
             />
            </template>
-<!--          <template slot-scope="scope">-->
-<!--            <el-button type="primary" @click="chakan(scope.row.uddid)">查看</el-button>-->
-<!--          </template>-->
+          <template slot-scope="scope">
+            <el-button type="primary" @click="chakan(scope.row.uddid)">查看</el-button>
+          </template>
 
         </el-table-column>
       </el-table>
@@ -121,7 +115,10 @@
           total:0,
           pageNo:1,
           pageSize:5,
-          search:""
+          search:"",
+          gridData: [],
+          dialogTableVisible:false,
+          formLabelWidth: '250px'
         }
       },
        methods:{
@@ -144,10 +141,19 @@
         },
         ss(){
               this.getmenu();
-        }
-         // chakan(uddid){
-         //   console.log(uddid)
-         // }
+        },
+         chakan(uddid){
+           this.dialogTableVisible=true
+           var _this =this;
+           var params = new URLSearchParams();
+           params.append("uddid",uddid);  //查询条件
+           this.$axios.post("hsjshanghu/dingdanshowsqueryId.action",params).then(function (response) {
+             _this.gridData=response.data.list
+
+
+           }).catch();
+
+         }
       },
       created() {
         this.getmenu()
