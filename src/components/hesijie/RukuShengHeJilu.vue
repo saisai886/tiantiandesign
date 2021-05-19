@@ -154,7 +154,7 @@
           this.$axios.post("rukus/rukuShenheJilushowIds.action",params).then(function (response) {
             _this.gridData = response.data;
           }).catch();
-               console.log(row)
+
         },
       ss(){
         this.getmenu()

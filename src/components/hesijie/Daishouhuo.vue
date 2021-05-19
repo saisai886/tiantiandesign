@@ -4,46 +4,6 @@
       <el-table
         :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
         style="width: 100%" >
-<!--        <el-table-column type="expand">-->
-<!--          <template slot-scope="props">-->
-<!--            <el-form label-position="left" inline class="demo-table-expand">-->
-<!--              <el-form-item label="图片">-->
-<!--                <img :src="'http://127.0.0.1:8090/tian/'+props.row.simg"   width="60px" height="60px">-->
-<!--              </el-form-item>-->
-<!--              <el-form-item label="商品名称">-->
-<!--                <span>{{ props.row.sname }}</span>-->
-<!--              </el-form-item>-->
-<!--              <el-form-item label="商品单价">-->
-<!--                <span>{{ props.row.sprice }}</span>-->
-<!--              </el-form-item>-->
-<!--              <el-form-item label="联系电话">-->
-<!--                <span>{{ props.row.udphone }}</span>-->
-<!--              </el-form-item>-->
-<!--              <el-form-item label="自提店">-->
-<!--                <span>{{ props.row.shname }}</span>-->
-<!--              </el-form-item>-->
-<!--              <el-form-item label="自提店地址">-->
-<!--                <span>{{ props.row.shaddr }}</span>-->
-<!--              </el-form-item>-->
-<!--              <el-form-item label="购买数量">-->
-<!--                <span>{{ props.row.ucount }}</span>-->
-<!--              </el-form-item>-->
-<!--              <el-form-item label="订单合计">-->
-<!--                <span>{{ props.row.udspricesum }}</span>-->
-<!--              </el-form-item>-->
-<!--              <el-form-item label="下单时间">-->
-<!--                <span>{{ props.row.udtime }}</span>-->
-<!--              </el-form-item>-->
-<!--              <el-form-item label="商城发货时间">-->
-<!--                <span>{{ props.row.udfahuotime }}</span>-->
-<!--              </el-form-item>-->
-<!--              <el-form-item label="商品描述">-->
-<!--                <span>{{ props.row.sbeizhu }}</span>-->
-<!--              </el-form-item>-->
-<!--            </el-form>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
-
         <el-table-column
           label="订单编号"
           prop="udddingdan">
@@ -80,6 +40,7 @@
           </template>
          </el-table-column>
       </el-table>
+
       <el-pagination layout="prev,pager,next"
                      background
                      :total="total"
